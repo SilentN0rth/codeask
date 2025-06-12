@@ -1,6 +1,5 @@
 "use client";
 
-import { ReactNode } from "react";
 import UserPopover from "../popovers/UserPopover";
 import ReportModal from "../modals/ReportModal";
 import LikeDislikeButtons from "../LikeDislikeButtons";

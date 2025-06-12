@@ -13,10 +13,10 @@ const ErrorWrapper = ({
     children,
 }: ErrorWrapperProps) => {
     return (
-        <div className="flex flex-col items-center justify-center text-center py-20 px-4 gap-4">
-            <Icon icon={icon} className="text-red-500 w-12 h-12" />
+        <div className="flex flex-col items-center justify-center gap-4 px-4 py-20 text-center">
+            <Icon icon={icon} className="size-12 text-red-500" />
             <h2 className="text-xl font-semibold">{title}</h2>
-            <p className="text-default-500 max-w-md">{description}</p>
+            <p className="max-w-md text-default-500">{description}</p>
             {children}
             <Button as={Link} radius="sm" href="/" className="mt-2">
                 Wróć na stronę główną
