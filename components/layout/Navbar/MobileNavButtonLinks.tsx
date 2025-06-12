@@ -1,3 +1,4 @@
+"use client";
 import { sectionItems } from "@/constants/SidebarItems";
 import { Button } from "@heroui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
