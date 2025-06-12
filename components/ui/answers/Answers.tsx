@@ -1,10 +1,10 @@
 "use client";
-import React, { useRef, useState } from "react";
 import AnswerCard from "./AnswerCard";
 import dynamic from "next/dynamic";
 import LoadingHorizontalDots from "../LoadingHorizontalDots";
 import { Button } from "@heroui/react";
 import { ANSWERS } from "@/constants/Answers";
+import { useState } from "react";
 
 const DynamicEditor = dynamic(() => import("@/components/TinyMCE/Editor"), {
     ssr: false,
@@ -16,13 +16,21 @@ const DynamicEditor = dynamic(() => import("@/components/TinyMCE/Editor"), {
 });
 
 export default function Answers() {
-    const editorRef = useRef<any>(null);
     const [isEditorVisible, setIsEditorVisible] = useState<boolean>(false);
+    const [content, setContent] = useState<string>("");
+    const [error, setError] = useState<boolean>(false);
 
     const handleAddAnswer = () => {
-        const content = editorRef.current?.getContent() || "";
-        // tutaj możesz podpiąć logikę dodania odpowiedzi, np. wysłać na serwer, albo dodać do state
+        if (!content.trim()) {
+            setError(true);
+            return;
+        }
+
+        setError(false);
         alert("Dodano odpowiedź:\n\n" + content);
+
+        setContent("");
+        setIsEditorVisible(false);
     };
 
     return (
@@ -31,7 +39,15 @@ export default function Answers() {
                 <AnswerCard key={answer.id} answer={answer} />
             ))}
 
-            {isEditorVisible && <DynamicEditor />}
+            {isEditorVisible && (
+                <div data-error={error}>
+                    <DynamicEditor hasError={error} onContentChange={(html: string) => setContent(html)} />
+                    {error && (
+                        <div className="p-1 text-tiny font-light text-danger">Treść odpowiedzi jest wymagana</div>
+                    )}
+                </div>
+            )}
+
             <Button
                 onPress={() => {
                     if (isEditorVisible) {
@@ -40,7 +56,7 @@ export default function Answers() {
                         setIsEditorVisible(true);
                     }
                 }}
-                className=" w-fit  bg-cCta-500 hover:bg-cCta-700">
+                className="w-fit bg-cCta-500 hover:bg-cCta-700">
                 {isEditorVisible ? "Dodaj odpowiedź" : "Odpowiedz"}
             </Button>
         </div>
