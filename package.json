@@ -1,0 +1,53 @@
+{
+    "name": "code-ask",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@clerk/nextjs": "^6.20.2",
+        "@floating-ui/react": "^0.27.12",
+        "@heroui/react": "^2.7.8",
+        "@hookform/resolvers": "^5.0.1",
+        "@iconify/react": "^6.0.0",
+        "@tinymce/tinymce-react": "^6.2.1",
+        "dotenv": "^16.5.0",
+        "framer-motion": "^12.14.0",
+        "highlight.js": "^11.11.1",
+        "html-react-parser": "^5.2.5",
+        "lowlight": "^3.3.0",
+        "mongodb": "^6.17.0",
+        "mongoose": "^8.15.1",
+        "motion": "^12.16.0",
+        "next": "^15.3.2",
+        "prismjs": "^1.30.0",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-hook-form": "^7.57.0",
+        "svix": "^1.67.0",
+        "tinymce": "^7.9.1",
+        "usehooks-ts": "^3.1.1",
+        "zod": "^3.25.51"
+    },
+    "devDependencies": {
+        "@types/node": "^22.15.30",
+        "@types/prismjs": "^1.26.5",
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0",
+        "eslint": "^8.40.0",
+        "eslint-config-next": "^13.4.0",
+        "eslint-config-prettier": "^10.1.5",
+        "eslint-config-standard": "^17.1.0",
+        "eslint-plugin-tailwindcss": "^3.18.0",
+        "postcss": "^8.4.0",
+        "prettier": "^3.5.3",
+        "sass": "^1.89.1",
+        "tailwindcss": "^3.4.0",
+        "typescript": "^5.1.0"
+    }
+}

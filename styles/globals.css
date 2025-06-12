@@ -1,0 +1,118 @@
+@import url("tinymce.css");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+    --cCta-100: 219, 234, 254;
+    --cCta-300: 147, 197, 253;
+    --cCta-500: 37, 99, 235;
+    --cCta-700: 29, 78, 216;
+    --cCta-900: 30, 64, 175;
+
+    --cMuted-300: 209, 213, 219;
+    --cMuted-500: 107, 114, 128;
+    --cMuted-700: 55, 65, 81;
+
+    --cBgLight-50: 249, 250, 251;
+    --cBgLight-100: 255, 255, 255;
+
+    --cBgDark-700: 21, 24, 26;
+    --cBgDark-800: 15, 17, 19;
+    --cBgDark-900: 12, 13, 15;
+
+    --cTextLight-900: 0, 0, 0;
+
+    --cTextDark-100: 243, 244, 246;
+
+    --cStatusGreen-500: 16, 185, 129;
+
+    --cStatusRed-500: 239, 68, 68;
+
+    --cStatusYellow-400: 251, 191, 36;
+}
+
+@layer base {
+    body {
+        background-color: #0c0d0f;
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 0;
+    }
+
+    .invisible-scroll {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE i Edge */
+    }
+    .invisible-scroll::-webkit-scrollbar {
+        width: 0px;
+        height: 0px;
+    }
+
+    .link-underline {
+        position: relative;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .link-underline::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: currentColor;
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.3s ease;
+    }
+
+    .link-underline:hover::after {
+        transform: scaleX(1);
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+    .wrapper {
+        max-width: 1500px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .sidebar {
+        @apply sticky left-0 top-0 h-screen flex-col justify-between overflow-y-auto p-6 pb-14 pt-[120px] hidden sm:flex;
+    }
+
+    .sidebar-compact-headings {
+        position: absolute;
+        top: 50%;
+        text-align: center;
+        translate: 100% -50%;
+        right: 0;
+        writing-mode: vertical-rl;
+    }
+
+    .global-padding {
+        padding-inline: 2em;
+    }
+    .gap-xsmall {
+        @apply gap-2;
+    }
+    .gap-small {
+        @apply gap-3;
+    }
+    .gap-normal {
+        @apply gap-5;
+    }
+    .gap-big {
+        @apply gap-8;
+    }
+    .flex-column {
+        @apply flex flex-col;
+    }
+}
