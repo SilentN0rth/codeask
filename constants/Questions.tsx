@@ -20,7 +20,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 40,
             reputation: 512,
         },
-        tags: ["typescript", "beginner"],
     },
     {
         title: "Jak efektywnie korzystać z React Hooks",
@@ -41,7 +40,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 55,
             reputation: 1220,
         },
-        tags: ["react", "hooks", "javascript"],
     },
     {
         title: "Node.js – podstawy budowy serwera",
@@ -62,7 +60,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 29,
             reputation: 910,
         },
-        tags: ["nodejs", "backend"],
     },
     {
         title: "CSS Grid vs Flexbox – kiedy co wybrać?",
@@ -83,7 +80,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 21,
             reputation: 650,
         },
-        tags: ["css", "frontend", "grid", "flexbox"],
     },
     {
         title: "Debugowanie aplikacji w Visual Studio Code",
@@ -104,7 +100,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 19,
             reputation: 480,
         },
-        tags: ["vscode", "debugging"],
     },
     {
         title: "Wprowadzenie do GraphQL",
@@ -125,7 +120,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 30,
             reputation: 870,
         },
-        tags: ["graphql", "api"],
     },
     {
         title: "Podstawy testowania jednostkowego w Jest",
@@ -146,7 +140,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 22,
             reputation: 720,
         },
-        tags: ["testing", "jest"],
     },
     {
         title: "Tworzenie REST API w Express",
@@ -167,7 +160,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 41,
             reputation: 1130,
         },
-        tags: ["express", "api", "nodejs"],
     },
     {
         title: "Optymalizacja wydajności w React",
@@ -188,7 +180,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 33,
             reputation: 980,
         },
-        tags: ["react", "performance"],
     },
     {
         title: "GraphQL - co to takiego?",
@@ -209,7 +200,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 30,
             reputation: 870,
         },
-        tags: ["graphql", "api"],
     },
     {
         title: "Jak wycentrować DIV w HTML?",
@@ -230,7 +220,6 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 22,
             reputation: 720,
         },
-        tags: ["testing", "jest"],
     },
     {
         title: "Deploy aplikacji na Vercel",
@@ -251,6 +240,5 @@ export const questions: QuestionCardProps[] = [
             questionsCount: 27,
             reputation: 890,
         },
-        tags: ["deployment", "vercel"],
     },
 ];
