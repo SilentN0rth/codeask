@@ -12,7 +12,6 @@ import TagsFilter from "../filters/TagsFilter";
 import CategoryFilter from "../filters/CategoryFilter";
 import { SORT_QUESTION_OPTIONS } from "@/constants/SearchAndFilters";
 import { useLocalSearch } from "hooks/useLocalSearch";
-import { Suspense } from "react";
 
 const LocalQuestionSearcher = ({ className }: ClassName) => {
     const { isCompact } = useSidebarContext();
