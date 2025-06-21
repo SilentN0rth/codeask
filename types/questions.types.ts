@@ -4,6 +4,7 @@ import { UserInterface } from "./users.types";
 export interface QuestionCardProps {
     title: string;
     createdAt: string;
+    updatedAt: string;
     likes: number;
     unlikes: number;
     answers: number;

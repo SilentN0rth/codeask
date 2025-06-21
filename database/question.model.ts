@@ -10,6 +10,7 @@ export interface IQuestion extends Document {
     author: Schema.Types.ObjectId; // Populated as User
     answers: Schema.Types.ObjectId[]; // Populated as Answer[]
     createdAt: Date;
+    updatedAt: Date;
 }
 
 const QuestionSchema = new Schema<IQuestion>({
@@ -22,6 +23,7 @@ const QuestionSchema = new Schema<IQuestion>({
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
     answers: [{ type: Schema.Types.ObjectId, ref: "Answer" }],
     createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
 });
 
 const Question = models.Question || model<IQuestion>("Question", QuestionSchema);

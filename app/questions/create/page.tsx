@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import CreateQuestion from "./page.client";
 
 export default async function Page() {
-    //   const { userId } = auth();
+    // const { userId } = auth();
     const userId = "user_abc123xyz";
     if (!userId) redirect("/login");
 

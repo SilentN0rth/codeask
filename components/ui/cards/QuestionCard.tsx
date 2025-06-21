@@ -6,6 +6,8 @@ import { Icon } from "@iconify/react";
 import { TagItem } from "../tags/TagItem";
 import Link from "next/link";
 import { QuestionCardProps } from "@/types/questions.types";
+import { getLocalTimeString } from "@/lib/utils/getLocalTimeString";
+import { getRelativeTimeFromNow } from "@/lib/utils/getRelativeTimeFromNow";
 
 export const QuestionCard: React.FC<QuestionCardProps> = ({
     title,
@@ -16,19 +18,20 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
     shares,
     views,
     author,
+    updatedAt,
     tags,
     isCompact = false,
 }) => {
     const [hovered, setHovered] = useState(false);
+    const localTime = getLocalTimeString(createdAt);
+    const activityTime = getRelativeTimeFromNow(updatedAt ?? createdAt);
+
     return (
         <Card
             shadow="none"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             className="flex-column  items-stretch justify-between gap-2 rounded-xl border border-transparent bg-neutral-800/20  p-4 text-cTextDark-100   !transition-[border] odd:bg-cBgDark-800 hover:border-divider">
-            {/* Obrazek po lewej */}
-
-            {/* Treść pytania */}
             <CardHeader className="flex w-full items-center justify-between  p-0">
                 <div className="flex items-start gap-3">
                     <Avatar src={author.avatarUrl} radius={"sm"} size="sm" className="h-9 w-6" />
@@ -38,8 +41,8 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
                     </div>
                 </div>
                 <div className="flex flex-col items-end text-right text-xs text-default-500">
-                    <span>Opublikowano: {createdAt}</span>
-                    <span className="text-default-400">Aktywność: 3 dni temu</span>
+                    <span>Opublikowano: {localTime}</span>
+                    <span className="text-default-400">Aktywność: {activityTime}</span>
                     <span className="text-green-500">Status: otwarte</span>
                 </div>
             </CardHeader>

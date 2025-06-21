@@ -16,6 +16,7 @@
         "@hookform/resolvers": "^5.0.1",
         "@iconify/react": "^6.0.0",
         "@tinymce/tinymce-react": "^6.2.1",
+        "date-fns": "^4.1.0",
         "dotenv": "^16.5.0",
         "framer-motion": "^12.14.0",
         "highlight.js": "^11.11.1",

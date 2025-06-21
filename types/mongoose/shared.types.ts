@@ -17,5 +17,6 @@ export interface CreateQuestionParams {
     author: Schema.Types.ObjectId | IUser;
     answers: Schema.Types.ObjectId[]; // lub (Schema.Types.ObjectId | IAnswer)[]
     createdAt: Date;
+    updatedAt: Date;
     path: string;
 }

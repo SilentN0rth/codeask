@@ -11,7 +11,7 @@ export async function createQuestion(params: CreateQuestionParams) {
         // Connect to DB
         connectToDatabase();
 
-        const { title, content, tags, views, upvotes, downvotes, author, answers, createdAt, path } = params;
+        const { title, content, tags, views, upvotes, downvotes, author, answers, createdAt, updatedAt, path } = params;
         const question = await Question.create({
             title,
             content,
@@ -20,6 +20,7 @@ export async function createQuestion(params: CreateQuestionParams) {
             downvotes,
             answers,
             createdAt,
+            updatedAt,
             author,
         });
         const tagDocuments = [];

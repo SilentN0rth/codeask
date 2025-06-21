@@ -93,6 +93,7 @@ export default function CreateQuestion({ mongoUserId }: AskFormProps) {
                 downvotes: [],
                 answers: [],
                 createdAt: new Date(),
+                updatedAt: new Date(),
                 path: pathname,
             });
             router.push("/questions");
