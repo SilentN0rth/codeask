@@ -3,12 +3,12 @@
 import ErrorWrapper from "@/components/layout/ErrorWrapper";
 import { QuestionCard } from "@/components/ui/cards/QuestionCard";
 import PageTitle from "@/components/ui/PageTitle";
-import LocalQuestionSearcher from "@/components/ui/search/LocalQuestionSearcher";
 import { usePagination } from "@/hooks/usePagination";
 import { QuestionCardProps } from "@/types/questions.types";
 import { Pagination } from "@heroui/react";
 import { useSidebarContext } from "context/LeftSidebarContext";
 import { Suspense } from "react";
+import ClientSearcherWrapper from "../ui/search/ClientSearcherWrapper";
 
 export default function QuestionsPage({ questions }: { questions: QuestionCardProps[] }) {
     const PER_PAGE = 18;
@@ -21,7 +21,7 @@ export default function QuestionsPage({ questions }: { questions: QuestionCardPr
                 <>
                     <PageTitle title="Pytania" />
                     <Suspense fallback={<div>Ładowanie filtrów…</div>}>
-                        <LocalQuestionSearcher className="mb-4" />
+                        <ClientSearcherWrapper className="mb-4" />
                     </Suspense>
 
                     <div
