@@ -8,7 +8,6 @@ import { FILTER_TAGS } from "@/constants/SearchAndFilters";
 import { usePagination } from "@/hooks/usePagination";
 import { Button, Pagination } from "@heroui/react";
 import { useSidebarContext } from "context/LeftSidebarContext";
-import { Suspense } from "react";
 
 const PER_PAGE = 60;
 
@@ -21,11 +20,9 @@ const Page = () => {
             {paginatedItems.length > 0 ? (
                 <>
                     <PageTitle title="Tagi" />
-                    <Suspense>
                         <div className="flex justify-between">
                             <LocalTagSearcher />
                         </div>
-                    </Suspense>
                     <div
                         className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${
                             isCompact

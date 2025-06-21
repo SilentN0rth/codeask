@@ -8,6 +8,7 @@ import { SortJobOption } from "@/types/searchAndFilters.types";
 import SortSelect from "../filters/SortSelect";
 import { SORT_JOB_OPTIONS } from "@/constants/SearchAndFilters";
 import { useLocalSearch } from "hooks/useLocalSearch";
+import { Suspense } from "react";
 
 const LocalJobSearcher = ({ className }: ClassName) => {
     const { isCompact } = useSidebarContext();
@@ -18,7 +19,8 @@ const LocalJobSearcher = ({ className }: ClassName) => {
     });
 
     return (
-        <div className={`mb-4 grid grid-cols-12 place-content-end gap-2 ${className}`}>
+        <Suspense>
+            <div className={`mb-4 grid grid-cols-12 place-content-end gap-2 ${className}`}>
                 <Input
                     aria-label="Search"
                     value={searchInput}
@@ -46,7 +48,8 @@ const LocalJobSearcher = ({ className }: ClassName) => {
                     selectedSort={sortBy}
                     onSortChange={(val) => handleSortChange(val as SortJobOption)}
                 />
-        </div>
+            </div>
+        </Suspense>
     );
 };
 
