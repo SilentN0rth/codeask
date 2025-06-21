@@ -8,7 +8,6 @@ import SortSelect from "../filters/SortSelect";
 import { useLocalSearch } from "hooks/useLocalSearch";
 import { SortTagOption } from "@/types/searchAndFilters.types";
 import { SORT_TAG_OPTIONS } from "@/constants/SearchAndFilters";
-import { Suspense } from "react";
 
 const LocalTagSearcher = ({ className }: ClassName) => {
     const { isCompact } = useSidebarContext();
@@ -19,7 +18,6 @@ const LocalTagSearcher = ({ className }: ClassName) => {
     });
 
     return (
-        <Suspense>
             <div className={`mb-4 grid grid-cols-12 place-content-end gap-2 ${className}`}>
                 <Input
                     aria-label="Search"
@@ -49,7 +47,6 @@ const LocalTagSearcher = ({ className }: ClassName) => {
                     onSortChange={(val) => handleSortChange(val as SortTagOption)}
                 />
             </div>
-        </Suspense>
     );
 };
 

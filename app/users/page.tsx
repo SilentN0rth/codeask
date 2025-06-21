@@ -8,6 +8,7 @@ import { USERS } from "@/constants/SearchAndFilters";
 import { usePagination } from "@/hooks/usePagination";
 import { Pagination } from "@heroui/react";
 import { useSidebarContext } from "context/LeftSidebarContext";
+import { Suspense } from "react";
 
 const PER_PAGE = 30;
 
@@ -21,7 +22,9 @@ const Page = () => {
                 <>
                     <PageTitle title="Użytkownicy" />
                     <div className="flex justify-between">
-                        <LocalUserSearcher />
+                        <Suspense fallback={<div>Ładowanie filtrów…</div>}>
+                            <LocalUserSearcher />
+                        </Suspense>
                     </div>
                     <div
                         className={`grid gap-3 ${

@@ -51,7 +51,6 @@ const LocalQuestionSearcher = ({ className }: ClassName) => {
     };
 
     return (
-        <Suspense>
             <div className={`grid grid-cols-12 place-content-end gap-2 ${className}`}>
                 <Input
                     aria-label="Search"
@@ -87,7 +86,6 @@ const LocalQuestionSearcher = ({ className }: ClassName) => {
                 />
                 {renderFilterComponent()}
             </div>
-        </Suspense>
     );
 };
 
