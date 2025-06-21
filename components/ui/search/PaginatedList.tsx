@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { Pagination } from "@heroui/react";
-import React from "react";
+import React, { Suspense } from "react";
 import { ClassName } from "@/types/index.types";
 
 type PaginatedListProps<T> = {
@@ -34,24 +34,26 @@ export default function PaginatedList<T>({
     if (items.length === 0) return null;
 
     return (
-        <div className={className}>
-            {paginatedItems.map(renderItem)}
-            {totalPages > 1 && (
-                <Pagination
-                    classNames={{
-                        item: "bg-cBgDark-700",
-                        cursor: "rounded-sm bg-cCta-500",
-                        prev: "bg-cBgDark-700",
-                        next: "bg-cBgDark-700",
-                    }}
-                    className="col-span-full mx-auto mt-4"
-                    isCompact
-                    showControls
-                    page={currentPage}
-                    total={totalPages}
-                    onChange={handlePageChange}
-                />
-            )}
-        </div>
+        <Suspense>
+            <div className={className}>
+                {paginatedItems.map(renderItem)}
+                {totalPages > 1 && (
+                    <Pagination
+                        classNames={{
+                            item: "bg-cBgDark-700",
+                            cursor: "rounded-sm bg-cCta-500",
+                            prev: "bg-cBgDark-700",
+                            next: "bg-cBgDark-700",
+                        }}
+                        className="col-span-full mx-auto mt-4"
+                        isCompact
+                        showControls
+                        page={currentPage}
+                        total={totalPages}
+                        onChange={handlePageChange}
+                    />
+                )}
+            </div>
+        </Suspense>
     );
 }
