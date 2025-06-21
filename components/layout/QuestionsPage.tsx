@@ -7,8 +7,8 @@ import { usePagination } from "@/hooks/usePagination";
 import { QuestionCardProps } from "@/types/questions.types";
 import { Pagination } from "@heroui/react";
 import { useSidebarContext } from "context/LeftSidebarContext";
-import { Suspense } from "react";
-import ClientSearcherWrapper from "../ui/search/ClientSearcherWrapper";
+// import { Suspense } from "react";
+// import ClientSearcherWrapper from "../ui/search/ClientSearcherWrapper";
 
 export default function QuestionsPage({ questions }: { questions: QuestionCardProps[] }) {
     const PER_PAGE = 18;
@@ -20,9 +20,9 @@ export default function QuestionsPage({ questions }: { questions: QuestionCardPr
             {paginatedItems.length > 0 ? (
                 <>
                     <PageTitle title="Pytania" />
-                    <Suspense fallback={<div>Ładowanie filtrów…</div>}>
+                    {/* <Suspense fallback={<div>Ładowanie filtrów…</div>}>
                         <ClientSearcherWrapper className="mb-4" />
-                    </Suspense>
+                    </Suspense> */}
 
                     <div
                         className={`grid gap-3 ${

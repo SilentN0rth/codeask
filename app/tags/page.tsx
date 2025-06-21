@@ -2,13 +2,13 @@
 
 import ErrorWrapper from "@/components/layout/ErrorWrapper";
 import PageTitle from "@/components/ui/PageTitle";
-import TagsPageClient from "@/components/ui/search/TagsPageClient";
+// import TagsPageClient from "@/components/ui/search/TagsPageClient";
 import TagCard from "@/components/ui/tags/TagCard";
 import { FILTER_TAGS } from "@/constants/SearchAndFilters";
 import { usePagination } from "@/hooks/usePagination";
 import { Button, Pagination } from "@heroui/react";
 import { useSidebarContext } from "context/LeftSidebarContext";
-import { Suspense } from "react";
+// import { Suspense } from "react";
 
 const PER_PAGE = 60;
 
@@ -21,11 +21,11 @@ const Page = () => {
             {paginatedItems.length > 0 ? (
                 <>
                     <PageTitle title="Tagi" />
-                    <div className="flex justify-between">
+                    {/* <div className="flex justify-between">
                         <Suspense fallback={<div>Ładowanie filtrów…</div>}>
                             <TagsPageClient />
                         </Suspense>
-                    </div>
+                    </div> */}
                     <div
                         className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${
                             isCompact
