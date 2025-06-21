@@ -3,21 +3,21 @@
 import ErrorWrapper from "@/components/layout/ErrorWrapper";
 import { QuestionCard } from "@/components/ui/cards/QuestionCard";
 import PageTitle from "@/components/ui/PageTitle";
-import { usePagination } from "@/hooks/usePagination";
+// import { usePagination } from "@/hooks/usePagination";
 import { QuestionCardProps } from "@/types/questions.types";
-import { Pagination } from "@heroui/react";
+// import { Pagination } from "@heroui/react";
 import { useSidebarContext } from "context/LeftSidebarContext";
 // import { Suspense } from "react";
 // import ClientSearcherWrapper from "../ui/search/ClientSearcherWrapper";
 
 export default function QuestionsPage({ questions }: { questions: QuestionCardProps[] }) {
-    const PER_PAGE = 18;
+    // const PER_PAGE = 18;
     const { isCompact } = useSidebarContext();
-    const { paginatedItems, currentPage, totalPages, setPage } = usePagination(questions, PER_PAGE);
+    // const { paginatedItems, currentPage, totalPages, setPage } = usePagination(questions, PER_PAGE);
 
     return (
         <div className="wrapper">
-            {paginatedItems.length > 0 ? (
+            {questions.length > 0 ? (
                 <>
                     <PageTitle title="Pytania" />
                     {/* <Suspense fallback={<div>Ładowanie filtrów…</div>}>
@@ -28,11 +28,11 @@ export default function QuestionsPage({ questions }: { questions: QuestionCardPr
                         className={`grid gap-3 ${
                             isCompact ? "lg:grid-cols-2 2xl:grid-cols-3" : "xl:grid-cols-2 4xl:grid-cols-3"
                         }`}>
-                        {paginatedItems.map((question, index) => (
+                        {questions.map((question, index) => (
                             <QuestionCard isCompact={isCompact} key={index} {...question} />
                         ))}
 
-                        <Pagination
+                        {/* <Pagination
                             classNames={{
                                 item: "bg-cBgDark-700",
                                 cursor: "rounded-sm bg-cCta-500",
@@ -45,7 +45,7 @@ export default function QuestionsPage({ questions }: { questions: QuestionCardPr
                             page={currentPage}
                             total={totalPages}
                             onChange={setPage}
-                        />
+                        /> */}
                     </div>
                 </>
             ) : (

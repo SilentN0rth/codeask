@@ -5,20 +5,22 @@ import PageTitle from "@/components/ui/PageTitle";
 // import TagsPageClient from "@/components/ui/search/TagsPageClient";
 import TagCard from "@/components/ui/tags/TagCard";
 import { FILTER_TAGS } from "@/constants/SearchAndFilters";
-import { usePagination } from "@/hooks/usePagination";
-import { Button, Pagination } from "@heroui/react";
+import { Button } from "@heroui/react";
+// import { FILTER_TAGS } from "@/constants/SearchAndFilters";
+// import { usePagination } from "@/hooks/usePagination";
+// import { Button, Pagination } from "@heroui/react";
 import { useSidebarContext } from "context/LeftSidebarContext";
 // import { Suspense } from "react";
 
-const PER_PAGE = 60;
+// const PER_PAGE = 60;
 
 const Page = () => {
     const { isCompact } = useSidebarContext();
-    const { paginatedItems, currentPage, totalPages, setPage } = usePagination(FILTER_TAGS, PER_PAGE);
+    // const { paginatedItems, currentPage, totalPages, setPage } = usePagination(FILTER_TAGS, PER_PAGE);
 
     return (
         <div className="wrapper">
-            {paginatedItems.length > 0 ? (
+            {FILTER_TAGS.length > 0 ? (
                 <>
                     <PageTitle title="Tagi" />
                     {/* <div className="flex justify-between">
@@ -32,14 +34,14 @@ const Page = () => {
                                 ? "md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
                                 : "lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-6"
                         }`}>
-                        {paginatedItems.map((tag) => (
+                        {FILTER_TAGS.map((tag) => (
                             <TagCard tag={tag} key={tag.id} />
                         ))}
                         <Button className="h-full border-1 border-divider" variant="bordered">
                             Dodaj tag
                         </Button>
 
-                        <Pagination
+                        {/* <Pagination
                             classNames={{
                                 item: "bg-cBgDark-700",
                                 cursor: "rounded-sm bg-cCta-500",
@@ -52,7 +54,7 @@ const Page = () => {
                             page={currentPage}
                             total={totalPages}
                             onChange={setPage}
-                        />
+                        /> */}
                     </div>
                 </>
             ) : (
