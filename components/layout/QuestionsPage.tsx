@@ -8,6 +8,7 @@ import { usePagination } from "@/hooks/usePagination";
 import { QuestionCardProps } from "@/types/questions.types";
 import { Pagination } from "@heroui/react";
 import { useSidebarContext } from "context/LeftSidebarContext";
+import { Suspense } from "react";
 
 export default function QuestionsPage({ questions }: { questions: QuestionCardProps[] }) {
     const PER_PAGE = 18;
@@ -19,7 +20,10 @@ export default function QuestionsPage({ questions }: { questions: QuestionCardPr
             {paginatedItems.length > 0 ? (
                 <>
                     <PageTitle title="Pytania" />
-                    <LocalQuestionSearcher className="mb-4" />
+                    <Suspense>
+                        <LocalQuestionSearcher className="mb-4" />
+                    </Suspense>
+
                     <div
                         className={`grid gap-3 ${
                             isCompact ? "lg:grid-cols-2 2xl:grid-cols-3" : "xl:grid-cols-2 4xl:grid-cols-3"

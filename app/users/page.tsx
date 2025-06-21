@@ -8,6 +8,7 @@ import { USERS } from "@/constants/SearchAndFilters";
 import { usePagination } from "@/hooks/usePagination";
 import { Pagination } from "@heroui/react";
 import { useSidebarContext } from "context/LeftSidebarContext";
+import { Suspense } from "react";
 
 const PER_PAGE = 30;
 
@@ -20,9 +21,11 @@ const Page = () => {
             {paginatedItems.length > 0 ? (
                 <>
                     <PageTitle title="Użytkownicy" />
-                    <div className="flex justify-between">
-                        <LocalUserSearcher />
-                    </div>
+                    <Suspense>
+                        <div className="flex justify-between">
+                            <LocalUserSearcher />
+                        </div>
+                    </Suspense>
                     <div
                         className={`grid gap-3 ${
                             isCompact ? "lg:grid-cols-2 2xl:grid-cols-3" : "xl:grid-cols-2 4xl:grid-cols-3"
