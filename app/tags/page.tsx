@@ -2,7 +2,7 @@
 
 import ErrorWrapper from "@/components/layout/ErrorWrapper";
 import PageTitle from "@/components/ui/PageTitle";
-import LocalTagSearcher from "@/components/ui/search/LocalTagSearcher";
+import TagsPageClient from "@/components/ui/search/TagsPageClient";
 import TagCard from "@/components/ui/tags/TagCard";
 import { FILTER_TAGS } from "@/constants/SearchAndFilters";
 import { usePagination } from "@/hooks/usePagination";
@@ -23,7 +23,7 @@ const Page = () => {
                     <PageTitle title="Tagi" />
                     <div className="flex justify-between">
                         <Suspense fallback={<div>Ładowanie filtrów…</div>}>
-                            <LocalTagSearcher />
+                            <TagsPageClient />
                         </Suspense>
                     </div>
                     <div
