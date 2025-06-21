@@ -5,6 +5,7 @@ const nextConfig = {
         serverActions: true,
         mdxRs: true,
         serverComponentsExternalPackages: ["mongoose"], // SPRAWDŹ, CZY SIE DALEJ KORZYSTA
+        missingSuspenseWithCSRBailout: false,
     },
 };
 
