@@ -1,5 +1,5 @@
+import { SvgIcon } from "@/lib/utils/icons";
 import { Button, cn } from "@heroui/react";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import React from "react";
 
 const LeftSidebarUtilityButtons = ({ isCompact, toggleCompact }: { isCompact: boolean; toggleCompact: () => void }) => {
@@ -15,7 +15,7 @@ const LeftSidebarUtilityButtons = ({ isCompact, toggleCompact }: { isCompact: bo
                 onPress={toggleCompact}
                 startContent={
                     isCompact ? null : (
-                        <Icon
+                        <SvgIcon
                             className="flex-none text-default-500"
                             height={24}
                             icon="solar:sidebar-minimalistic-outline"
@@ -24,7 +24,7 @@ const LeftSidebarUtilityButtons = ({ isCompact, toggleCompact }: { isCompact: bo
                 }
                 variant="light">
                 {isCompact ? (
-                    <Icon className="text-default-500" height={24} icon="solar:sidebar-minimalistic-outline" />
+                    <SvgIcon className="text-default-500" height={24} icon="solar:sidebar-minimalistic-outline" />
                 ) : (
                     "Zwiń menu"
                 )}
@@ -38,11 +38,15 @@ const LeftSidebarUtilityButtons = ({ isCompact, toggleCompact }: { isCompact: bo
                 isIconOnly={isCompact}
                 startContent={
                     isCompact ? null : (
-                        <Icon className="flex-none text-default-500" icon="solar:info-circle-linear" width={24} />
+                        <SvgIcon className="flex-none text-default-500" icon="solar:info-circle-linear" width={24} />
                     )
                 }
                 variant="light">
-                {isCompact ? <Icon className="text-default-500" icon="solar:info-circle-linear" width={24} /> : "Pomoc"}
+                {isCompact ? (
+                    <SvgIcon className="text-default-500" icon="solar:info-circle-linear" width={24} />
+                ) : (
+                    "Pomoc"
+                )}
             </Button>
         </div>
     );

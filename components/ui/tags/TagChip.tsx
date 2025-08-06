@@ -1,6 +1,6 @@
+import { SvgIcon } from "@/lib/utils/icons";
 import { TagChipProps } from "@/types/tags.types";
 import { Chip, Button } from "@heroui/react";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 
 export const TagChip = ({ tag, removeTag }: TagChipProps) => {
@@ -19,7 +19,7 @@ export const TagChip = ({ tag, removeTag }: TagChipProps) => {
                     onPress={() => removeTag(tag)}
                     isIconOnly
                     className="ml-0.5 mr-1.5 flex h-fit w-full min-w-fit items-center justify-center bg-transparent hover:bg-red-500"
-                    startContent={<Icon icon="mdi:close" />}
+                    startContent={<SvgIcon icon="mdi:close" className="size-4" />}
                     onMouseEnter={() => setIsHover(true)}
                     onMouseLeave={() => setIsHover(false)}
                 />

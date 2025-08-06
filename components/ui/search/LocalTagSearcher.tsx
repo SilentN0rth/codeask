@@ -1,13 +1,14 @@
 "use client";
 
 import { Button, Input } from "@heroui/react";
-import { Icon } from "@iconify/react";
+
 import { useSidebarContext } from "context/LeftSidebarContext";
 import { ClassName } from "@/types/index.types";
 import SortSelect from "../filters/SortSelect";
 import { useLocalSearch } from "hooks/useLocalSearch";
 import { SortTagOption } from "@/types/searchAndFilters.types";
 import { SORT_TAG_OPTIONS } from "@/constants/SearchAndFilters";
+import { SvgIcon } from "@/lib/utils/icons";
 
 const LocalTagSearcher = ({ className }: ClassName) => {
     const { isCompact } = useSidebarContext();
@@ -30,13 +31,13 @@ const LocalTagSearcher = ({ className }: ClassName) => {
                         inputWrapper: "h-full border-2 border-cBgDark-700 !bg-cBgDark-800 hover:!bg-cBgDark-900 h-14",
                     }}
                     placeholder="Szukaj..."
-                    startContent={<Icon className="text-sm text-default-500 md:text-lg" icon="solar:magnifer-linear" />}
+                    startContent={<SvgIcon className="text-sm text-default-500 md:text-lg" icon="solar:magnifer-linear" />}
                     endContent={
                         <Button
                             variant="light"
                             radius="sm"
                             className="-mr-1.5 !min-w-fit text-cTextDark-100 hover:!bg-cBgDark-700">
-                            <Icon icon="mdi:magnify" className="size-5" />
+                            <SvgIcon icon="mdi:magnify" className="size-5" />
                         </Button>
                     }
                 />

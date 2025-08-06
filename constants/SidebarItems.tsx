@@ -1,7 +1,7 @@
 import { Chip } from "@heroui/react";
-import { Icon } from "@iconify/react";
 import { SidebarItem } from "@/types/sidebar.types";
 import TeamAvatar from "@/components/ui/sidebar/TeamAvatar";
+import { SvgIcon } from "@/lib/utils/icons";
 
 export const sectionItems: SidebarItem[] = [
     {
@@ -20,7 +20,7 @@ export const sectionItems: SidebarItem[] = [
                 href: "/questions/create",
                 title: "Utwórz pytanie",
                 endContent: (
-                    <Icon
+                    <SvgIcon
                         className="text-default-400 group-data-[active-link=true]:text-cTextDark-100"
                         icon="solar:add-circle-line-duotone"
                         width={24}
@@ -44,7 +44,7 @@ export const sectionItems: SidebarItem[] = [
                     </Chip>
                 ),
             },
-            
+
             {
                 key: "users",
                 href: "/users",
@@ -84,12 +84,6 @@ export const sectionItems: SidebarItem[] = [
                         3
                     </Chip>
                 ),
-            },
-            {
-                key: "group",
-                href: "/group",
-                icon: "iconoir:message",
-                title: "Grupa",
             },
             {
                 key: "settings",

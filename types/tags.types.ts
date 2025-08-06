@@ -1,7 +1,8 @@
-export interface TagCardInterface {
+export interface Tag {
     id: string;
     name: string;
-    questionCount: number;
+    question_count: number;
+    createdAt: string;
 }
 
 export interface TagChipProps {
@@ -14,10 +15,4 @@ export interface TagItemProps {
     href?: string;
     onClose?: () => void;
     className?: string;
-}
-export interface Tag {
-    _id: string;
-    name: string;
-    popularity: number;
-    createdAt: string;
 }

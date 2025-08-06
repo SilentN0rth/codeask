@@ -1,16 +1,20 @@
-import { SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Tooltip, Button, cn } from "@heroui/react";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import React from "react";
 
-const LeftSidebarSignedOutLoginButtons = ({ isCompact }: { isCompact: boolean }) => {
+import React, { useState } from "react";
+import LoginModal from "../Login/LoginModal";
+import RegisterModal from "../Login/RegisterModal";
+import { UserInterface } from "@/types/users.types";
+import { SvgIcon } from "@/lib/utils/icons";
 
+const LeftSidebarSignedOutLoginButtons = ({ isCompact, user }: { isCompact: boolean; user: UserInterface | null }) => {
+    const [modalOpen, setModalOpen] = useState<"login" | "register" | null>(null);
     return (
-        <SignedOut>
-            <div className={isCompact ? "flex-column" : "gap-xsmall flex "}>
-                <Tooltip content="Zaloguj" isDisabled={!isCompact} placement="right">
-                    <SignInButton fallbackRedirectUrl={null} forceRedirectUrl={null} mode="modal">
+        <div className={isCompact ? "flex-column" : "gap-xsmall flex "}>
+            {!user && (
+                <>
+                    <Tooltip content="Zaloguj" isDisabled={!isCompact} placement="right">
                         <Button
+                            onPress={() => setModalOpen("login")}
                             fullWidth
                             className={cn("justify-start text-default-500 data-[hover=true]:text-foreground", {
                                 "justify-center": isCompact,
@@ -18,7 +22,7 @@ const LeftSidebarSignedOutLoginButtons = ({ isCompact }: { isCompact: boolean })
                             isIconOnly={isCompact}
                             startContent={
                                 isCompact ? null : (
-                                    <Icon
+                                    <SvgIcon
                                         className="flex-none text-default-500"
                                         icon="solar:login-2-linear"
                                         width={24}
@@ -27,17 +31,18 @@ const LeftSidebarSignedOutLoginButtons = ({ isCompact }: { isCompact: boolean })
                             }
                             variant="light">
                             {isCompact ? (
-                                <Icon className="text-default-500" icon="solar:login-2-linear" width={24} />
+                                <SvgIcon className="text-default-500" icon="solar:login-2-linear" width={24} />
                             ) : (
                                 "Zaloguj"
                             )}
                         </Button>
-                    </SignInButton>
-                </Tooltip>
+                    </Tooltip>
+                    <LoginModal isOpen={modalOpen === "login"} onClose={() => setModalOpen(null)} />
+                    <RegisterModal isOpen={modalOpen === "register"} onClose={() => setModalOpen(null)} />
 
-                <Tooltip content="Zarejestruj" isDisabled={!isCompact} placement="right">
-                    <SignUpButton mode="modal">
+                    <Tooltip content="Zarejestruj" isDisabled={!isCompact} placement="right">
                         <Button
+                            onPress={() => setModalOpen("register")}
                             fullWidth
                             className={cn("justify-start text-default-500 data-[hover=true]:text-foreground", {
                                 "justify-center": isCompact,
@@ -45,7 +50,7 @@ const LeftSidebarSignedOutLoginButtons = ({ isCompact }: { isCompact: boolean })
                             isIconOnly={isCompact}
                             startContent={
                                 isCompact ? null : (
-                                    <Icon
+                                    <SvgIcon
                                         className="flex-none text-default-500"
                                         icon="solar:user-plus-linear"
                                         width={24}
@@ -54,15 +59,15 @@ const LeftSidebarSignedOutLoginButtons = ({ isCompact }: { isCompact: boolean })
                             }
                             variant="light">
                             {isCompact ? (
-                                <Icon className="text-default-500" icon="solar:user-plus-linear" width={24} />
+                                <SvgIcon className="text-default-500" icon="solar:user-plus-linear" width={24} />
                             ) : (
                                 "Zarejestruj"
                             )}
                         </Button>
-                    </SignUpButton>
-                </Tooltip>
-            </div>
-        </SignedOut>
+                    </Tooltip>
+                </>
+            )}
+        </div>
     );
 };
 

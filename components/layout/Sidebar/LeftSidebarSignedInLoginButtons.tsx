@@ -1,38 +1,52 @@
-import { SignedIn, SignOutButton } from "@clerk/nextjs";
-import { Tooltip, Button, cn } from "@heroui/react";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import React from "react";
+"use client";
 
-const LeftSidebarSignedInLoginButtons = ({ isCompact }: { isCompact: boolean }) => {
+import { UserInterface } from "@/types/users.types";
+import { Tooltip, Button, cn, addToast } from "@heroui/react";
+import React from "react";
+import { SvgIcon } from "@/lib/utils/icons";
+
+const LeftSidebarSignedInLoginButtons = ({ isCompact, user, signOut }: { isCompact: boolean; signOut: () => Promise<void>; user: UserInterface | null }) => {
+
     return (
-        <SignedIn>
+        user && (
             <Tooltip content="Wyloguj się" isDisabled={!isCompact} placement="right">
-                <SignOutButton>
-                    <Button
-                        fullWidth
-                        className={cn("justify-start text-default-500 data-[hover=true]:text-foreground", {
-                            "justify-center": isCompact,
-                        })}
-                        isIconOnly={isCompact}
-                        startContent={
-                            isCompact ? null : (
-                                <Icon
-                                    className="flex-none rotate-180 text-default-500"
-                                    icon="solar:minus-circle-linear"
-                                    width={24}
-                                />
-                            )
-                        }
-                        variant="light">
-                        {isCompact ? (
-                            <Icon className="rotate-180 text-default-500" icon="solar:minus-circle-linear" width={24} />
-                        ) : (
-                            "Wyloguj się"
-                        )}
-                    </Button>
-                </SignOutButton>
+                <Button
+                    onPress={async () => {
+                        await signOut();
+                        addToast({
+                            title: "Wylogowano pomyślnie",
+                            description: "Od teraz będziesz miał dostęp tylko do ograniczonej zawartości forum.",
+                            icon: <SvgIcon icon={"solar:minus-circle-linear"} />,
+                            color: "danger",
+                        });
+                    }}
+                    fullWidth
+                    className={cn("justify-start text-default-500 data-[hover=true]:text-foreground", {
+                        "justify-center": isCompact,
+                    })}
+                    isIconOnly={isCompact}
+                    startContent={
+                        isCompact ? null : (
+                            <SvgIcon
+                                className="flex-none rotate-180 text-default-500"
+                                icon={"solar:minus-circle-linear"}
+                                width={24}
+                            />
+                        )
+                    }
+                    variant="light">
+                    {isCompact ? (
+                        <SvgIcon
+                            className="rotate-180 text-default-500"
+                            icon={"solar:minus-circle-linear"}
+                            width={24}
+                        />
+                    ) : (
+                        "Wyloguj się"
+                    )}
+                </Button>
             </Tooltip>
-        </SignedIn>
+        )
     );
 };
 

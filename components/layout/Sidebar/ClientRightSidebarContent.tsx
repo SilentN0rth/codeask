@@ -5,16 +5,17 @@ import { Accordion, AccordionItem } from "@heroui/react";
 import MobileNavButtonLinks from "../Navbar/MobileNavButtonLinks";
 import DesktopMenuNewestQuestions from "../Navbar/DesktopMenuNewestQuestions";
 import MobileMenuNewestQuestions from "../Navbar/MobileMenuNewestQuestions";
-import { FILTER_TAGS } from "@/constants/SearchAndFilters";
-import { TagItem } from "@/components/ui/tags/TagItem";
 import JobSearchSection from "@/components/ui/sidebar/JobSearchSection";
 import { QuestionCardProps } from "@/types/questions.types";
+import { Tag } from "@/types/tags.types";
+import PopularTags from "./PopularTags";
 
 type Props = {
     questions: QuestionCardProps[];
+    tags: Tag[];
 };
 
-const ClientRightSidebarContent = ({ questions }: Props) => {
+const ClientRightSidebarContent = ({ questions, tags }: Props) => {
     const accordionItemClasses = {
         base: "w-full data-[open=true]:bg-cCta-500/10 border data-[open=true]:border-cCta-500 border-transparent rounded-lg mb-2",
         title: "font-medium text-base transition-colors",
@@ -23,7 +24,6 @@ const ClientRightSidebarContent = ({ questions }: Props) => {
         indicator: "text-medium text-white",
         content: "text-small px-5 py-5 text-sm",
     };
-
     return (
         <>
             <MobileNavButtonLinks />
@@ -36,13 +36,8 @@ const ClientRightSidebarContent = ({ questions }: Props) => {
                     <DesktopMenuNewestQuestions questions={questions} />
                     <MobileMenuNewestQuestions questions={questions} />
                 </AccordionItem>
-
                 <AccordionItem title="Popularne tagi" key="tags" aria-label="Popularne tagi">
-                    <div className="flex flex-wrap gap-2">
-                        {FILTER_TAGS.slice(0, 10).map(({ name }) => (
-                            <TagItem label={name} key={name} href={`/tags/${name}`} />
-                        ))}
-                    </div>
+                    <PopularTags tags={tags} />
                 </AccordionItem>
             </Accordion>
             <JobSearchSection />

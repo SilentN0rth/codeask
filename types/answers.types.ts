@@ -1,13 +1,14 @@
 import { ReactNode } from "react";
 
 export interface AnswerCardProps {
-    answer: {
-        id: number;
-        author: string;
-        avatar: string;
-        date: string;
-        content: ReactNode;
-        likes: number;
-        dislikes: number;
-    };
+    id: string;
+    author_id: string;
+    avatar: string;
+    date: string;
+    content: ReactNode;
+    created_at: string;
+    updated_at: string;
+    likes_count: number;
+    updates_count: number;
+    dislikes_count: number;
 }

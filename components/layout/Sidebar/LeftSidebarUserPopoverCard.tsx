@@ -1,21 +1,15 @@
+import UserTriggerSkeletonPopoverCard from "@/components/ui/cards/UserTriggerSkeletonPopoverCard";
 import UserTriggerPopoverCard from "@/components/ui/cards/YourAccountUserCard";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { useAuthContext } from "context/useAuthContext";
 import React from "react";
-
 const LeftSidebarUserPopoverCard = ({ isCompact }: { isCompact: boolean }) => {
+    const { user, loading, error = true } = useAuthContext();
+    if (loading) return <UserTriggerSkeletonPopoverCard />;
+    if (error) return <p>Błąd: {error}</p>;
     return (
-        <>
-            <SignedIn>
-                <div>
-                    <UserTriggerPopoverCard isCompact={isCompact} />
-                </div>
-            </SignedIn>
-            <SignedOut>
-                <div>
-                    <UserTriggerPopoverCard isLoggedOut isCompact={isCompact} />
-                </div>
-            </SignedOut>
-        </>
+        <div>
+            <UserTriggerPopoverCard isCompact={isCompact} user={user} />
+        </div>
     );
 };
 

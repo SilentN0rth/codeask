@@ -1,67 +1,31 @@
-"use client";
+"use server";
+import { getTags } from "@/services/server/tags";
+import PageClient from "./page.client";
 
-import ErrorWrapper from "@/components/layout/ErrorWrapper";
-import PageTitle from "@/components/ui/PageTitle";
-// import TagsPageClient from "@/components/ui/search/TagsPageClient";
-import TagCard from "@/components/ui/tags/TagCard";
-import { FILTER_TAGS } from "@/constants/SearchAndFilters";
-import { Button } from "@heroui/react";
-// import { FILTER_TAGS } from "@/constants/SearchAndFilters";
-// import { usePagination } from "@/hooks/usePagination";
-// import { Button, Pagination } from "@heroui/react";
-import { useSidebarContext } from "context/LeftSidebarContext";
-// import { Suspense } from "react";
+type Props = {
+    searchParams: Record<string, string>;
+};
 
-// const PER_PAGE = 60;
+const Page = async ({ searchParams }: Props) => {
+    const { search, sort } = searchParams;
 
-const Page = () => {
-    const { isCompact } = useSidebarContext();
-    // const { paginatedItems, currentPage, totalPages, setPage } = usePagination(FILTER_TAGS, PER_PAGE);
+    const { tags } = await getTags({ search, sort });
 
-    return (
-        <div className="wrapper">
-            {FILTER_TAGS.length > 0 ? (
-                <>
-                    <PageTitle title="Tagi" />
-                    {/* <div className="flex justify-between">
-                        <Suspense fallback={<div>Ładowanie filtrów…</div>}>
-                            <TagsPageClient />
-                        </Suspense>
-                    </div> */}
-                    <div
-                        className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${
-                            isCompact
-                                ? "md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
-                                : "lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-6"
-                        }`}>
-                        {FILTER_TAGS.map((tag) => (
-                            <TagCard tag={tag} key={tag.id} />
-                        ))}
-                        <Button className="h-full border-1 border-divider" variant="bordered">
-                            Dodaj tag
-                        </Button>
-
-                        {/* <Pagination
-                            classNames={{
-                                item: "bg-cBgDark-700",
-                                cursor: "rounded-sm bg-cCta-500",
-                                prev: "bg-cBgDark-700",
-                                next: "bg-cBgDark-700",
-                            }}
-                            className="col-span-full mx-auto mt-4"
-                            isCompact
-                            showControls
-                            page={currentPage}
-                            total={totalPages}
-                            onChange={setPage}
-                        /> */}
-                    </div>
-                </>
-            ) : (
-                <ErrorWrapper />
-            )}
-        </div>
-    );
+    return <PageClient tags={tags || []} />;
 };
 
 export default Page;
+
+// "use server";
+
+// import { getQuestions } from "@/services/server/questions";
+// import QuestionsPage from "../../components/layout/QuestionsPage";
+
+// export default async function Page({ searchParams }: { searchParams: Record<string, string> }) {
+//     const { search, sort, filter, value } = searchParams;
+
+//     const { questions } = await getQuestions({ search, sort, filter, value });
+
+//     if (!questions) return <div>Nie udało się załadować pytań.</div>;
+//     return <QuestionsPage questions={questions} />;
+// }

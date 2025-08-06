@@ -4,31 +4,25 @@ function stripHtml(html: string): string {
     return html.replace(/<[^>]+>/g, "");
 }
 
-
 export const createQuestionSchema = z.object({
     title: z.string().min(10, "Tytuł pytania musi mieć co najmniej 10 znaków").max(100, "Tytuł pytania jest za długi"),
 
     shortContent: z
         .string()
-        .max(300, "Krótki opis pytania jest za długi")
-        .optional()
-        .refine((val) => val === undefined || val.length === 0 || val.length >= 20, {
-            message: "Treść pytania jest zbyt krótka (minimum 20 znaków)",
-        }),
-
+        .min(20, "Krótki opis pytania musi mieć co najmniej 20 znaków")
+        .max(150, "Krótki opis pytania jest za długi"),
     content: z.string().refine(
         (val) => {
             const text = stripHtml(val).trim();
-            return text.length >= 50 && text.length <= 5000;
+            return text.length <= 5000;
         },
         {
-            message: "Zawartość pytania musi mieć od 50 do 5000 znaków ",
+            message: "Zawartość pytania nie może mieć więcej niż 5000 znaków ",
         }
     ),
 
     tags: z
         .array(z.string())
-        .min(1, "Pytanie musi mieć co najmniej 1 tag")
         .max(5, "Do pytania możesz dołączyć maksymalnie 5 tagów"),
 });
 

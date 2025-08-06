@@ -1,8 +1,8 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
 import React from "react";
 import RightSidebarContent from "../Sidebar/RightSidebarContent";
 import { Drawer, Button, DrawerContent, DrawerBody } from "@heroui/react";
 import { HamburgerMenuProps } from "@/types/navbar.types";
+import { SvgIcon } from "@/lib/utils/icons";
 
 const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onOpenChange, onOpen }) => {
     return (
@@ -15,7 +15,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ isOpen, onOpenChange, onO
                 backdrop: "3xl:hidden",
             }}
             backdrop="opaque"
-            closeButton={<Button onPress={onOpen} startContent={<Icon icon="mdi:close" width={28} />} />}
+            closeButton={<Button onPress={onOpen} startContent={<SvgIcon icon="mdi:close" width={28} />} />}
             isOpen={isOpen}
             onOpenChange={onOpenChange}>
             <DrawerContent>

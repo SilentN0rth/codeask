@@ -1,10 +1,15 @@
 "use server";
-import { getQuestions } from "@/lib/actions/getQuestions.action";
-import QuestionsPage from "../../components/layout/QuestionsPage";
-import { QuestionCardProps } from "@/types/questions.types";
 
-export default async function Page() {
-    const result = await getQuestions({});
-    const questions: QuestionCardProps[] = JSON.parse(JSON.stringify(result.questions));
-    return <QuestionsPage questions={questions} />;
+import { getQuestions } from "@/services/server/questions";
+import QuestionsPage from "../../components/layout/QuestionsPage";
+import { getUsers } from "@/services/server/users";
+
+export default async function Page({ searchParams }: { searchParams: Record<string, string> }) {
+    const { search, sort, filter, value } = searchParams;
+
+    const { questions } = await getQuestions({ search, sort, filter, value });
+    const users = await getUsers();
+
+    if (!questions) return <div>Nie udało się załadować pytań.</div>;
+    return <QuestionsPage questions={questions} users={users} />;
 }

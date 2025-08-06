@@ -25,6 +25,7 @@
             "@/hooks/*": ["hooks/*"],
             "@/types/*": ["types/*"],
             "@/types": ["types"],
+            "@/services/*": ["supabase/services/*"],
             "@/constants/*": ["constants/*"]
         },
         "baseUrl": ".",

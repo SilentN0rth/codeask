@@ -12,11 +12,13 @@ export type FilterProps = {
     onChange: (val: string) => void;
 };
 
-export type SortQuestionOption = "dateUpper" | "dateLower" | "answers" | "likes" | "views" | "name";
+type CommonOptions = "newest" | "oldest" | "name";
 
-export type SortTagOption = "dateUpper" | "dateLower" | "popularity" | "name";
+export type SortQuestionOption = CommonOptions | "answers" | "likes" | "views";
 
-export type SortUserOption = "newest" | "oldest" | "mostAnswers" | "mostPoints" | "name";
+export type SortTagOption = CommonOptions | "popularity";
+
+export type SortUserOption = CommonOptions | "mostAnswers" | "mostQuestions" | "mostReputation";
 
 export type SortJobOption = "newest" | "mostViewed" | "highestSalary";
 
@@ -48,7 +50,7 @@ export interface TaskInterface {
     points: number;
     difficulty: "easy" | "medium" | "hard";
     tags: string[];
-    category: "frontend" | "backend" | "fullstack" | "devops" | "general";
+    // category: "frontend" | "backend" | "fullstack" | "devops" | "general";
     status: "available" | "completed" | "locked";
     createdAt: string;
     updatedAt: string;

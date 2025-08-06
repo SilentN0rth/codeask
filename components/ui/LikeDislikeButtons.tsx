@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { Button, Tooltip, addToast } from "@heroui/react";
-import { Icon } from "@iconify/react";
 import { motion, useAnimation } from "framer-motion";
 import { VoteType } from "@/types/vote.types";
 import { LikeDislikeButtonsProps } from "@/types/components.types";
+import { SvgIcon } from "@/lib/utils/icons";
 
 const COOLDOWN_MS = 2000;
 
@@ -38,7 +38,7 @@ const LikeDislikeButtons = ({ initialLikes, initialDislikes }: LikeDislikeButton
             addToast({
                 title: "Usunięto polubienie",
                 description: "",
-                icon: <Icon icon="solar:like-line-duotone" />,
+                icon: <SvgIcon icon="mdi:like-outline" />,
                 color: "default",
             });
         } else if (userVote === "disliked") {
@@ -49,7 +49,7 @@ const LikeDislikeButtons = ({ initialLikes, initialDislikes }: LikeDislikeButton
             addToast({
                 title: "Polubiono odpowiedź",
                 description: "",
-                icon: <Icon icon="solar:like-bold" />,
+                icon: <SvgIcon icon="mdi:like" />,
                 color: "success",
             });
         } else {
@@ -59,7 +59,7 @@ const LikeDislikeButtons = ({ initialLikes, initialDislikes }: LikeDislikeButton
             addToast({
                 title: "Polubiono odpowiedź",
                 description: "",
-                icon: <Icon icon="solar:like-bold" />,
+                icon: <SvgIcon icon="mdi:like" />,
                 color: "success",
             });
         }
@@ -88,7 +88,7 @@ const LikeDislikeButtons = ({ initialLikes, initialDislikes }: LikeDislikeButton
             addToast({
                 title: "Usunięto negatywną ocenę",
                 description: "",
-                icon: <Icon icon="solar:dislike-line-duotone" />,
+                icon: <SvgIcon icon="mdi:dislike-outline" />,
                 color: "default",
             });
         } else if (userVote === "liked") {
@@ -99,7 +99,7 @@ const LikeDislikeButtons = ({ initialLikes, initialDislikes }: LikeDislikeButton
             addToast({
                 title: "Nie podoba mi się",
                 description: "",
-                icon: <Icon icon="solar:dislike-bold" />,
+                icon: <SvgIcon icon="mdi:dislike" />,
                 color: "danger",
             });
         } else {
@@ -109,7 +109,7 @@ const LikeDislikeButtons = ({ initialLikes, initialDislikes }: LikeDislikeButton
             addToast({
                 title: "Nie podoba mi się",
                 description: "",
-                icon: <Icon icon="solar:dislike-bold" />,
+                icon: <SvgIcon icon="mdi:dislike" />,
                 color: "danger",
             });
         }
@@ -128,11 +128,11 @@ const LikeDislikeButtons = ({ initialLikes, initialDislikes }: LikeDislikeButton
                 <Button
                     size="sm"
                     variant="light"
-                    className={`gap-1 ${userVote === "liked" ? "!bg-success-500 text-white" : "text-success"}`}
+                    className={`min-w-fit gap-1 px-2.5 ${userVote === "liked" ? "!bg-success-500 text-white" : "text-success"}`}
                     onPress={handleLike}
                     isDisabled={isLikeCooldown}>
                     <motion.span animate={likeControls} className="inline-flex">
-                        <Icon icon="solar:like-line-duotone" className="text-lg" />
+                        <SvgIcon icon={`${userVote === "liked" ? "mdi:like" : "mdi:like-outline"}`} width={20} />
                     </motion.span>
                     {likeCount}
                 </Button>
@@ -143,11 +143,14 @@ const LikeDislikeButtons = ({ initialLikes, initialDislikes }: LikeDislikeButton
                 <Button
                     size="sm"
                     variant="light"
-                    className={`gap-1 ${userVote === "disliked" ? "!bg-danger-500 text-white" : "text-danger"}`}
+                    className={`min-w-fit gap-1 px-2.5 ${userVote === "disliked" ? "!bg-red-500 text-white" : "text-red-500"}`}
                     onPress={handleDislike}
                     isDisabled={isDislikeCooldown}>
                     <motion.span animate={dislikeControls} className="inline-flex">
-                        <Icon icon="solar:dislike-line-duotone" className="text-lg" />
+                        <SvgIcon
+                            icon={`${userVote === "disliked" ? "mdi:dislike" : "mdi:dislike-outline"}`}
+                            width={20}
+                        />
                     </motion.span>
                     {dislikeCount}
                 </Button>

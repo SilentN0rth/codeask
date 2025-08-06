@@ -1,7 +1,7 @@
 "use client";
 import { sectionItems } from "@/constants/SidebarItems";
+import { SvgIcon } from "@/lib/utils/icons";
 import { Button } from "@heroui/react";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -25,7 +25,7 @@ const MobileNavButtonLinks = () => {
                                     startContent={
                                         item.icon && (
                                             <span className="flex items-center gap-2.5">
-                                                <Icon icon={item.icon} width={22} className={isActive ? "" : ""} />
+                                                <SvgIcon icon={item.icon } width={22} className={isActive ? "" : ""} />
                                                 {item.title}
                                             </span>
                                         )

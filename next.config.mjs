@@ -4,8 +4,13 @@ const nextConfig = {
     experimental: {
         serverActions: true,
         mdxRs: true,
-        serverComponentsExternalPackages: ["mongoose"], // SPRAWDŹ, CZY SIE DALEJ KORZYSTA
         missingSuspenseWithCSRBailout: false,
+    },
+    images: {
+        remotePatterns: [new URL("https://t4.ftcdn.net/**")],
+    },
+    middleware: {
+        matcher: ["/((?!_next|static|favicon.ico).*)"],
     },
 };
 

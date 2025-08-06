@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect } from "react";
 import {
     Button,
     Input,
@@ -9,18 +10,16 @@ import {
     ModalFooter,
     ModalHeader,
     Textarea,
-    useDisclosure,
-    Tooltip,
     Form,
     addToast,
 } from "@heroui/react";
-import { Icon } from "@iconify/react";
-import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToastActionCooldown } from "hooks/useToastActionCooldown";
-import { ReportTargetType, ReportModalProps, ReportForm } from "@/types/modals.types";
 import { reportSchema } from "@/lib/schemas/report.schema";
+import { ReportTargetType, ReportForm } from "@/types/modals.types";
+import { SvgIcon } from "@/lib/utils/icons";
+import { useAuthContext } from "context/useAuthContext";
+import { useToastActionCooldown } from "hooks/useToastActionCooldown";
 
 const getTitle = (type: ReportTargetType) => {
     switch (type) {
@@ -48,8 +47,16 @@ const getDescription = (type: ReportTargetType) => {
     }
 };
 
-const ReportModal: React.FC<ReportModalProps> = ({ type, targetId }) => {
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+type ReportModalProps = {
+    type: ReportTargetType;
+    targetId: string;
+    isOpen: boolean;
+    onOpenChange: (open: boolean) => void;
+};
+
+export const ReportModal: React.FC<ReportModalProps> = ({ type, targetId, isOpen, onOpenChange }) => {
+    const { user } = useAuthContext();
+
     const { isActive: isReported, handleClick: handleReportToast } = useToastActionCooldown({
         addToast,
         disableButton: true,
@@ -57,13 +64,12 @@ const ReportModal: React.FC<ReportModalProps> = ({ type, targetId }) => {
         onSuccessMessage: {
             title: "Zgłoszenie wysłane",
             description: "Dziękujemy za zgłoszenie. Zostanie ono niezwłocznie przeanalizowane.",
-            icon: <Icon icon="solar:shield-check-bold" />,
+            icon: <SvgIcon icon="solar:shield-check-bold" />,
         },
         onFailMessage: {
             title: "Zgłoszenie już było wysłane",
             description: "To zgłoszenie zostało już przyjęte.",
-
-            icon: <Icon icon="solar:shield-check-outline" />,
+            icon: <SvgIcon icon="solar:shield-check-outline" />,
         },
     });
 
@@ -80,6 +86,12 @@ const ReportModal: React.FC<ReportModalProps> = ({ type, targetId }) => {
         },
     });
 
+    useEffect(() => {
+        if (user?.email) {
+            reset((prev) => ({ ...prev, email: user.email }));
+        }
+    }, [user?.email, reset]);
+
     const onSubmit = (data: ReportForm, onClose: () => void) => {
         console.log("Zgłoszono", { type, targetId, ...data });
         handleReportToast();
@@ -93,82 +105,61 @@ const ReportModal: React.FC<ReportModalProps> = ({ type, targetId }) => {
     };
 
     return (
-        <>
-            <Tooltip content={isReported ? "Zgłoszono" : getTitle(type)}>
-                <Button
-                    isIconOnly
-                    size="sm"
-                    variant="light"
-                    onPress={isReported ? undefined : onOpen}
-                    className={isReported ? "text-danger-500" : "text-default-500 hover:text-danger"}
-                    isDisabled={isReported}>
-                    <Icon icon="solar:danger-triangle-outline" className="text-xl" />
-                </Button>
-            </Tooltip>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center" size="lg" backdrop="opaque" shadow="lg">
+            <ModalContent className="bg-cBgDark-800">
+                {(onClose) => (
+                    <Form onSubmit={handleSubmit((data) => onSubmit(data, onClose))}>
+                        <ModalHeader className="flex flex-col gap-1 pb-0 pt-4">{getTitle(type)}</ModalHeader>
+                        <ModalBody className="w-full">
+                            <p className="mb-2 text-sm text-default-500">{getDescription(type)}</p>
 
-            <Modal
-                isOpen={isOpen}
-                onOpenChange={onOpenChange}
-                placement="center"
-                size="lg"
-                backdrop="opaque"
-                shadow="lg">
-                <ModalContent className="bg-cBgDark-800">
-                    {(onClose) => (
-                        <Form onSubmit={handleSubmit((data) => onSubmit(data, onClose))}>
-                            <ModalHeader className="flex flex-col gap-1 pb-0 pt-4 ">{getTitle(type)}</ModalHeader>
-                            <ModalBody className="w-full ">
-                                <p className="mb-2 text-sm text-default-500">{getDescription(type)}</p>
+                            <Controller
+                                name="reason"
+                                control={control}
+                                render={({ field }) => (
+                                    <Textarea
+                                        {...field}
+                                        label="Powód zgłoszenia"
+                                        classNames={{
+                                            inputWrapper:
+                                                "bg-cBgDark-700 group-hover:bg-cBgDark-700/50 group-data-[focus=true]:bg-cBgDark-700/50 border border-divider",
+                                        }}
+                                        isInvalid={!!errors.reason}
+                                        errorMessage={errors.reason?.message}
+                                    />
+                                )}
+                            />
 
-                                <Controller
-                                    name="reason"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <Textarea
-                                            {...field}
-                                            label="Powód zgłoszenia"
-                                            classNames={{
-                                                inputWrapper:
-                                                    "bg-cBgDark-700 group-hover:bg-cBgDark-700/50 group-data-[focus=true]:bg-cBgDark-700/50 border border-divider",
-                                            }}
-                                            isInvalid={!!errors.reason}
-                                            errorMessage={errors.reason?.message}
-                                        />
-                                    )}
-                                />
-
-                                <Controller
-                                    name="email"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <Input
-                                            {...field}
-                                            type="email"
-                                            label="Twój e-mail"
-                                            classNames={{
-                                                inputWrapper:
-                                                    "bg-cBgDark-700 group-hover:bg-cBgDark-700/50 group-data-[focus=true]:bg-cBgDark-700/50 border border-divider",
-                                            }}
-                                            isInvalid={!!errors.email}
-                                            errorMessage={errors.email?.message}
-                                        />
-                                    )}
-                                />
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button variant="solid" className="bg-cBgDark-700" onPress={() => handleClose(onClose)}>
-                                    Anuluj
-                                </Button>
-                                <Button color="primary" type="submit">
-                                    Zgłoś
-                                </Button>
-                            </ModalFooter>
-                        </Form>
-                    )}
-                </ModalContent>
-            </Modal>
-        </>
+                            <Controller
+                                name="email"
+                                control={control}
+                                render={({ field }) => (
+                                    <Input
+                                        {...field}
+                                        type="email"
+                                        isDisabled={!!user}
+                                        label="Twój e-mail"
+                                        classNames={{
+                                            inputWrapper:
+                                                "bg-cBgDark-700 group-hover:bg-cBgDark-700/50 group-data-[focus=true]:bg-cBgDark-700/50 border border-divider",
+                                        }}
+                                        isInvalid={!!errors.email}
+                                        errorMessage={errors.email?.message}
+                                    />
+                                )}
+                            />
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button variant="solid" className="bg-cBgDark-700" onPress={() => handleClose(onClose)}>
+                                Anuluj
+                            </Button>
+                            <Button color="primary" type="submit" isDisabled={isReported}>
+                                Zgłoś
+                            </Button>
+                        </ModalFooter>
+                    </Form>
+                )}
+            </ModalContent>
+        </Modal>
     );
 };
-
-export default ReportModal;

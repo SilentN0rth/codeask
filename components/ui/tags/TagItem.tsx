@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import React from "react";
-import { Icon } from "@iconify/react";
 import { TagItemProps } from "@/types/tags.types";
+import { SvgIcon } from "@/lib/utils/icons";
 
 export const TagItem: React.FC<TagItemProps> = ({
     label,
@@ -25,7 +25,7 @@ export const TagItem: React.FC<TagItemProps> = ({
                     }}
                     aria-label={`Usuń tag ${label}`}
                     className="ml-1 text-default-500 hover:text-danger">
-                    <Icon icon="mdi:close" className="text-sm" />
+                    <SvgIcon icon="mdi:close" className="text-sm" />
                 </button>
             )}
         </span>

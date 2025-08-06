@@ -1,11 +1,12 @@
 "use client";
 
 import { cn, ListboxItem, Tooltip, Accordion, AccordionItem, Listbox, ListboxSection } from "@heroui/react";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useEffect } from "react";
 import { SidebarProps, SidebarItem, SidebarItemType } from "@/types/sidebar.types";
 import Link from "next/link";
 import type { Key } from "@react-types/shared"; // najczęściej Key = string | number
+import { SvgIcon } from "@/lib/utils/icons";
+
 const LeftSidebarContent = React.forwardRef<HTMLElement, SidebarProps>(
     (
         {
@@ -82,7 +83,7 @@ const LeftSidebarContent = React.forwardRef<HTMLElement, SidebarProps>(
                         endContent={isCompact || isNestType || hideEndContent ? null : (item.endContent ?? null)}
                         startContent={
                             isCompact || isNestType ? null : item.icon ? (
-                                <Icon
+                                <SvgIcon
                                     className={cn(
                                         "text-default-500 group-data-[selected=true]:text-foreground",
                                         iconClassName
@@ -99,7 +100,7 @@ const LeftSidebarContent = React.forwardRef<HTMLElement, SidebarProps>(
                             <Tooltip content={item.title} placement="right" key={item.key}>
                                 <div className="flex w-full items-center justify-center">
                                     {item.icon ? (
-                                        <Icon
+                                        <SvgIcon
                                             className={cn(
                                                 "text-default-500 group-data-[selected=true]:text-foreground",
                                                 iconClassName
@@ -134,7 +135,7 @@ const LeftSidebarContent = React.forwardRef<HTMLElement, SidebarProps>(
                                     title={
                                         item.icon ? (
                                             <div className={"flex h-11 items-center gap-2 px-2 py-1.5"}>
-                                                <Icon
+                                                <SvgIcon
                                                     className={cn(
                                                         "text-default-500 group-data-[selected=true]:text-foreground",
                                                         iconClassName
@@ -202,7 +203,7 @@ const LeftSidebarContent = React.forwardRef<HTMLElement, SidebarProps>(
                         endContent={isCompact || hideEndContent ? null : (item.endContent ?? null)}
                         startContent={
                             isCompact ? null : item.icon ? (
-                                <Icon
+                                <SvgIcon
                                     className={cn(
                                         "text-default-500 group-data-[selected=true]:text-foreground",
                                         iconClassName
@@ -220,7 +221,7 @@ const LeftSidebarContent = React.forwardRef<HTMLElement, SidebarProps>(
                             <Tooltip content={item.title} placement="right" key={item.key}>
                                 <div className="flex w-full items-center justify-center">
                                     {item.icon ? (
-                                        <Icon
+                                        <SvgIcon
                                             className={cn(
                                                 "text-default-500 group-data-[selected=true]:text-foreground",
                                                 iconClassName

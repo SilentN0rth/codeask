@@ -11,16 +11,15 @@ import {
     useDisclosure,
     Tooltip,
 } from "@heroui/react";
-import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import Divider from "../Divider";
-import { ShareModalProps } from "@/types/modals.types";
-
-const ShareModal: React.FC<ShareModalProps> = ({ questionId }) => {
+import { SvgIcon } from "@/lib/utils/icons";
+import usePublicUrl from "@/hooks/usePublicUrl";
+const ShareModal = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [copied, setCopied] = useState(false);
 
-    const shareUrl = `${typeof window !== "undefined" ? window.location.origin : ""}/questions/${questionId}`;
+    const shareUrl = usePublicUrl();
 
     const handleCopy = () => {
         navigator.clipboard.writeText(shareUrl);
@@ -41,7 +40,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ questionId }) => {
                     variant="light"
                     onPress={onOpen}
                     className="text-default-500 hover:text-foreground">
-                    <Icon icon="solar:share-line-duotone" className="text-xl" />
+                    <SvgIcon icon="solar:share-line-duotone" className="text-xl" />
                 </Button>
             </Tooltip>
 
@@ -92,7 +91,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ questionId }) => {
                                                     `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`
                                                 )
                                             }>
-                                            <Icon icon="prime:twitter" className="text-base" />
+                                            <SvgIcon icon="prime:twitter" className="text-base" />
                                         </Button>
                                     </Tooltip>
 
@@ -105,7 +104,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ questionId }) => {
                                                     `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`
                                                 )
                                             }>
-                                            <Icon icon="ic:baseline-facebook" className="text-xl text-[#1877F2]" />
+                                            <SvgIcon icon="ic:baseline-facebook" className="text-xl text-[#1877F2]" />
                                         </Button>
                                     </Tooltip>
 
@@ -118,7 +117,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ questionId }) => {
                                                     `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`
                                                 )
                                             }>
-                                            <Icon icon="mdi:linkedin" className="text-xl text-[#0A66C2]" />
+                                            <SvgIcon icon="mdi:linkedin" className="text-xl text-[#0A66C2]" />
                                         </Button>
                                     </Tooltip>
 
@@ -131,7 +130,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ questionId }) => {
                                                     `mailto:?subject=Zobacz to pytanie&body=${encodeURIComponent(shareUrl)}`
                                                 )
                                             }>
-                                            <Icon icon="mdi:email-outline" className="text-xl text-[#F97316] " />
+                                            <SvgIcon icon="mdi:email-outline" className="text-xl text-[#F97316] " />
                                         </Button>
                                     </Tooltip>
                                 </div>
