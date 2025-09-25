@@ -19,7 +19,7 @@ export default function QuestionTagsInput({
   isEditing: boolean;
 }) {
   return (
-    <div className="grid w-full grid-cols-[1fr,auto] gap-3">
+    <div className="grid w-full grid-cols-[1fr_auto] gap-3">
       <Input
         label="Tagi"
         value={tagInput}

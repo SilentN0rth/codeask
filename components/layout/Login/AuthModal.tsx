@@ -132,7 +132,7 @@ export default function AuthModal({
                 )}
 
                 {fields.includes('confirmPassword') ? (
-                  <div className="grid grid-cols-[1fr,55px] gap-3">
+                  <div className="grid grid-cols-[1fr_55px] gap-3">
                     <PasswordInput
                       control={control}
                       name="password"
@@ -168,7 +168,7 @@ export default function AuthModal({
                     />
                   </div>
                 ) : (
-                  <div className="grid grid-cols-[1fr,auto] gap-3">
+                  <div className="grid grid-cols-[1fr_auto] gap-3">
                     <PasswordInput
                       control={control}
                       name="password"

@@ -50,7 +50,7 @@ const ProfileLayout = ({
         isOwnProfile={isOwnProfile}
         onEditProfile={handleEditBackground}
       />
-      <div className="grid grid-cols-[1fr,50px,1fr] items-start gap-5">
+      <div className="grid grid-cols-[1fr_50px_1fr] items-start gap-5">
         <Divider
           as="h1"
           text={isOwnProfile ? 'TWÓJ PROFIL' : 'PRZEGLĄDASZ PROFIL UŻYTKOWNIKA'}

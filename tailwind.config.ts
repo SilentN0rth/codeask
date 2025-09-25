@@ -19,7 +19,7 @@ const config: Config = {
       },
       colors: {
         cCta: {
-          100: 'var(--color-cCta-100)',
+           100: 'var(--color-cCta-100)',
           300: 'var(--color-cCta-300)',
           500: 'var(--color-cCta-500)',
           700: 'var(--color-cCta-700)',
