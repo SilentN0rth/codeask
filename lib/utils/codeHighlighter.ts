@@ -32,7 +32,7 @@ function unescapeHtml(code: string): string {
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
+    .replace(/&quot;/g, "'")
     .replace(/&#x27;/g, "'")
     .replace(/&#x2F;/g, '/');
 }
