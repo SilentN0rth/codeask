@@ -31,19 +31,19 @@ const Divider = ({
   bgColor = 'bg-cBgDark-800',
   ariaHidden = true,
 }: DividerProps) => {
-  const Component = as as keyof JSX.IntrinsicElements;
+  const Component = as as keyof React.JSX.IntrinsicElements;
 
   if (orientation === 'vertical') {
     return (
       <div className={`relative h-full ${className} `} aria-hidden={ariaHidden}>
         <div className="absolute inset-0 flex justify-center">
-          <div className="h-full border-l border-divider" />
+          <div className="border-divider h-full border-l" />
         </div>
         <div
           className={`relative flex h-full flex-col justify-center ${verticalPositionMap[position]}`}
         >
           <Component
-            className={`${bgColor} px-3 text-sm text-default-500`}
+            className={`${bgColor} text-default-500 px-3 text-sm`}
             style={{
               transform: 'rotate(90deg)',
               transformOrigin: 'center',
@@ -63,10 +63,10 @@ const Divider = ({
       aria-hidden={ariaHidden}
     >
       <div className="absolute inset-0 flex items-center">
-        <div className="w-full border-t border-divider" />
+        <div className="border-divider w-full border-t" />
       </div>
       <div className={`relative flex ${horizontalPositionMap[position]} px-3`}>
-        <Component className={`${bgColor} px-3 text-sm text-default-500`}>
+        <Component className={`${bgColor} text-default-500 px-3 text-sm`}>
           {text}
         </Component>
       </div>

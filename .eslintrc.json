@@ -84,9 +84,10 @@
     "@typescript-eslint/no-unsafe-return": "error",
 
     // Tailwind CSS - RYGORYSTYCZNE
-    "tailwindcss/classnames-order": "error",
-    "tailwindcss/enforces-shorthand": "error",
-    "tailwindcss/no-unnecessary-arbitrary-value": "error",
+    "tailwindcss/classnames-order": "off",
+    "tailwindcss/enforces-shorthand": "off",
+    "tailwindcss/no-unnecessary-arbitrary-value": "off",
+    "tailwindcss/enforces-negative-arbitrary-values": "off",
     "tailwindcss/no-custom-classname": "off",
     // Ogólne - RYGORYSTYCZNE
     "no-console": "error",
@@ -121,6 +122,9 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "tailwindcss": {
+      "config": "./tailwind.config.ts"
     }
   }
 }

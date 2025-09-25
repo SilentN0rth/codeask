@@ -1,5 +1,5 @@
 import { heroui } from '@heroui/theme';
-import type { Config } from '@tailwindcss/postcss';
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -8,7 +8,7 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
-  darkMode: ['class'],
+  darkMode: 'class',
   theme: {
     extend: {
       screens: {

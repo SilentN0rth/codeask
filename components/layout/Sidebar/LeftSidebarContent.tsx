@@ -150,7 +150,9 @@ const LeftSidebarContent = React.forwardRef<HTMLElement, SidebarProps>(
     };
 
     const renderItemRef =
-      React.useRef<(item: SidebarItem) => React.ReactNode>();
+      React.useRef<(item: SidebarItem) => React.ReactNode | undefined>(
+        undefined
+      );
 
     const renderItem = React.useCallback(
       (item: SidebarItem) => {
@@ -328,7 +330,7 @@ const LeftSidebarContent = React.forwardRef<HTMLElement, SidebarProps>(
                           icon={item.icon}
                           width={24}
                         />
-                        <span className="font-medium text-default-500 text-small group-data-[selected=true]:text-foreground">
+                        <span className="text-default-500 text-small group-data-[selected=true]:text-foreground font-medium">
                           {item.title}
                         </span>
                       </div>

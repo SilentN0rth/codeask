@@ -29,7 +29,7 @@ const PageTitle = ({
   const baseClasses =
     'relative pl-3 text-3xl font-semibold before:absolute before:inset-0 before:h-full before:w-0.5 before:bg-cCta-500 before:content-[""] place-self-center';
 
-  const Component = as as keyof JSX.IntrinsicElements;
+  const Component = as as keyof React.JSX.IntrinsicElements;
 
   return (
     <div className={`flex items-start gap-3 ${parentClasses ?? ''} `}>
@@ -37,9 +37,9 @@ const PageTitle = ({
         <div className={`${innerClasses ?? ''} `}>
           {icon && (
             <div
-              className={`place-self-start rounded-lg bg-cCta-500/20 p-2 ${iconClasses}`}
+              className={`bg-cCta-500/20 place-self-start rounded-lg p-2 ${iconClasses}`}
             >
-              <SvgIcon icon={icon} className="text-lg text-cCta-500" />
+              <SvgIcon icon={icon} className="text-cCta-500 text-lg" />
             </div>
           )}
           <Component className={`${baseClasses} ${className ?? ''}`}>
@@ -47,7 +47,7 @@ const PageTitle = ({
           </Component>
         </div>
         {description && (
-          <p className="mt-1 text-sm text-cMuted-500">{description}</p>
+          <p className="text-cMuted-500 mt-1 text-sm">{description}</p>
         )}
       </div>
       {children && children}
