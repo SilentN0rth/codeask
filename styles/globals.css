@@ -1,7 +1,6 @@
 @import url('tinymce.css');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@config "../tailwind.config.ts";
 
 /* Critical CSS - Above the fold styles */
 @layer base {
@@ -21,35 +20,33 @@
 }
 /* END OF CRITICAL CSS */
 
-:root {
-  --cCta-100: 219, 234, 254;
-  --cCta-300: 147, 197, 253;
-  --cCta-500: 37, 99, 235;
-  /* --cCta-500: 59, 130, 246; */
+@theme {
+  --color-cCta-100: rgb(219 234 254);
+  --color-cCta-300: rgb(147 197 253);
+  --color-cCta-500: rgb(37 99 235);
+  --color-cCta-700: rgb(29 78 216);
+  --color-cCta-900: rgb(30 64 175);
 
-  --cCta-700: 29, 78, 216;
-  --cCta-900: 30, 64, 175;
+  --color-cMuted-300: rgb(209 213 219);
+  --color-cMuted-500: rgb(156 163 175);
+  --color-cMuted-700: rgb(75 85 99);
 
-  --cMuted-300: 209, 213, 219;
-  --cMuted-500: 156, 163, 175;
-  --cMuted-700: 75, 85, 99;
+  --color-cBgLight-50: rgb(249 250 251);
+  --color-cBgLight-100: rgb(255 255 255);
 
-  --cBgLight-50: 249, 250, 251;
-  --cBgLight-100: 255, 255, 255;
+  --color-cBgDark-700: rgb(21 24 26);
+  --color-cBgDark-800: rgb(15 17 19);
+  --color-cBgDark-900: rgb(12 13 15);
 
-  --cBgDark-700: 21, 24, 26;
-  --cBgDark-800: 15, 17, 19;
-  --cBgDark-900: 12, 13, 15;
+  --color-cTextLight-900: rgb(0 0 0);
 
-  --cTextLight-900: 0, 0, 0;
+  --color-cTextDark-100: rgb(243 244 246);
 
-  --cTextDark-100: 243, 244, 246;
+  --color-cStatusGreen-500: rgb(16 185 129);
 
-  --cStatusGreen-500: 16, 185, 129;
+  --color-cStatusRed-500: rgb(239 68 68);
 
-  --cStatusRed-500: 239, 68, 68;
-
-  --cStatusYellow-400: 251, 191, 36;
+  --color-cStatusYellow-400: rgb(251 191 36);
 }
 
 @layer base {
@@ -107,7 +104,7 @@
   }
 
   .sidebar {
-    @apply sticky left-0 top-0 hidden h-screen flex-col justify-between overflow-y-auto p-6 pb-14 pt-[120px] sm:flex;
+    @apply sticky top-0 left-0 hidden h-screen flex-col justify-between overflow-y-auto p-6 pt-[120px] pb-14 sm:flex;
   }
 
   .sidebar-compact-headings {

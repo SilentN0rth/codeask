@@ -19,40 +19,40 @@ const config: Config = {
       },
       colors: {
         cCta: {
-          100: 'rgba(var(--cCta-100), 1)',
-          300: 'rgba(var(--cCta-300), 1)',
-          500: 'rgba(var(--cCta-500), 1)',
-          700: 'rgba(var(--cCta-700), 1)',
-          900: 'rgba(var(--cCta-900), 1)',
+          100: 'var(--color-cCta-100)',
+          300: 'var(--color-cCta-300)',
+          500: 'var(--color-cCta-500)',
+          700: 'var(--color-cCta-700)',
+          900: 'var(--color-cCta-900)',
         },
         cMuted: {
-          300: 'rgba(var(--cMuted-300), 1)',
-          500: 'rgba(var(--cMuted-500), 1)',
-          700: 'rgba(var(--cMuted-700), 1)',
+          300: 'var(--color-cMuted-300)',
+          500: 'var(--color-cMuted-500)',
+          700: 'var(--color-cMuted-700)',
         },
         cBgLight: {
-          50: 'rgba(var(--cBgLight-50), 1)',
-          100: 'rgba(var(--cBgLight-100), 1)',
+          50: 'var(--color-cBgLight-50)',
+          100: 'var(--color-cBgLight-100)',
         },
         cBgDark: {
-          700: 'rgba(var(--cBgDark-700), 1)',
-          800: 'rgba(var(--cBgDark-800), 1)',
-          900: 'rgba(var(--cBgDark-900), 1)',
+          700: 'var(--color-cBgDark-700)',
+          800: 'var(--color-cBgDark-800)',
+          900: 'var(--color-cBgDark-900)',
         },
         cTextLight: {
-          900: 'rgba(var(--cTextLight-900), 1)',
+          900: 'var(--color-cTextLight-900)',
         },
         cTextDark: {
-          100: 'rgba(var(--cTextDark-100), 1)',
+          100: 'var(--color-cTextDark-100)',
         },
         cStatusGreen: {
-          500: 'rgba(var(--cStatusGreen-500), 1)',
+          500: 'var(--color-cStatusGreen-500)',
         },
         cStatusRed: {
-          500: 'rgba(var(--cStatusRed-500), 1)',
+          500: 'var(--color-cStatusRed-500)',
         },
         cStatusYellow: {
-          400: 'rgba(var(--cStatusYellow-400), 1)',
+          400: 'var(--color-cStatusYellow-400)',
         },
       },
     },
