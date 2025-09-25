@@ -3,10 +3,10 @@
 import { UserInterface } from '@/types/users.types';
 import { useState, useEffect } from 'react';
 import { useAuthContext } from 'context/useAuthContext';
-import { getFollowersUsers } from '/Users/maksymilian/Documents/GitHub/codeask/supabase/services/client/follow';
 import Loading from '@/components/ui/Loading';
 import NoResults from '@/components/ui/effects/NoResults';
 import UsersGrid from './UsersGrid';
+import { getFollowersUsers } from '@/services/client';
 
 interface FollowingTabProps {
   search?: string;
