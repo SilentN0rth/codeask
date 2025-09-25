@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable no-empty */
 /* eslint-disable no-console */
+/* eslint-disable quotes */
 import hljs from 'highlight.js';
 
 // Załaduj potrzebne języki
@@ -32,7 +33,7 @@ function unescapeHtml(code: string): string {
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, "'")
+    .replace(/&quot;/g, '"')
     .replace(/&#x27;/g, "'")
     .replace(/&#x2F;/g, '/');
 }
