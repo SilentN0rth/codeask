@@ -175,6 +175,70 @@ export default function App({
           height: 400,
           file_picker_types: 'image',
           content_style: contentStyle,
+          codesample_languages: [
+            { text: 'HTML/XML', value: 'markup' },
+            { text: 'JavaScript', value: 'javascript' },
+            { text: 'TypeScript', value: 'typescript' },
+            { text: 'CSS', value: 'css' },
+            { text: 'Python', value: 'python' },
+            { text: 'Java', value: 'java' },
+            { text: 'C++', value: 'cpp' },
+            { text: 'C', value: 'c' },
+            { text: 'PHP', value: 'php' },
+            { text: 'Ruby', value: 'ruby' },
+            { text: 'Go', value: 'go' },
+            { text: 'Rust', value: 'rust' },
+            { text: 'SQL', value: 'sql' },
+            { text: 'JSON', value: 'json' },
+            { text: 'YAML', value: 'yaml' },
+            { text: 'Bash', value: 'bash' },
+            { text: 'Markdown', value: 'markdown' },
+          ],
+          codesample_global_prismjs: true,
+          codesample_dialog_width: 600,
+          codesample_dialog_height: 400,
+          setup: (editor) => {
+            editor.on('GetContent', (e) => {
+              if (
+                e.content &&
+                typeof window !== 'undefined' &&
+                (window as { Prism?: unknown }).Prism
+              ) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = e.content;
+                const preElements = tempDiv.querySelectorAll(
+                  'pre[class*="language-"]'
+                );
+
+                preElements.forEach((pre) => {
+                  const code = pre.querySelector('code');
+                  if (code && !code.querySelector('.token')) {
+                    const language = pre.className.replace('language-', '');
+                    const prism = (
+                      window as {
+                        Prism: {
+                          highlight: (
+                            code: string,
+                            grammar: unknown,
+                            language: string
+                          ) => string;
+                          languages: Record<string, unknown>;
+                        };
+                      }
+                    ).Prism;
+                    const highlighted = prism.highlight(
+                      code.textContent ?? '',
+                      prism.languages[language] ?? prism.languages.markup,
+                      language
+                    );
+                    code.innerHTML = highlighted;
+                  }
+                });
+
+                e.content = tempDiv.innerHTML;
+              }
+            });
+          },
           style_formats: [
             {
               title: 'Headings',

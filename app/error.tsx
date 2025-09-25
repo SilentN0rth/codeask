@@ -15,10 +15,8 @@ const Error = ({
 }) => {
   return (
     <div className="relative h-full bg-cBgDark-900">
-      {/* Pełnoekranowa animacja satelity */}
       <Satellite404Animation />
 
-      {/* Tekst błędu - nałożony na animację */}
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
         <div className="mb-8 rounded-2xl bg-cBgDark-900/80 p-8 text-center">
           <h1 className="mb-4 text-8xl font-bold text-cTextDark-100">500</h1>
@@ -31,7 +29,6 @@ const Error = ({
           </p>
         </div>
 
-        {/* Przyciski nawigacyjne */}
         <div className="flex flex-col gap-4 sm:flex-row">
           <Button
             onPress={reset}
@@ -58,7 +55,6 @@ const Error = ({
           </Button>
         </div>
 
-        {/* Szczegóły błędu w trybie development */}
         {process.env.NODE_ENV === 'development' && (
           <div className="mt-8 max-w-2xl rounded-lg border border-warning-200 bg-warning-50/90 p-4 text-left backdrop-blur-sm">
             <h3 className="mb-2 text-sm font-semibold text-warning-800">
@@ -75,7 +71,6 @@ const Error = ({
           </div>
         )}
 
-        {/* Dodatkowe informacje */}
         <div className="mt-12 text-center">
           <p className="text-sm text-default-400">
             Jeśli problem się powtarza, skontaktuj się z pomocą techniczną.

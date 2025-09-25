@@ -3,6 +3,45 @@ import { QuestionCardProps } from '@/types/questions.types';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { supabase } from 'supabase/supabaseClient';
+import { generateUniqueSlugForUpdate } from '@/lib/utils/generateSlug';
+import { highlightCodeInHTML } from '@/lib/utils/codeHighlighter';
+
+// Funkcja do usuwania pustych tagów
+async function cleanupEmptyTags(supabase: any) {
+  try {
+    // Znajdź wszystkie tagi z question_count = 0
+    const { data: emptyTags, error: selectError } = await supabase
+      .from('tags')
+      .select('id, name')
+      .eq('question_count', 0);
+
+    if (selectError) {
+      console.error('Error selecting empty tags:', selectError);
+      return;
+    }
+
+    if (!emptyTags || emptyTags.length === 0) {
+      return; // Brak pustych tagów do usunięcia
+    }
+
+    // Usuń puste tagi
+    const { error: deleteError } = await supabase
+      .from('tags')
+      .delete()
+      .eq('question_count', 0);
+
+    if (deleteError) {
+      console.error('Error deleting empty tags:', deleteError);
+    } else {
+      console.log(
+        `Usunięto ${emptyTags.length} pustych tagów:`,
+        emptyTags.map((tag: any) => tag.name)
+      );
+    }
+  } catch (error) {
+    console.error('Error in cleanupEmptyTags:', error);
+  }
+}
 
 export async function checkSlugExistsForUpdate(
   slug: string,
@@ -758,6 +797,39 @@ export async function deleteQuestionAction(
       };
     }
 
+    // Pobierz tagi powiązane z pytaniem i zmniejsz ich liczniki
+    const { data: questionTags, error: tagsError } = await supabase
+      .from('question_tags')
+      .select('tag_id')
+      .eq('question_id', questionId);
+
+    if (tagsError) {
+      console.error('Error fetching question tags:', tagsError);
+      return {
+        success: false,
+        error: 'Nie udało się pobrać tagów pytania',
+      };
+    }
+
+    // Zmniejsz liczniki dla wszystkich tagów
+    if (questionTags && questionTags.length > 0) {
+      for (const tagRelation of questionTags) {
+        const { data: tagData, error: tagError } = await supabase
+          .from('tags')
+          .select('question_count')
+          .eq('id', tagRelation.tag_id)
+          .single();
+
+        if (tagError) continue;
+
+        const newCount = Math.max(0, (tagData.question_count || 0) - 1);
+        await supabase
+          .from('tags')
+          .update({ question_count: newCount })
+          .eq('id', tagRelation.tag_id);
+      }
+    }
+
     // Usuń pytanie (cascade usunie powiązane rekordy)
     const { error: deleteError } = await supabase
       .from('questions')
@@ -771,6 +843,9 @@ export async function deleteQuestionAction(
         error: 'Wystąpił błąd podczas usuwania pytania',
       };
     }
+
+    // Wyczyść puste tagi po usunięciu pytania
+    await cleanupEmptyTags(supabase);
 
     return { success: true };
   } catch (error) {
@@ -1108,6 +1183,226 @@ export async function voteQuestion({
   } catch (error) {
     console.error('voteQuestion exception:', error);
     return { success: false, error: 'Wystąpił nieoczekiwany błąd' };
+  }
+}
+
+export async function updateQuestion({
+  id,
+  title,
+  content,
+  short_content,
+  tags,
+  authorId,
+}: {
+  id: string;
+  title: string;
+  content: string;
+  short_content: string;
+  tags: string[];
+  authorId: string;
+}): Promise<{ success: boolean; questionSlug?: string; error?: string }> {
+  const supabase = createServerComponentClient({ cookies });
+
+  try {
+    // Sprawdź czy pytanie istnieje i czy użytkownik ma uprawnienia
+    const { data: questionCheck, error: checkError } = await supabase
+      .from('questions')
+      .select('status, author_id')
+      .eq('id', id)
+      .single();
+
+    if (checkError) {
+      console.error('Error checking question:', checkError);
+      return {
+        success: false,
+        error: 'Nie udało się sprawdzić statusu pytania',
+      };
+    }
+
+    if (questionCheck.status === 'archived') {
+      return {
+        success: false,
+        error: 'Zarchiwizowanych pytań nie można edytować',
+      };
+    }
+
+    if (questionCheck.status === 'closed') {
+      return { success: false, error: 'Zamkniętych pytań nie można edytować' };
+    }
+
+    if (questionCheck.author_id !== authorId) {
+      return {
+        success: false,
+        error: 'Nie masz uprawnień do edycji tego pytania',
+      };
+    }
+
+    // Generuj unikalny slug
+    let questionSlug: string;
+    try {
+      questionSlug = await generateUniqueSlugForUpdate(
+        title,
+        id,
+        checkSlugExistsForUpdate
+      );
+    } catch (slugError) {
+      console.error('Error generating slug:', slugError);
+      return {
+        success: false,
+        error: 'Nie udało się wygenerować unikalnego adresu pytania',
+      };
+    }
+
+    // Styluj kod w treści przed zapisaniem
+    const highlightedContent = await highlightCodeInHTML(content);
+
+    // Aktualizuj pytanie
+    const { error: questionError } = await supabase
+      .from('questions')
+      .update({
+        title,
+        content: highlightedContent,
+        short_content,
+        question_slug: questionSlug,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id);
+
+    if (questionError) {
+      console.error('Error updating question:', questionError);
+      return { success: false, error: 'Nie udało się zaktualizować pytania' };
+    }
+
+    // Pobierz aktualne tagi
+    const { data: currentTags, error: currentTagsError } = await supabase
+      .from('question_tags')
+      .select('tag_id')
+      .eq('question_id', id);
+
+    if (currentTagsError) {
+      console.error('Error fetching current tags:', currentTagsError);
+      return { success: false, error: 'Nie udało się pobrać aktualnych tagów' };
+    }
+
+    // Usuń wszystkie istniejące powiązania z tagami
+    const { error: deleteTagsError } = await supabase
+      .from('question_tags')
+      .delete()
+      .eq('question_id', id);
+
+    if (deleteTagsError) {
+      console.error('Error deleting tags:', deleteTagsError);
+      return { success: false, error: 'Nie udało się usunąć starych tagów' };
+    }
+
+    // Zmniejsz liczniki dla usuniętych tagów
+    const currentTagIds = currentTags?.map((tag) => tag.tag_id) || [];
+    for (const tagId of currentTagIds) {
+      const { data: tagData, error: tagError } = await supabase
+        .from('tags')
+        .select('question_count')
+        .eq('id', tagId)
+        .single();
+
+      if (tagError) continue;
+
+      const newCount = Math.max(0, (tagData.question_count || 0) - 1);
+      await supabase
+        .from('tags')
+        .update({ question_count: newCount })
+        .eq('id', tagId);
+    }
+
+    // Dodaj nowe tagi
+    const tagIds: string[] = [];
+
+    for (const tagName of tags) {
+      const trimmed = tagName.trim().toLowerCase();
+
+      const { data: existingTag, error: tagSelectError } = await supabase
+        .from('tags')
+        .select('id, question_count')
+        .eq('name', trimmed)
+        .single();
+
+      if (tagSelectError && tagSelectError.code !== 'PGRST116') {
+        console.error('Error selecting tag:', tagSelectError);
+        return { success: false, error: 'Nie udało się sprawdzić tagu' };
+      }
+
+      let tagId: string;
+
+      if (existingTag) {
+        tagId = existingTag.id;
+
+        const wasAlreadyAssigned = currentTagIds.includes(tagId);
+
+        if (!wasAlreadyAssigned) {
+          await supabase
+            .from('tags')
+            .update({ question_count: existingTag.question_count + 1 })
+            .eq('id', tagId);
+        }
+      } else {
+        const { data: newTag, error: tagInsertError } = await supabase
+          .from('tags')
+          .insert([{ name: trimmed, question_count: 1 }])
+          .select()
+          .single();
+
+        if (tagInsertError) {
+          console.error('Error inserting tag:', tagInsertError);
+          return {
+            success: false,
+            error: 'Nie udało się utworzyć nowego tagu',
+          };
+        }
+
+        tagId = newTag.id;
+      }
+
+      tagIds.push(tagId);
+    }
+
+    // Utwórz powiązania między pytaniem a tagami
+    const tagLinks = tagIds.map((tagId) => ({
+      question_id: id,
+      tag_id: tagId,
+    }));
+
+    const { error: linkError } = await supabase
+      .from('question_tags')
+      .insert(tagLinks);
+
+    if (linkError) {
+      console.error('Error linking tags:', linkError);
+      return {
+        success: false,
+        error: 'Nie udało się powiązać tagów z pytaniem',
+      };
+    }
+
+    // Dodaj aktywność
+    try {
+      const { createActivity } = await import('@/services/server/activity');
+      await createActivity({
+        user_id: authorId,
+        type: 'question',
+        description: `Zaktualizował pytanie: "${title}"`,
+        timestamp: new Date().toISOString(),
+      });
+    } catch (activityError) {
+      console.error('Błąd dodawania aktywności:', activityError);
+      // Nie przerywamy procesu jeśli aktywność się nie uda
+    }
+
+    // Wyczyść puste tagi po aktualizacji
+    await cleanupEmptyTags(supabase);
+
+    return { success: true, questionSlug };
+  } catch (error) {
+    console.error('Update question error:', error);
+    return { success: false, error: 'Wystąpił błąd serwera' };
   }
 }
 

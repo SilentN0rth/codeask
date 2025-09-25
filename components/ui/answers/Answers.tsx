@@ -32,7 +32,7 @@ const DynamicEditor = dynamic(() => import('@/components/TinyMCE/Editor'), {
   ),
 });
 
-const ANSWERS_PER_PAGE = 20; // Optymalna ilość dla UX i wydajności
+const ANSWERS_PER_PAGE = 20;
 
 export default function Answers({
   question,
@@ -68,6 +68,12 @@ export default function Answers({
     setEditingAnswerId(answerToEdit.id);
     setContent(answerToEdit.content as string);
     setIsAddingAnswer(false);
+    setError(false);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingAnswerId(null);
+    setContent('');
     setError(false);
   };
 
@@ -277,7 +283,7 @@ export default function Answers({
           <div
             key={answer.id}
             data-error={error}
-            className="rounded-xl bg-cBgDark-800 p-4"
+            className="bg-cBgDark-800 rounded-xl p-4"
           >
             <DynamicEditor
               key={editingAnswerId} // <--- wymusza re-mount edytora przy zmianie edytowanej odpowiedzi
@@ -287,7 +293,7 @@ export default function Answers({
               isSubmitting={isSubmitting && editingAnswerId === answer.id}
             />
             {error && (
-              <div className="p-1 font-light text-danger text-tiny">
+              <div className="text-danger text-tiny p-1 font-light">
                 Treść odpowiedzi jest wymagana
               </div>
             )}
@@ -300,7 +306,7 @@ export default function Answers({
                 Zapisz zmiany
               </Button>
               <Button
-                onPress={() => void handleAddAnswer()}
+                onPress={() => void handleCancelEdit()}
                 variant="light"
                 isDisabled={isSubmitting}
               >
@@ -343,25 +349,22 @@ export default function Answers({
               isSubmitting={isSubmitting}
             />
             {error && (
-              <div className="p-1 font-light text-danger text-tiny">
+              <div className="text-danger text-tiny p-1 font-light">
                 Treść odpowiedzi jest wymagana
               </div>
             )}
           </div>
         )}
 
-      {question.status === 'opened' && (
+      {question.status === 'opened' && !editingAnswerId && (
         <Button
           onPress={() => {
-            // Sprawdź autoryzację tylko gdy użytkownik chce rozpocząć dodawanie odpowiedzi
-            if (!editingAnswerId && !isAddingAnswer && !user) {
+            if (!isAddingAnswer && !user) {
               showLoginRequiredToast({ action: 'dodać odpowiedź' });
               return;
             }
 
-            if (editingAnswerId) {
-              void handleAddAnswer();
-            } else if (isAddingAnswer) {
+            if (isAddingAnswer) {
               void handleAddAnswer();
             } else {
               setIsAddingAnswer(true);
@@ -369,14 +372,10 @@ export default function Answers({
               setError(false);
             }
           }}
-          className="w-fit bg-cCta-500 hover:bg-cCta-700"
+          className="bg-cCta-500 hover:bg-cCta-700 w-fit"
           isDisabled={isSubmitting}
         >
-          {editingAnswerId
-            ? 'Zapisz zmiany'
-            : isAddingAnswer
-              ? 'Dodaj odpowiedź'
-              : 'Odpowiedz'}
+          {isAddingAnswer ? 'Dodaj odpowiedź' : 'Odpowiedz'}
         </Button>
       )}
 
@@ -407,7 +406,7 @@ export default function Answers({
                 <button
                   onClick={() => void handleUnarchiveQuestion()}
                   disabled={isUnarchiving}
-                  className="inline w-fit items-center text-cCta-500 underline decoration-cCta-500/30 transition-colors hover:text-cCta-700 hover:decoration-cCta-500 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="text-cCta-500 decoration-cCta-500/30 hover:text-cCta-700 hover:decoration-cCta-500 inline w-fit items-center underline transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Cofnij archiwizację
                 </button>
@@ -417,7 +416,7 @@ export default function Answers({
               <button
                 onClick={() => void handleReopenQuestion()}
                 disabled={isReopening}
-                className="inline w-fit items-center text-cCta-500 underline decoration-cCta-500/30 transition-colors hover:text-cCta-700 hover:decoration-cCta-500 disabled:cursor-not-allowed disabled:opacity-50"
+                className="text-cCta-500 decoration-cCta-500/30 hover:text-cCta-700 hover:decoration-cCta-500 inline w-fit items-center underline transition-colors disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Ponownie otwórz pytanie
               </button>

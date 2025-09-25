@@ -4,7 +4,9 @@ import { ReactNode, Suspense } from 'react';
 import { Inter } from 'next/font/google';
 import dynamicImport from 'next/dynamic';
 import '@/styles/globals.css';
+import '@/styles/tinymce.css';
 import Navbar from '@/components/layout/Navbar/Navbar';
+import Head from 'next/head';
 import { SidebarProvider } from 'context/LeftSidebarContext';
 import LeftSidebar from '@/components/layout/Sidebar/LeftSidebar';
 import { AuthProvider } from 'context/useAuthContext';
@@ -16,7 +18,7 @@ import GlobalLoadingWrapper from '@/components/layout/GlobalLoadingWrapper';
 const RightSidebar = dynamicImport(
   () => import('@/components/layout/Sidebar/RightSidebar'),
   {
-    loading: () => <div className="w-64 animate-pulse bg-cBgDark-800" />,
+    loading: () => <div className="bg-cBgDark-800 w-64 animate-pulse" />,
   }
 );
 
@@ -67,6 +69,16 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className="dark">
+      <Head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.tiny.cloud/1/9vuhbur4xx3z8mk5q8q8q8q8q8q8q8q/ui/oxide-dark/content.min.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/shiki@latest/dist/themes/github-dark.css"
+        />
+      </Head>
       <body
         className={`${inter.variable} ${inter.className} flex flex-col font-sans`}
       >
@@ -80,12 +92,12 @@ export default async function RootLayout({
                   <aside>
                     <LeftSidebar topUsers={topUsers} />
                   </aside>
-                  <main className="min-h-svh w-full flex-1 px-6 pb-16 pt-[120px] text-cTextDark-100">
+                  <main className="text-cTextDark-100 min-h-svh w-full flex-1 px-6 pt-[120px] pb-16">
                     {children}
                   </main>
                   <Suspense
                     fallback={
-                      <div className="w-64 animate-pulse bg-cBgDark-800" />
+                      <div className="bg-cBgDark-800 w-64 animate-pulse" />
                     }
                   >
                     <RightSidebar questions={questions} tags={tags} />

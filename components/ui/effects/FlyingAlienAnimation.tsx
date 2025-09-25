@@ -29,7 +29,6 @@ const Satellite404Animation = () => {
         animate="floating"
         style={{ marginRight: '200px' }} // Przesunięcie satelity w prawo
       >
-        {/* --- Satelita --- */}
         <rect
           x="50"
           y="60"
@@ -70,7 +69,6 @@ const Satellite404Animation = () => {
           strokeLinecap="round"
         />
 
-        {/* --- Fale sygnału (rozchodzące się okręgi) --- */}
         {Array.from({ length: 3 }, (_, i) => (
           <MotionCircle
             key={`satellite-signal-${i + 1}`}

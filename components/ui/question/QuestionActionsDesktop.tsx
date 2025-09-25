@@ -152,7 +152,7 @@ const QuestionActionsDesktop: React.FC<QuestionActionsDesktopProps> = ({
             size="sm"
             variant="light"
             onPress={handleCloseQuestion}
-            className="text-gray-500 hover:text-red-400"
+            className="text-default-500 hover:text-red-400"
           >
             <SvgIcon icon="mdi:lock" className="text-xl" />
           </Button>

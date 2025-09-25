@@ -81,7 +81,7 @@ const EditProfileForm = forwardRef<EditProfileFormRef, Props>(
     });
 
     return (
-      <Card className="col-span-full w-full border border-divider bg-cBgDark-800 p-6 pb-5 pt-4 shadow-none xl:col-span-1">
+      <Card className="border-divider bg-cBgDark-800 col-span-full w-full border p-6 pt-4 pb-5 shadow-none xl:col-span-1">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -101,6 +101,7 @@ const EditProfileForm = forwardRef<EditProfileFormRef, Props>(
                   className="col-span-2 xl:col-span-full 2xl:col-span-2"
                   classNames={{
                     inputWrapper: 'bg-cBgDark-700 border border-divider ',
+                    input: 'max-md:text-base',
                   }}
                 />
               )}
@@ -117,6 +118,7 @@ const EditProfileForm = forwardRef<EditProfileFormRef, Props>(
                   errorMessage={errors.username?.message}
                   classNames={{
                     inputWrapper: 'bg-cBgDark-700 border border-divider ',
+                    input: 'max-md:text-base',
                   }}
                 />
               )}
@@ -134,6 +136,7 @@ const EditProfileForm = forwardRef<EditProfileFormRef, Props>(
                   errorMessage={errors.avatar_url?.message}
                   classNames={{
                     inputWrapper: 'bg-cBgDark-700 border border-divider',
+                    input: 'max-md:text-base',
                   }}
                 />
               )}
@@ -152,6 +155,7 @@ const EditProfileForm = forwardRef<EditProfileFormRef, Props>(
                   errorMessage={errors.background_url?.message}
                   classNames={{
                     inputWrapper: 'bg-cBgDark-700 border border-divider',
+                    input: 'max-md:text-base',
                   }}
                 />
               )}
@@ -185,6 +189,7 @@ const EditProfileForm = forwardRef<EditProfileFormRef, Props>(
                   errorMessage={errors.location?.message}
                   classNames={{
                     inputWrapper: 'bg-cBgDark-700 border border-divider',
+                    input: 'max-md:text-base',
                   }}
                 />
               )}
@@ -202,6 +207,7 @@ const EditProfileForm = forwardRef<EditProfileFormRef, Props>(
                   className="col-span-2 xl:col-span-full 2xl:col-span-2"
                   classNames={{
                     inputWrapper: 'bg-cBgDark-700 border border-divider',
+                    input: 'max-md:text-base',
                   }}
                 />
               )}
@@ -236,6 +242,7 @@ const EditProfileForm = forwardRef<EditProfileFormRef, Props>(
                   errorMessage={errors.twitter_url?.message}
                   classNames={{
                     inputWrapper: 'bg-cBgDark-700 border border-divider',
+                    input: 'max-md:text-base',
                   }}
                 />
               )}
@@ -253,11 +260,12 @@ const EditProfileForm = forwardRef<EditProfileFormRef, Props>(
                   errorMessage={errors.github_url?.message}
                   classNames={{
                     inputWrapper: 'bg-cBgDark-700 border border-divider',
+                    input: 'max-md:text-base',
                   }}
                 />
               )}
             />
-            <div className="row-[6/9] hidden items-center justify-center rounded-lg bg-cBgDark-700 p-4 text-6xl md:flex xl:hidden 2xl:flex">
+            <div className="bg-cBgDark-700 row-[6/9] hidden items-center justify-center rounded-lg p-4 text-6xl md:flex xl:hidden 2xl:flex">
               <SvgIcon icon="line-md:link" />
             </div>
             {serverError && (

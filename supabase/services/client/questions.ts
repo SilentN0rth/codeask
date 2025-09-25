@@ -12,6 +12,7 @@ import { createActivity } from '@/services/server/activity';
 import { checkAndAwardBadges } from '@/services/server/badges';
 import { updateUserReputation } from '@/services/server/users';
 import { QuestionCardProps } from '@/types/questions.types';
+import { highlightCodeInHTML } from '@/lib/utils/codeHighlighter';
 
 type CreateQuestionProps = {
   title: string;
@@ -28,6 +29,9 @@ export async function createQuestion({
   tags,
   authorId,
 }: CreateQuestionProps) {
+  // Styluj kod w treści przed zapisaniem
+  const highlightedContent = await highlightCodeInHTML(content);
+
   // Generuj unikalny slug
   const questionSlug = await generateUniqueSlug(title, checkSlugExists);
 
@@ -36,7 +40,7 @@ export async function createQuestion({
     .insert([
       {
         title,
-        content,
+        content: highlightedContent,
         short_content,
         author_id: authorId,
         question_slug: questionSlug,
@@ -261,148 +265,25 @@ export async function updateQuestion({
   tags,
   authorId,
 }: UpdateQuestionProps) {
-  const { data: questionCheck, error: checkError } = await supabase
-    .from('questions')
-    .select('status, author_id')
-    .eq('id', id)
-    .single();
-
-  if (checkError) {
-    throw new Error('Nie udało się sprawdzić statusu pytania');
-  }
-
-  if (questionCheck.status === 'archived') {
-    throw new Error('Zarchiwizowanych pytań nie można edytować');
-  }
-
-  if (questionCheck.status === 'closed') {
-    throw new Error('Zamkniętych pytań nie można edytować');
-  }
-
-  if (questionCheck.author_id !== authorId) {
-    throw new Error('Nie masz uprawnień do edycji tego pytania');
-  }
-
-  const questionSlug = await generateUniqueSlugForUpdate(
-    title,
-    id,
-    checkSlugExistsForUpdate
-  );
-
-  const { error: questionError } = await supabase
-    .from('questions')
-    .update({
-      title,
-      content,
-      short_content,
-      question_slug: questionSlug,
-      updated_at: new Date().toISOString(),
-    })
-    .eq('id', id);
-
-  if (questionError) throw questionError;
-
-  const { data: currentTags, error: currentTagsError } = await supabase
-    .from('question_tags')
-    .select('tag_id')
-    .eq('question_id', id);
-
-  if (currentTagsError) throw currentTagsError;
-
-  // 5. Usuń wszystkie istniejące powiązania z tagami
-  const { error: deleteTagsError } = await supabase
-    .from('question_tags')
-    .delete()
-    .eq('question_id', id);
-
-  if (deleteTagsError) throw deleteTagsError;
-
-  // 6. Zmniejsz liczniki dla usuniętych tagów
-  const currentTagIds = currentTags?.map((tag) => tag.tag_id) || [];
-  for (const tagId of currentTagIds) {
-    const { data: tagData, error: tagError } = await supabase
-      .from('tags')
-      .select('question_count')
-      .eq('id', tagId)
-      .single();
-
-    if (tagError) continue;
-
-    const newCount = Math.max(0, (tagData.question_count || 0) - 1);
-    await supabase
-      .from('tags')
-      .update({ question_count: newCount })
-      .eq('id', tagId);
-  }
-  const tagIds: string[] = [];
-
-  for (const tagName of tags) {
-    const trimmed = tagName.trim().toLowerCase();
-
-    const { data: existingTag, error: tagSelectError } = await supabase
-      .from('tags')
-      .select('id, question_count')
-      .eq('name', trimmed)
-      .single();
-
-    if (tagSelectError && tagSelectError.code !== 'PGRST116')
-      throw tagSelectError;
-
-    let tagId: string;
-
-    if (existingTag) {
-      tagId = existingTag.id;
-
-      const wasAlreadyAssigned = currentTagIds.includes(tagId);
-
-
-      if (!wasAlreadyAssigned) {
-        await supabase
-          .from('tags')
-          .update({ question_count: existingTag.question_count + 1 })
-          .eq('id', tagId);
-      }
-    } else {
-
-      const { data: newTag, error: tagInsertError } = await supabase
-        .from('tags')
-        .insert([{ name: trimmed, question_count: 1 }])
-        .select()
-        .single();
-
-      if (tagInsertError) throw tagInsertError;
-
-      tagId = newTag.id;
-    }
-
-    tagIds.push(tagId);
-  }
-
-
-  const tagLinks = tagIds.map((tagId) => ({
-    question_id: id,
-    tag_id: tagId,
-  }));
-
-  const { error: linkError } = await supabase
-    .from('question_tags')
-    .insert(tagLinks);
-  if (linkError) throw linkError;
-
-
   try {
-    await createActivity({
-      user_id: authorId, // ID użytkownika który edytuje pytanie
-      type: 'question',
-      description: `Zaktualizował pytanie: "${title}"`,
-      timestamp: new Date().toISOString(),
+    // Styluj kod w treści przed zapisaniem
+    const highlightedContent = await highlightCodeInHTML(content);
+
+    const { updateQuestion: serverUpdateQuestion } = await import(
+      '@/services/server/questions'
+    );
+    return await serverUpdateQuestion({
+      id,
+      title,
+      content: highlightedContent,
+      short_content,
+      tags,
+      authorId,
     });
-  } catch (activityError) {
-    console.error('Błąd dodawania aktywności:', activityError);
-
+  } catch (error) {
+    console.error('Update question error:', error);
+    throw new Error('Nie udało się zaktualizować pytania');
   }
-
-  return { success: true, questionSlug };
 }
 
 export async function archiveQuestion(
@@ -410,7 +291,6 @@ export async function archiveQuestion(
   userId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-
     const { data: userData, error: userError } = await supabase
       .from('users')
       .select('is_moderator')
@@ -454,7 +334,6 @@ export async function unarchiveQuestion(
   userId: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-
     const { data: userData, error: userError } = await supabase
       .from('users')
       .select('is_moderator')
@@ -547,11 +426,9 @@ export async function deleteQuestion(
       return { success: false, error: 'Użytkownik nie jest zalogowany' };
     }
 
-
     const { deleteQuestionAction } = await import(
       '@/services/server/questions'
     );
-
 
     const result = await deleteQuestionAction(questionId, user.id);
 
@@ -561,7 +438,6 @@ export async function deleteQuestion(
     return { success: false, error: 'Wystąpił nieoczekiwany błąd' };
   }
 }
-
 
 import { VoteType } from '@/types/vote.types';
 
@@ -590,7 +466,6 @@ export async function voteQuestion({
       return { success: false, error: 'Użytkownik nie jest zalogowany' };
     }
 
-
     const { data: existingVote, error: fetchError } = await supabase
       .from('question_votes')
       .select('vote_type')
@@ -604,7 +479,6 @@ export async function voteQuestion({
     }
 
     const currentVote = existingVote?.vote_type;
-
 
     if (voteType === null) {
       if (currentVote) {
@@ -622,7 +496,6 @@ export async function voteQuestion({
         const updateField =
           currentVote === 'liked' ? 'likes_count' : 'unlikes_count';
 
-
         const { data: question, error: questionError } = await supabase
           .from('questions')
           .select(updateField)
@@ -637,7 +510,6 @@ export async function voteQuestion({
           return { success: false, error: questionError.message };
         }
 
-
         const { error: updateError } = await supabase
           .from('questions')
           .update({
@@ -651,9 +523,7 @@ export async function voteQuestion({
         }
       }
     } else {
-
       if (currentVote) {
-
         const { error: updateError } = await supabase
           .from('question_votes')
           .update({
@@ -668,13 +538,11 @@ export async function voteQuestion({
           return { success: false, error: updateError.message };
         }
 
-
         if (currentVote !== voteType) {
           const oldField =
             currentVote === 'liked' ? 'likes_count' : 'unlikes_count';
           const newField =
             voteType === 'liked' ? 'likes_count' : 'unlikes_count';
-
 
           const { data: question, error: questionError } = await supabase
             .from('questions')
@@ -689,7 +557,6 @@ export async function voteQuestion({
             );
             return { success: false, error: questionError.message };
           }
-
 
           const { error: updateCountsError } = await supabase
             .from('questions')
@@ -708,7 +575,6 @@ export async function voteQuestion({
           }
         }
       } else {
-
         const { error: insertError } = await supabase
           .from('question_votes')
           .insert({
@@ -724,10 +590,8 @@ export async function voteQuestion({
           return { success: false, error: insertError.message };
         }
 
-
         const updateField =
           voteType === 'liked' ? 'likes_count' : 'unlikes_count';
-
 
         const { data: question, error: questionError } = await supabase
           .from('questions')
@@ -743,7 +607,6 @@ export async function voteQuestion({
           return { success: false, error: questionError.message };
         }
 
-
         const { error: updateError } = await supabase
           .from('questions')
           .update({
@@ -758,7 +621,6 @@ export async function voteQuestion({
       }
     }
 
-
     const { data: question, error: questionError } = await supabase
       .from('questions')
       .select('likes_count, unlikes_count, author_id')
@@ -770,16 +632,13 @@ export async function voteQuestion({
       return { success: false, error: questionError.message };
     }
 
-
     try {
-
       const shouldCheckBadges = voteType === 'liked';
 
       if (shouldCheckBadges) {
         await checkAndAwardBadges(question.author_id, 'answer_liked');
         await checkAndAwardBadges(user.id, 'daily_active');
       }
-
 
       await createActivity({
         user_id: user.id,
@@ -789,9 +648,7 @@ export async function voteQuestion({
         timestamp: new Date().toISOString(),
       });
 
-
       await checkAndAwardBadges(user.id, 'daily_active');
-
 
       if (voteType === 'liked') {
         await updateUserReputation(question.author_id, 1);

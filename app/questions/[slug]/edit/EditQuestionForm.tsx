@@ -123,10 +123,16 @@ export default function EditQuestionForm({
       });
 
       if (result.success) {
-        router.push(`/questions/${result.questionSlug}`);
+        if (result.questionSlug) {
+          router.push(`/questions/${result.questionSlug}`);
+        } else {
+          // Fallback - użyj aktualnego slug-a jeśli nowy nie został wygenerowany
+          router.push(`/questions/${question.question_slug}`);
+        }
       } else {
         setServerError(
-          'Nie udało się zaktualizować pytania. Spróbuj ponownie.'
+          result.error ??
+            'Nie udało się zaktualizować pytania. Spróbuj ponownie.'
         );
       }
     } catch {
@@ -163,7 +169,10 @@ export default function EditQuestionForm({
 
       <motion.div {...formAnimation}>
         <Form
-          onSubmit={() => void onSubmit()}
+          onSubmit={(e) => {
+            e.preventDefault();
+            void onSubmit();
+          }}
           className="flex flex-col gap-y-3"
         >
           <QuestionTitleInput control={control} errors={errors} />
@@ -185,7 +194,7 @@ export default function EditQuestionForm({
           />
           <QuestionTagList tags={tags} removeTag={removeTag} />
           {serverError && (
-            <p className="mt-2 font-medium text-danger text-small">
+            <p className="text-danger text-small mt-2 font-medium">
               {serverError}
             </p>
           )}

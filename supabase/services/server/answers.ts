@@ -6,6 +6,7 @@ import { checkAndAwardBadges } from './badges';
 import { BADGE_DEFINITIONS } from '@/types/badges.types';
 import { updateUserReputation } from './users';
 import { VoteType } from '@/types/vote.types';
+import { highlightCodeInHTML } from '@/lib/utils/codeHighlighter';
 
 export interface VoteAnswerParams {
   answerId: string;
@@ -28,12 +29,20 @@ export async function addAnswer({
   questionId: string;
   authorId: string;
 }) {
+  // Sprawdź czy content nie jest pusty
+  if (!content || content.trim() === '') {
+    throw new Error('Treść odpowiedzi jest wymagana');
+  }
+
+  // Styluj kod w treści przed zapisaniem
+  const highlightedContent = await highlightCodeInHTML(content);
+
   // 1. Dodanie odpowiedzi
   const { data: answerData, error: answerError } = await supabase
     .from('answers')
     .insert([
       {
-        content,
+        content: highlightedContent,
         question_id: questionId,
         author_id: authorId,
         likes_count: 0,
@@ -170,6 +179,14 @@ export async function updateAnswer({
   id: string;
   content: string;
 }) {
+  // Sprawdź czy content nie jest pusty
+  if (!content || content.trim() === '') {
+    throw new Error('Treść odpowiedzi jest wymagana');
+  }
+
+  // Styluj kod w treści przed zapisaniem
+  const highlightedContent = await highlightCodeInHTML(content);
+
   // 1. Pobierz aktualną odpowiedź, by znać obecną wartość updates_count
   const { data: existingAnswer, error: fetchError } = await supabase
     .from('answers')
@@ -185,7 +202,7 @@ export async function updateAnswer({
   const { data: answerData, error: answerError } = await supabase
     .from('answers')
     .update({
-      content,
+      content: highlightedContent,
       updated_at: new Date(),
       updates_count: newUpdatesCount,
     })

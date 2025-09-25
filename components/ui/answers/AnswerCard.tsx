@@ -9,6 +9,8 @@ import { getUserById } from '@/services/client/users';
 import { UserInterface } from '@/types/users.types';
 import AnswerSkeleton from './AnswerSkeleton';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { useIsMobile } from '@/hooks/useWindowSize';
+import Link from 'next/link';
 
 import {
   Dropdown,
@@ -17,9 +19,9 @@ import {
   DropdownMenu,
   DropdownItem,
   addToast,
+  Avatar,
 } from '@heroui/react';
 import { SvgIcon } from '@/lib/utils/icons';
-import ReportButton from '../modals/ReportButton';
 
 const AnswerCard = ({
   answer,
@@ -38,6 +40,7 @@ const AnswerCard = ({
   const [loading, setLoading] = useState(!initialAuthor);
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchAuthor = async () => {
@@ -54,6 +57,7 @@ const AnswerCard = ({
 
     void fetchAuthor();
   }, [answer.author_id, author]);
+
   const handleCopyLink = () => {
     const url = new URL(pathname, window.location.origin);
 
@@ -74,16 +78,16 @@ const AnswerCard = ({
 
   return (
     <div
-      className="group relative w-full overflow-hidden rounded-xl border border-default-100 bg-cBgDark-800 p-4"
+      className="group border-default-100 bg-cBgDark-800 relative w-full overflow-hidden rounded-xl border p-4"
       id={`answer-${answer.id}`}
     >
-      <div className="absolute right-4 top-4">
+      <div className="absolute top-4 right-4">
         <Dropdown shadow="none">
           <DropdownTrigger>
             <Button isIconOnly size="sm" variant="light">
               <SvgIcon
                 icon="mdi:dots-vertical"
-                className="size-5 text-default-400"
+                className="text-default-400 size-5"
               />
             </Button>
           </DropdownTrigger>
@@ -116,7 +120,7 @@ const AnswerCard = ({
             <DropdownItem
               key="delete"
               startContent={
-                <SvgIcon icon="mdi:trash-can" className="size-4 text-danger" />
+                <SvgIcon icon="mdi:trash-can" className="text-danger size-4" />
               }
               className="text-danger"
               onClick={onDelete}
@@ -136,25 +140,54 @@ const AnswerCard = ({
         <AnswerSkeleton />
       ) : (
         <>
-          <UserPopover
-            author={author}
-            className="max-w-screen-xsm"
-            isAnswer
-            subText={
-              <>
-                Dodano odpowiedź: {getRelativeTimeFromNow(answer.created_at)}
-                &nbsp;
-                {answer.updated_at && (
-                  <span className="text-gray-600">(edytowano)</span>
-                )}
-              </>
-            }
-          />
+          {/* Na mobile: bezpośredni link do profilu, na desktop: UserPopover */}
+          {isMobile ? (
+            <Link
+              href={`/users/${author?.profile_slug}`}
+              className="hover:border-cCta-500 mb-3 flex items-center gap-3 border-l-3 border-transparent bg-transparent p-2 pl-0 text-left transition-all hover:pl-3"
+            >
+              <Avatar
+                size="sm"
+                src={author?.avatar_url}
+                name={author?.name}
+                alt="avatar"
+                showFallback
+                radius="full"
+              />
+              <div className="flex flex-col text-sm">
+                <span className="text-cTextDark-100 font-semibold">
+                  {author?.name}
+                </span>
+                <span className="text-default-400 text-xs">
+                  Dodano odpowiedź: {getRelativeTimeFromNow(answer.created_at)}
+                  &nbsp;
+                  {answer.updated_at && (
+                    <span className="text-gray-600">(edytowano)</span>
+                  )}
+                </span>
+              </div>
+            </Link>
+          ) : (
+            <UserPopover
+              author={author}
+              className="max-w-screen-xsm"
+              isAnswer
+              subText={
+                <>
+                  Dodano odpowiedź: {getRelativeTimeFromNow(answer.created_at)}
+                  &nbsp;
+                  {answer.updated_at && (
+                    <span className="text-gray-600">(edytowano)</span>
+                  )}
+                </>
+              }
+            />
+          )}
 
           <div
-            className="prose prose-sm prose-invert mb-4 max-w-none text-default-600"
+            className="html-content mb-4 max-w-none"
             // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: answer.content as string }}
+            dangerouslySetInnerHTML={{ __html: answer.content ?? '' }}
           />
 
           <div className="flex gap-2">
@@ -163,12 +196,11 @@ const AnswerCard = ({
               initialDislikes={answer.dislikes_count}
               answerId={answer.id}
             />
-            <ReportButton type="answer" targetId={answer.id} />
           </div>
         </>
       )}
       {answer.updated_at && (
-        <p className="-bottom-4 right-4 mt-2 place-self-end text-xs text-cMuted-500 transition-[bottom] group-hover:bottom-3 sm:absolute">
+        <p className="text-cMuted-500 right-4 -bottom-4 mt-2 place-self-end text-xs transition-[bottom] group-hover:bottom-3 sm:absolute">
           Edytowano:&nbsp;
           <span className="text-success-500">
             {getRelativeTimeFromNow(answer.updated_at)}

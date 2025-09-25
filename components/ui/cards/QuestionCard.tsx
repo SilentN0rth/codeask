@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 'use client';
 
 import { Card } from '@heroui/react';
@@ -39,7 +38,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         shadow="none"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="relative h-full justify-between overflow-hidden rounded-xl border border-divider bg-cBgDark-800 backdrop-blur-sm transition-all duration-300 hover:border-cCta-500/30 hover:bg-cBgDark-800/80 hover:shadow-lg hover:shadow-cCta-500/10"
+        className="border-divider bg-cBgDark-800 hover:border-cCta-500/30 hover:bg-cBgDark-800/80 hover:shadow-cCta-500/10 relative h-full justify-between overflow-hidden rounded-xl border backdrop-blur-sm transition-all duration-300 hover:shadow-lg"
       >
         {showAuthor && (
           <QuestionCardHeader

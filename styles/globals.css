@@ -97,6 +97,100 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  .html-content {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* TinyMCE content styles - let the theme handle code styling */
+
+  /* Code block styles with word wrapping */
+  .html-content pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+  }
+
+  .html-content pre code {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* Prism.js token styles for syntax highlighting */
+  .html-content .token.comment,
+  .html-content .token.prolog,
+  .html-content .token.doctype,
+  .html-content .token.cdata {
+    color: #6a9955;
+  }
+
+  .html-content .token.punctuation {
+    color: #d4d4d4;
+  }
+
+  .html-content .token.property,
+  .html-content .token.tag,
+  .html-content .token.boolean,
+  .html-content .token.number,
+  .html-content .token.constant,
+  .html-content .token.symbol,
+  .html-content .token.deleted,
+  .html-content .token.selector-tag {
+    color: #b5cea8;
+  }
+
+  .html-content .token.selector,
+  .html-content .token.attr-name,
+  .html-content .token.string,
+  .html-content .token.char,
+  .html-content .token.builtin,
+  .html-content .token.inserted {
+    color: #ce9178;
+  }
+
+  .html-content .token.operator,
+  .html-content .token.entity,
+  .html-content .token.url,
+  .html-content .language-css .token.string,
+  .html-content .style .token.string {
+    color: #d4d4d4;
+  }
+
+  .html-content .token.atrule,
+  .html-content .token.attr-value,
+  .html-content .token.keyword,
+  .html-content .token.attribute {
+    color: #569cd6;
+  }
+
+  .html-content .token.function,
+  .html-content .token.class-name {
+    color: #dcdcaa;
+  }
+
+  .html-content .token.regex,
+  .html-content .token.important,
+  .html-content .token.variable,
+  .html-content .token.literal {
+    color: #d16969;
+  }
+
+  .html-content .token.important,
+  .html-content .token.bold {
+    font-weight: bold;
+  }
+
+  .html-content .token.italic {
+    font-style: italic;
+  }
+
+  .html-content .token.entity {
+    cursor: help;
+  }
+
   .wrapper {
     max-width: 1500px;
     margin: 0 auto;

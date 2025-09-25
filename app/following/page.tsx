@@ -12,9 +12,8 @@ export default function Page() {
   const { user, loading } = useAuthRedirect();
   const params = useSearchParams();
   const [users, setUsers] = useState<UserInterface[]>([]);
-  const [followStatuses, setFollowStatuses] = useState<Record<string, boolean>>(
-    {}
-  );
+  const [followStatuses, setFollowStatuses] =
+    useState<Record<string, boolean>>();
   const [isLoading, setIsLoading] = useState(true);
 
   const searchParams = useMemo(() => {
@@ -51,7 +50,7 @@ export default function Page() {
       <div className="wrapper">
         <div className="flex min-h-[400px] items-center justify-center">
           <div className="text-center">
-            <div className="mx-auto mb-4 size-8 animate-spin rounded-full border-b-2 border-cCta-500" />
+            <div className="border-cCta-500 mx-auto mb-4 size-8 animate-spin rounded-full border-b-2" />
             <p className="text-cTextDark-100">Sprawdzanie autoryzacji...</p>
           </div>
         </div>
@@ -62,7 +61,7 @@ export default function Page() {
   return (
     <PageClient
       users={users}
-      followStatuses={followStatuses}
+      followStatuses={followStatuses ?? {}}
       isLoading={isLoading}
     />
   );
