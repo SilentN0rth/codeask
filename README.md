@@ -45,7 +45,7 @@ cd codeask
 2. **Zainstaluj i uruchom**
 
 ```bash
-npm install --legacy-peer-deps
+npm i
 npm run dev
 ```
 
@@ -57,14 +57,48 @@ http://localhost:3000
 
 ### 🔑 Dane testowe
 
-**Dla szybkiego testowania funkcjonalności:**
+**Dostępne konta do testowania:**
 
+#### 👤 Konto Demo
 ```
-📧 Email: test@codeask.com
-🔒 Hasło: test123456
+📧 Email: demo@codeask.com
+🔒 Hasło: demo123456
 ```
 
-> **💡 Wskazówka:** Po zalogowaniu możesz od razu testować wszystkie funkcje - zadawanie pytań, odpowiadanie, czat, system punktów.
+#### 👨‍💼 Konto Administratora
+```
+📧 Email: admin@codeask.com
+🔒 Hasło: admin123456
+```
+
+> **💡 Wskazówka:** Po zalogowaniu możesz od razu testować wszystkie funkcje - zadawanie pytań, odpowiadanie, czat, system punktów. Konto administratora ma dodatkowe uprawnienia do zarządzania platformą.
+
+---
+
+## 🌐 Live Preview
+
+### 🚀 Demo aplikacji
+
+**Aplikacja jest dostępna online pod adresem:**
+
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_App-blue?style=for-the-badge&logo=vercel)](https://codeask.vercel.app)
+
+**🔗 Link:** https://codeask.vercel.app
+
+### 📱 Co możesz przetestować online:
+
+- ✅ **Rejestracja i logowanie** - Pełny flow autoryzacji
+- ✅ **Tworzenie pytań** - Zaawansowany edytor z podglądem
+- ✅ **System odpowiedzi** - Głosowanie i komentarze
+- ✅ **Real-time czat** - Messaging między użytkownikami
+- ✅ **Profile użytkowników** - Edycja danych i statystyki
+- ✅ **Wyszukiwanie i filtry** - Zaawansowane opcje wyszukiwania
+- ✅ **Responsywny design** - Test na mobile/tablet/desktop
+- ✅ **System punktów** - Gamifikacja i ranking
+
+### 🎯 Testowanie online:
+
+> **💡 Wskazówka:** Demo używa tej samej bazy danych co lokalna wersja, więc możesz testować funkcje real-time między różnymi sesjami. Użyj danych testowych z sekcji powyżej.
 
 ---
 
