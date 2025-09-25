@@ -61,14 +61,14 @@ http://localhost:3000
 
 #### 👤 Konto Demo
 ```
-📧 Email: demo@codeask.com
-🔒 Hasło: demo123456
+📧 Email: user@codeask.com
+🔒 Hasło: user!@
 ```
 
 #### 👨‍💼 Konto Administratora
 ```
 📧 Email: admin@codeask.com
-🔒 Hasło: admin123456
+🔒 Hasło: admin!@
 ```
 
 > **💡 Wskazówka:** Po zalogowaniu możesz od razu testować wszystkie funkcje - zadawanie pytań, odpowiadanie, czat, system punktów. Konto administratora ma dodatkowe uprawnienia do zarządzania platformą.
