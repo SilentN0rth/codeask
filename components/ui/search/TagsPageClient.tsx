@@ -1,8 +1,14 @@
-// TagsPage.tsx
-"use client";
+'use client';
 
-import LocalTagSearcher from "@/components/ui/search/LocalTagSearcher";
+import LocalTagSearcher from '@/components/ui/search/LocalTagSearcher';
+import { forwardRef } from 'react';
 
-export default function TagsPageClient() {
-    return <LocalTagSearcher />;
-}
+const TagsPageClient = forwardRef<{ resetAllFilters: () => void }, object>(
+  (props, ref) => {
+    return <LocalTagSearcher ref={ref} />;
+  }
+);
+
+TagsPageClient.displayName = 'TagsPageClient';
+
+export default TagsPageClient;

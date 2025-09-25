@@ -1,14 +1,23 @@
-// import { getQuestions } from "@/lib/actions/getQuestions";
-// import { QuestionCardProps } from "@/types/questions.types";
-import { getNewestQuestions } from "@/services/server/questions";
-import ClientRightSidebarContent from "./ClientRightSidebarContent"; // nowy komponent
-import { getTags } from "@/services/server/tags";
+import ClientRightSidebarContent from './ClientRightSidebarContent';
+import { QuestionCardProps } from '@/types/questions.types';
+import { Tag } from '@/types/tags.types';
 
-const RightSidebarContent = async () => {
-    const { tags } = await getTags();
-    const { questions } = await getNewestQuestions();
-
-    return <ClientRightSidebarContent questions={questions} tags={tags} />;
+const RightSidebarContent = ({
+  questions,
+  tags,
+  onClose,
+}: {
+  questions: QuestionCardProps[];
+  tags: Tag[];
+  onClose?: () => void;
+}) => {
+  return (
+    <ClientRightSidebarContent
+      questions={questions}
+      tags={tags}
+      onClose={onClose}
+    />
+  );
 };
 
 export default RightSidebarContent;

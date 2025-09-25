@@ -1,17 +1,18 @@
-"use server";
-import { getTags } from "@/services/server/tags";
-import PageClient from "./page.client";
+'use server';
+import { getTags } from '@/services/server/tags';
+import PageClient from './page.client';
 
 type Props = {
-    searchParams: Record<string, string>;
+  searchParams: Promise<Record<string, string>>;
 };
 
 const Page = async ({ searchParams }: Props) => {
-    const { search, sort } = searchParams;
+  const resolvedSearchParams = await searchParams;
+  const { search, sort, status } = resolvedSearchParams;
 
-    const { tags } = await getTags({ search, sort });
+  const { tags } = await getTags({ search, sort, status });
 
-    return <PageClient tags={tags || []} />;
+  return <PageClient tags={tags || []} />;
 };
 
 export default Page;

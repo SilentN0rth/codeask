@@ -1,8 +1,20 @@
-"use client";
-import LocalQuestionSearcher from "@/components/ui/search/LocalQuestionSearcher";
+'use client';
+import LocalQuestionSearcher from '@/components/ui/search/LocalQuestionSearcher';
+import { forwardRef } from 'react';
+import { UserInterface } from '@/types/users.types';
 
-export default function ClientSearcherWrapper({className}: {
+const ClientSearcherWrapper = forwardRef<
+  { resetAllFilters: () => void },
+  {
     className?: string;
-}) {
-    return <LocalQuestionSearcher className={className} />;
-}
+    users?: UserInterface[];
+  }
+>(({ className, users = [] }, ref) => {
+  return (
+    <LocalQuestionSearcher ref={ref} className={className} users={users} />
+  );
+});
+
+ClientSearcherWrapper.displayName = 'ClientSearcherWrapper';
+
+export default ClientSearcherWrapper;

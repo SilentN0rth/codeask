@@ -1,23 +1,24 @@
-import { getUsers } from "@/services/server/users";
-import PageClient from "./page.client";
-import { SortUserOption } from "@/types/searchAndFilters.types";
+import { getUsersWithFollowStatus } from '@/services/server/users';
+import PageClient from './page.client';
+import { SortUserOption } from '@/types/searchAndFilters.types';
 
 type Props = {
-    searchParams?: {
-        search?: string;
-        sort?: string;
-    };
+  searchParams?: Promise<{
+    search?: string;
+    sort?: string;
+  }>;
 };
 
 export default async function Page({ searchParams }: Props) {
-    const users = await getUsers({
-        search: searchParams?.search,
-        sort: searchParams?.sort as SortUserOption,
-    });
+  const resolvedSearchParams = await searchParams;
+  const { users, followStatuses } = await getUsersWithFollowStatus({
+    search: resolvedSearchParams?.search,
+    sort: resolvedSearchParams?.sort as SortUserOption,
+  });
 
-    if (!users) {
-        return <div>Nie udało się załadować użytkowników.</div>;
-    }
+  if (!users) {
+    return <div>Nie udało się załadować użytkowników.</div>;
+  }
 
-    return <PageClient users={users} />;
+  return <PageClient users={users} followStatuses={followStatuses} />;
 }

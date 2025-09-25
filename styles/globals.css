@@ -1,118 +1,205 @@
-@import url("tinymce.css");
+@import url('tinymce.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Critical CSS - Above the fold styles */
+@layer base {
+  html {
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  /* Prevent layout shift */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+/* END OF CRITICAL CSS */
+
 :root {
-    --cCta-100: 219, 234, 254;
-    --cCta-300: 147, 197, 253;
-    --cCta-500: 37, 99, 235;
-    --cCta-700: 29, 78, 216;
-    --cCta-900: 30, 64, 175;
+  --cCta-100: 219, 234, 254;
+  --cCta-300: 147, 197, 253;
+  --cCta-500: 37, 99, 235;
+  /* --cCta-500: 59, 130, 246; */
 
-    --cMuted-300: 209, 213, 219;
-    --cMuted-500: 107, 114, 128;
-    --cMuted-700: 55, 65, 81;
+  --cCta-700: 29, 78, 216;
+  --cCta-900: 30, 64, 175;
 
-    --cBgLight-50: 249, 250, 251;
-    --cBgLight-100: 255, 255, 255;
+  --cMuted-300: 209, 213, 219;
+  --cMuted-500: 156, 163, 175;
+  --cMuted-700: 75, 85, 99;
 
-    --cBgDark-700: 21, 24, 26;
-    --cBgDark-800: 15, 17, 19;
-    --cBgDark-900: 12, 13, 15;
+  --cBgLight-50: 249, 250, 251;
+  --cBgLight-100: 255, 255, 255;
 
-    --cTextLight-900: 0, 0, 0;
+  --cBgDark-700: 21, 24, 26;
+  --cBgDark-800: 15, 17, 19;
+  --cBgDark-900: 12, 13, 15;
 
-    --cTextDark-100: 243, 244, 246;
+  --cTextLight-900: 0, 0, 0;
 
-    --cStatusGreen-500: 16, 185, 129;
+  --cTextDark-100: 243, 244, 246;
 
-    --cStatusRed-500: 239, 68, 68;
+  --cStatusGreen-500: 16, 185, 129;
 
-    --cStatusYellow-400: 251, 191, 36;
+  --cStatusRed-500: 239, 68, 68;
+
+  --cStatusYellow-400: 251, 191, 36;
 }
 
 @layer base {
-    body {
-        background-color: #0c0d0f;
-    }
+  body {
+    background-color: #0c0d0f;
+  }
 
-    /* width */
-    ::-webkit-scrollbar {
-        width: 0;
-    }
+  /* width */
+  ::-webkit-scrollbar {
+    width: 0;
+  }
 
-    .invisible-scroll {
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE i Edge */
-    }
-    .invisible-scroll::-webkit-scrollbar {
-        width: 0px;
-        height: 0px;
-    }
+  .invisible-scroll {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE i Edge */
+  }
+  .invisible-scroll::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
 
-    .link-underline {
-        position: relative;
-        color: inherit;
-        text-decoration: none;
-    }
+  /* Custom scrollbar for chat rooms */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
 
-    .link-underline::after {
-        content: "";
-        position: absolute;
-        bottom: -3px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: currentColor;
-        transform: scaleX(0);
-        transform-origin: center;
-        transition: transform 0.3s ease;
-    }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-    .link-underline:hover::after {
-        transform: scaleX(1);
-    }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgb(156 163 175 / 0.5);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(156 163 175 / 0.8);
+  }
+
+  /* Firefox scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(156 163 175 / 0.5) transparent;
+  }
 }
 
 @layer utilities {
-    .text-balance {
-        text-wrap: balance;
-    }
-    .wrapper {
-        max-width: 1500px;
-        margin: 0 auto;
-        width: 100%;
-    }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .wrapper {
+    max-width: 1500px;
+    margin: 0 auto;
+    width: 100%;
+  }
 
-    .sidebar {
-        @apply sticky left-0 top-0 h-screen flex-col justify-between overflow-y-auto p-6 pb-14 pt-[120px] hidden sm:flex;
-    }
+  .sidebar {
+    @apply sticky left-0 top-0 hidden h-screen flex-col justify-between overflow-y-auto p-6 pb-14 pt-[120px] sm:flex;
+  }
 
-    .sidebar-compact-headings {
-        position: absolute;
-        top: 50%;
-        text-align: center;
-        translate: 100% -50%;
-        right: 0;
-        writing-mode: vertical-rl;
-    }
+  .sidebar-compact-headings {
+    position: absolute;
+    top: 50%;
+    text-align: center;
+    translate: 100% -50%;
+    right: 0;
+    writing-mode: vertical-rl;
+  }
 
-    .global-padding {
-        padding-inline: 2em;
+  .global-padding {
+    padding-inline: 2em;
+  }
+  .gap-xsmall {
+    @apply gap-2;
+  }
+  .gap-small {
+    @apply gap-3;
+  }
+  .gap-normal {
+    @apply gap-5;
+  }
+  .gap-big {
+    @apply gap-8;
+  }
+  .flex-column {
+    @apply flex flex-col;
+  }
+
+  /* Custom loading animations */
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
     }
-    .gap-xsmall {
-        @apply gap-2;
+    100% {
+      opacity: 0;
     }
-    .gap-small {
-        @apply gap-3;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
     }
-    .gap-normal {
-        @apply gap-5;
+    100% {
+      opacity: 1;
     }
-    .gap-big {
-        @apply gap-8;
+  }
+
+  .custom-fade-out {
+    animation: fade-out 0.3s ease-out forwards;
+  }
+
+  .custom-fade-in {
+    animation: fade-in 0.2s ease-in forwards;
+  }
+  @keyframes mask-square-move {
+    0% {
+      transform: translate(0, 0);
+    } /* top-left */
+    25% {
+      transform: translate(36px, 0);
+    } /* top-right */
+    50% {
+      transform: translate(36px, 36px);
+    } /* bottom-right */
+    75% {
+      transform: translate(0, 36px);
+    } /* bottom-left */
+    100% {
+      transform: translate(0, 0);
     }
-    .flex-column {
-        @apply flex flex-col;
-    }
+  }
+
+  .animate-mask-square {
+    animation: mask-square-move 2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+
+  /* Remove all focus outlines for HeroUI inputs */
+  [data-slot='input']:focus,
+  [data-slot='input']:focus-visible,
+  [data-slot='input']:focus-within,
+  input:focus,
+  input:focus-visible,
+  input:focus-within {
+    outline: none !important;
+  }
+
+  /* Remove all focus outlines for HeroUI input wrappers */
+  [data-slot='inputWrapper']:focus,
+  [data-slot='inputWrapper']:focus-visible,
+  [data-slot='inputWrapper']:focus-within {
+    outline: none !important;
+  }
 }

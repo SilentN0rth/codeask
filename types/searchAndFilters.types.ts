@@ -1,73 +1,84 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export interface ChooseButtonFilterProps {
-    selectedFilter: string;
-    className?: string;
-    onFilterChange: (value: string) => void;
+  selectedFilter: string;
+  className?: string;
+  onFilterChange: (value: string) => void;
+  filterOptions?: Array<{ label: string; value: string }>;
 }
 
 export type FilterProps = {
-    className?: string;
-    value: string;
-    onChange: (val: string) => void;
+  className?: string;
+  value: string;
+  onChange: (val: string) => void;
 };
 
-type CommonOptions = "newest" | "oldest" | "name";
+type CommonOptions = 'newest' | 'oldest' | 'name';
 
-export type SortQuestionOption = CommonOptions | "answers" | "likes" | "views";
+export type SortQuestionOption =
+  | CommonOptions
+  | 'answers'
+  | 'likes'
+  | 'views'
+  | 'status';
 
-export type SortTagOption = CommonOptions | "popularity";
+export type SortTagOption = CommonOptions | 'popularity';
 
-export type SortUserOption = CommonOptions | "mostAnswers" | "mostQuestions" | "mostReputation";
+export type SortUserOption =
+  | CommonOptions
+  | 'mostAnswers'
+  | 'mostQuestions'
+  | 'mostReputation';
 
-export type SortJobOption = "newest" | "mostViewed" | "highestSalary";
+export type SortJobOption = 'newest' | 'mostViewed' | 'highestSalary';
 
 export type SortFilterProps = {
-    selectedSort: SortQuestionOption;
-    className?: string;
-    onSortChange: (sort: SortQuestionOption) => void;
+  selectedSort: SortQuestionOption;
+  className?: string;
+  onSortChange: (sort: SortQuestionOption) => void;
 };
 
 export type BasicItem = {
-    id: number | string;
-    name: string;
-    [key: string]: any; // ← pozwala na avatar, team itd.
+  id: number | string;
+  name: string;
+  [key: string]: any; // ← pozwala na avatar, team itd.
 };
 
 export type UniversalFilterProps<T extends BasicItem> = {
-    items: T[];
-    value: string;
-    onChange: (val: string) => void;
-    className?: string;
-    ariaLabel: string;
-    renderItem?: (item: T) => ReactNode;
+  items: T[];
+  value: string;
+  onChange: (val: string) => void;
+  className?: string;
+  ariaLabel: string;
+  renderItem?: (item: T) => ReactNode;
+  isLoading?: boolean;
 };
 
 export interface TaskInterface {
-    id: string;
-    title: string;
-    description: string;
-    points: number;
-    difficulty: "easy" | "medium" | "hard";
-    tags: string[];
-    // category: "frontend" | "backend" | "fullstack" | "devops" | "general";
-    status: "available" | "completed" | "locked";
-    createdAt: string;
-    updatedAt: string;
-    estimatedTimeMinutes?: number;
-    prerequisites?: string[];
-    rewardDescription?: string;
-    isDaily?: boolean;
+  id: string;
+  title: string;
+  description: string;
+  points: number;
+  difficulty: 'easy' | 'medium' | 'hard';
+  tags: string[];
+  // category: "frontend" | "backend" | "fullstack" | "devops" | "general";
+  status: 'available' | 'completed' | 'locked';
+  createdAt: string;
+  updatedAt: string;
+  estimatedTimeMinutes?: number;
+  prerequisites?: string[];
+  rewardDescription?: string;
+  isDaily?: boolean;
 }
 
 export type SortOption = {
-    label: string;
-    value: string;
+  label: string;
+  value: string;
 };
 
 export type SortSelectProps = {
-    options: SortOption[];
-    selectedSort: string;
-    onSortChange: (value: string) => void;
-    className?: string;
+  options: SortOption[];
+  selectedSort: string;
+  onSortChange: (value: string) => void;
+  className?: string;
 };

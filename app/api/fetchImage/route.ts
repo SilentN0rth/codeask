@@ -1,18 +1,16 @@
-// app/api/fetchImage/route.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-    const { url } = await req.json();
+  const { url } = (await req.json()) as { url: string };
 
-    if (!url) {
-        return NextResponse.json({ success: 0, message: "Missing URL" });
-    }
+  if (!url) {
+    return NextResponse.json({ success: 0, message: 'Missing URL' });
+  }
 
-    // Tu można zrobić fetch, zapis do pliku lub po prostu zwrócić URL:
-    return NextResponse.json({
-        success: 1,
-        file: {
-            url, // lub przetworzony adres CDN
-        },
-    });
+  return NextResponse.json({
+    success: 1,
+    file: {
+      url,
+    },
+  });
 }

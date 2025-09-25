@@ -1,9 +1,9 @@
 export interface HamburgerMenuProps {
-    isOpen: boolean;
-    onOpenChange: () => void;
-    onOpen: () => void;
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  onOpen: () => void;
 }
 
 export interface HamburgerMenuBtnProps {
-    onOpen: () => void;
+  onOpen: () => void;
 }

@@ -1,18 +1,18 @@
 export interface Tag {
-    id: string;
-    name: string;
-    question_count: number;
-    createdAt: string;
+  id: string;
+  name: string;
+  question_count: number;
+  created_at: string;
 }
 
 export interface TagChipProps {
-    tag: string;
-    removeTag: (tag: string) => void;
+  tag: string;
+  removeTag: (tag: string) => void;
 }
 
 export interface TagItemProps {
-    label: string;
-    href?: string;
-    onClose?: () => void;
-    className?: string;
+  label: string;
+  href?: string;
+  onClose?: () => void;
+  className?: string;
 }

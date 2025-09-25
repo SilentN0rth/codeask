@@ -1,5 +1,5 @@
 export type ParamsLocalSearcherConfig = {
-    initialSearch?: boolean;
-    initialSort?: boolean;
-    customParams?: string[];
+  initialSearch?: boolean;
+  initialSort?: boolean;
+  customParams?: string[];
 };

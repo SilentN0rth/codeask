@@ -1,28 +1,40 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export interface ToastMessage {
-    title: string;
-    description?: string;
-    icon?: ReactNode;
-    color?: "default" | "primary" | "secondary" | "success" | "warning" | "danger";
-    timeout?: number;
+  title: string;
+  description?: string;
+  icon?: ReactNode;
+  color?:
+    | 'default'
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'warning'
+    | 'danger';
+  timeout?: number;
 }
 
 export interface UseToastActionCooldownParams {
-    addToast: (toast: {
-        title: string;
-        description?: string;
-        timeout?: number;
-        icon?: ReactNode;
-        color?: "default" | "primary" | "secondary" | "success" | "warning" | "danger";
-    }) => void;
+  addToast: (toast: {
+    title: string;
+    description?: string;
+    timeout?: number;
+    icon?: ReactNode;
+    color?:
+      | 'default'
+      | 'primary'
+      | 'secondary'
+      | 'success'
+      | 'warning'
+      | 'danger';
+  }) => void;
 
-    cooldownMs?: number;
-    disableButton?: boolean;
+  cooldownMs?: number;
+  disableButton?: boolean;
 
-    onSuccessMessage: ToastMessage;
-    onFailMessage?: ToastMessage;
+  onSuccessMessage: ToastMessage;
+  onFailMessage?: ToastMessage;
 
-    onSuccess?: () => void;
-    onFail?: () => void;
+  onSuccess?: () => void;
+  onFail?: () => void;
 }

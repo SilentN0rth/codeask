@@ -1,48 +1,69 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Accordion, AccordionItem } from "@heroui/react";
-import MobileNavButtonLinks from "../Navbar/MobileNavButtonLinks";
-import DesktopMenuNewestQuestions from "../Navbar/DesktopMenuNewestQuestions";
-import MobileMenuNewestQuestions from "../Navbar/MobileMenuNewestQuestions";
-import JobSearchSection from "@/components/ui/sidebar/JobSearchSection";
-import { QuestionCardProps } from "@/types/questions.types";
-import { Tag } from "@/types/tags.types";
-import PopularTags from "./PopularTags";
+import React from 'react';
+import { Card, CardBody } from '@heroui/react';
+import { motion } from 'framer-motion';
+import MobileNavButtonLinks from '../Navbar/MobileNavButtonLinks';
+import NewestQuestions from '../Navbar/NewestQuestions';
+import { QuestionCardProps } from '@/types/questions.types';
+import { Tag } from '@/types/tags.types';
+import PopularTags from './PopularTags';
+import PageTitle from '@/components/ui/PageTitle';
+import { useFadeIn } from '@/lib/animations/useFadeIn';
 
 type Props = {
-    questions: QuestionCardProps[];
-    tags: Tag[];
+  questions: QuestionCardProps[];
+  tags: Tag[];
+  onClose?: () => void;
 };
 
-const ClientRightSidebarContent = ({ questions, tags }: Props) => {
-    const accordionItemClasses = {
-        base: "w-full data-[open=true]:bg-cCta-500/10 border data-[open=true]:border-cCta-500 border-transparent rounded-lg mb-2",
-        title: "font-medium text-base transition-colors",
-        trigger:
-            "px-5 py-0 bg-default-50 data-[open=true]:!rounded-b-none data-[hover=true]:bg-cCta-500 data-[open=true]:bg-cCta-500 rounded-lg h-14 flex items-center transition-all",
-        indicator: "text-medium text-white",
-        content: "text-small px-5 py-5 text-sm",
-    };
-    return (
-        <>
-            <MobileNavButtonLinks />
-            <Accordion
-                className="!mx-0 !px-0"
-                itemClasses={accordionItemClasses}
-                selectionMode="multiple"
-                showDivider={false}>
-                <AccordionItem title="Najnowsze pytania" key="questions" aria-label="Najnowsze pytania">
-                    <DesktopMenuNewestQuestions questions={questions} />
-                    <MobileMenuNewestQuestions questions={questions} />
-                </AccordionItem>
-                <AccordionItem title="Popularne tagi" key="tags" aria-label="Popularne tagi">
-                    <PopularTags tags={tags} />
-                </AccordionItem>
-            </Accordion>
-            <JobSearchSection />
-        </>
-    );
+const ClientRightSidebarContent = ({ questions, tags, onClose }: Props) => {
+  const questionsAnimation = useFadeIn(20, 0.1);
+  const tagsAnimation = useFadeIn(20, 0.2);
+
+  return (
+    <>
+      <MobileNavButtonLinks onClose={onClose} />
+
+      <motion.div {...questionsAnimation} className="mt-0 md:mt-8 3xl:mt-0">
+        <PageTitle
+          title="Najnowsze pytania"
+          icon="mdi:help-circle-outline"
+          description="Ostatnio dodane pytania w społeczności"
+          parentClasses="mb-5 flex-row"
+          className="text-lg"
+          as="h2"
+        />
+        <Card
+          shadow="none"
+          className="rounded-xl border border-divider bg-cBgDark-800 backdrop-blur-sm"
+        >
+          <CardBody className="p-4">
+            <NewestQuestions questions={questions} onClose={onClose} />
+          </CardBody>
+        </Card>
+      </motion.div>
+
+      <motion.div {...tagsAnimation} className="mt-8">
+        <PageTitle
+          title="Popularne tagi"
+          icon="solar:tag-outline"
+          description="Najczęściej używane kategorie"
+          parentClasses="mb-5"
+          className="text-lg"
+          as="h2"
+        />
+        <Card
+          shadow="none"
+          className="rounded-xl border border-divider bg-cBgDark-800 backdrop-blur-sm"
+        >
+          <CardBody className="p-4">
+            <PopularTags tags={tags} onClose={onClose} />
+          </CardBody>
+        </Card>
+      </motion.div>
+    </>
+  );
 };
 
 export default ClientRightSidebarContent;

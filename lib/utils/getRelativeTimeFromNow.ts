@@ -1,9 +1,5 @@
-import { formatDistanceToNow } from "date-fns";
-import { pl } from "date-fns/locale";
+import { formatRelativeTimeHelper as formatRelativeTime } from './formatDate';
 
 export function getRelativeTimeFromNow(date: Date | string): string {
-    return formatDistanceToNow(new Date(date), {
-        addSuffix: true,
-        locale: pl,
-    });
+  return formatRelativeTime(date);
 }

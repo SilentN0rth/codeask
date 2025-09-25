@@ -1,1 +1,1 @@
-export type VoteType = "liked" | "disliked" | null;
+export type VoteType = 'liked' | 'disliked' | null;

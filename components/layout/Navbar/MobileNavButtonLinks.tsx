@@ -1,48 +1,81 @@
-"use client";
-import { sectionItems } from "@/constants/SidebarItems";
-import { SvgIcon } from "@/lib/utils/icons";
-import { Button } from "@heroui/react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
-const MobileNavButtonLinks = () => {
-    const pathname = usePathname();
+'use client';
 
-    return (
-        <nav className="md:hidden">
-            <ul className="flex flex-col gap-4">
-                {sectionItems.flatMap((section) => (
-                    <li className={section.className} key={section.key}>
-                        <p className="pb-1 pl-1 text-tiny text-foreground-500">{section.title}</p>
-                        {section.items?.map((item) => {
-                            const isActive = pathname === item.href;
-                            return (
-                                <Button
-                                    key={item.key}
-                                    as={Link}
-                                    href={item.href}
-                                    data-active-link={true}
-                                    startContent={
-                                        item.icon && (
-                                            <span className="flex items-center gap-2.5">
-                                                <SvgIcon icon={item.icon } width={22} className={isActive ? "" : ""} />
-                                                {item.title}
-                                            </span>
-                                        )
-                                    }
-                                    endContent={item.endContent}
-                                    fullWidth
-                                    variant={isActive ? "flat" : "light"}
-                                    color={isActive ? "primary" : "default"}
-                                    className={`justify-between ${isActive ? "font-semibold" : ""}`}
-                                />
-                            );
-                        })}
-                    </li>
-                ))}
-            </ul>
-        </nav>
-    );
+import { sectionItems } from '@/constants/SidebarItems';
+import { SvgIcon } from '@/lib/utils/icons';
+import { Listbox, ListboxSection, ListboxItem, cn } from '@heroui/react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React from 'react';
+
+const MobileNavButtonLinks = ({ onClose }: { onClose?: () => void }) => {
+  const pathname = usePathname();
+  const currentPath = pathname.startsWith('/') ? pathname.slice(1) : pathname;
+
+  const handleLinkClick = () => {
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  return (
+    <nav className="mt-4 md:hidden">
+      <Listbox
+        hideSelectedIcon
+        as="ul"
+        className="list-none"
+        classNames={{}}
+        color="default"
+        itemClasses={{
+          base: cn(
+            'px-3 min-h-11 rounded-large h-[44px] data-[selected=true]:bg-default-100'
+          ),
+          title: cn(
+            'text-small font-medium text-default-500 group-data-[selected=true]:text-foreground'
+          ),
+        }}
+        selectionMode="single"
+        variant="flat"
+        selectedKeys={currentPath ? new Set([currentPath]) : undefined}
+      >
+        {sectionItems
+          .filter((section) => section.key !== 'leaders')
+          .map((section) => (
+            <ListboxSection
+              as="li"
+              role="listitem"
+              key={section.key}
+              classNames={
+                section.className ? { base: section.className } : undefined
+              }
+              showDivider={false}
+              title={section.title}
+            >
+              {section.items?.map((item) => {
+                return (
+                  <ListboxItem
+                    key={item.key}
+                    as={Link}
+                    href={item.href}
+                    onClick={handleLinkClick}
+                    startContent={
+                      item.icon ? (
+                        <SvgIcon
+                          className="text-default-500 group-data-[selected=true]:text-foreground"
+                          icon={item.icon}
+                          width={24}
+                        />
+                      ) : null
+                    }
+                    title={item.title}
+                    endContent={item.endContent}
+                  />
+                );
+              }) ?? []}
+            </ListboxSection>
+          ))}
+      </Listbox>
+    </nav>
+  );
 };
 
 export default MobileNavButtonLinks;

@@ -1,27 +1,34 @@
-"use client";
+'use client';
 
-import { FILTER_OPTIONS } from "@/constants/SearchAndFilters";
-import { ChooseButtonFilterProps } from "@/types/searchAndFilters.types";
-import { Select, SelectItem } from "@heroui/react";
+import { FILTER_OPTIONS } from '@/constants/SearchAndFilters';
+import { ChooseButtonFilterProps } from '@/types/searchAndFilters.types';
+import { Select, SelectItem } from '@heroui/react';
 
-const ChooseButtonFilter = ({ className, selectedFilter, onFilterChange }: ChooseButtonFilterProps) => {
-    return (
-        <Select
-            size="sm"
-            radius="sm"
-            className={`h-full ${className}`}
-            label="Wybierz filtr"
-            selectedKeys={[selectedFilter]}
-            onChange={(e) => onFilterChange(e.target.value)}
-            classNames={{
-                mainWrapper: "h-full",
-                trigger: "h-full border-2 !border-cBgDark-700 !bg-cBgDark-800 hover:!bg-cBgDark-900",
-            }}>
-            {FILTER_OPTIONS.map((option) => (
-                <SelectItem key={option.value}>{option.label}</SelectItem>
-            ))}
-        </Select>
-    );
+const ChooseButtonFilter = ({
+  className,
+  selectedFilter,
+  onFilterChange,
+  filterOptions = FILTER_OPTIONS,
+}: ChooseButtonFilterProps) => {
+  return (
+    <Select
+      size="sm"
+      radius="sm"
+      className={`h-full ${className}`}
+      label="Wybierz filtr"
+      selectedKeys={[selectedFilter]}
+      onChange={(e) => onFilterChange(e.target.value)}
+      classNames={{
+        mainWrapper: 'h-full',
+        trigger:
+          'h-full border border-divider bg-cBgDark-800 shadow-none hover:!bg-cBgDark-900',
+      }}
+    >
+      {filterOptions.map((option) => (
+        <SelectItem key={option.value}>{option.label}</SelectItem>
+      ))}
+    </Select>
+  );
 };
 
 export default ChooseButtonFilter;

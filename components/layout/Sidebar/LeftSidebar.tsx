@@ -1,12 +1,13 @@
-"use client";
-import { sectionItems } from "@/constants/SidebarItems";
-import { cn, ScrollShadow, Spacer } from "@heroui/react";
-import { useSidebarContext } from "context/LeftSidebarContext";
-import { usePathname } from "next/navigation";
-import React from "react";
-import LeftSidebarAccountSection from "./LeftSidebarAccountSection";
-import LeftSidebarContent from "./LeftSidebarContent";
-import LeftSidebarUserPopoverCard from "./LeftSidebarUserPopoverCard";
+'use client';
+import { sectionItems } from '@/constants/SidebarItems';
+import { cn, ScrollShadow, Spacer } from '@heroui/react';
+import { useSidebarContext } from 'context/LeftSidebarContext';
+import { usePathname } from 'next/navigation';
+import React from 'react';
+import LeftSidebarAccountSection from './LeftSidebarAccountSection';
+import LeftSidebarContent from './LeftSidebarContent';
+import LeftSidebarUserPopoverCard from './LeftSidebarUserPopoverCard';
+import { UserInterface } from '@/types/users.types';
 
 /**
  *  This example requires installing the `usehooks-ts` package:
@@ -26,34 +27,47 @@ import LeftSidebarUserPopoverCard from "./LeftSidebarUserPopoverCard";
  * <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} />
  * ```
  */
-export default function LeftSidebar() {
-    const { isCompact, toggleCompact } = useSidebarContext();
-    const pathname = usePathname();
-    const currentPath = pathname.startsWith("/") ? pathname.slice(1) : pathname;
+export default function LeftSidebar({
+  topUsers,
+}: {
+  topUsers: UserInterface[];
+}) {
+  const { isCompact, toggleCompact } = useSidebarContext();
+  const pathname = usePathname();
+  const currentPath = pathname.startsWith('/') ? pathname.slice(1) : pathname;
 
-    const [selectedKey, setSelectedKey] = React.useState(currentPath);
+  const [selectedKey, setSelectedKey] = React.useState(currentPath);
 
-    React.useEffect(() => {
-        setSelectedKey(currentPath);
-    }, [currentPath]);
+  React.useEffect(() => {
+    setSelectedKey(currentPath);
+  }, [currentPath]);
 
-    return (
-        <nav
-            className={cn("sidebar w-[350px] overflow-x-hidden border-divider border-r", {
-                "!w-fit !px-0 !pr-4": isCompact,
-            })}>
-            <LeftSidebarUserPopoverCard isCompact={isCompact} />
-            <ScrollShadow className="invisible-scroll -mr-6 h-full max-h-full py-6 pr-6">
-                <LeftSidebarContent
-                    defaultSelectedKey={"tags"}
-                    selectedKeys={[selectedKey]}
-                    selectionMode="single"
-                    isCompact={isCompact}
-                    items={sectionItems}
-                />
-            </ScrollShadow>
-            <Spacer y={2} />
-            <LeftSidebarAccountSection toggleCompact={toggleCompact} isCompact={isCompact} />
-        </nav>
-    );
+  return (
+    <nav
+      className={cn(
+        'sidebar w-[350px] overflow-x-hidden border-r border-divider',
+        {
+          '!w-fit !px-0 !pr-4': isCompact,
+        }
+      )}
+      aria-label="Lewy panel nawigacyjny"
+    >
+      <LeftSidebarUserPopoverCard isCompact={isCompact} />
+      <ScrollShadow className="invisible-scroll -mr-6 h-full max-h-full py-6 pr-6">
+        <LeftSidebarContent
+          defaultSelectedKey="tags"
+          selectedKeys={[selectedKey]}
+          selectionMode="single"
+          isCompact={isCompact}
+          items={sectionItems}
+          topUsers={topUsers}
+        />
+      </ScrollShadow>
+      <Spacer y={2} />
+      <LeftSidebarAccountSection
+        toggleCompact={toggleCompact}
+        isCompact={isCompact}
+      />
+    </nav>
+  );
 }

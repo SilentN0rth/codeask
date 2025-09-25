@@ -1,10 +1,17 @@
 .tox-tinymce {
-    border: 1px solid hsl(var(--heroui-divider) / var(--heroui-divider-opacity, var(--tw-border-opacity))) !important;
+  border: 1px solid
+    hsl(
+      var(--heroui-divider) /
+        var(--heroui-divider-opacity, var(--tw-border-opacity))
+    ) !important;
 }
 
-[data-error="true"] .tox-tinymce {
-    --tw-bg-opacity: 1 !important;
-    background-color: hsl(var(--heroui-danger-50) / var(--heroui-danger-50-opacity, var(--tw-bg-opacity))) !important;
+[data-error='true'] .tox-tinymce {
+  --tw-bg-opacity: 1 !important;
+  background-color: hsl(
+    var(--heroui-danger-50) /
+      var(--heroui-danger-50-opacity, var(--tw-bg-opacity))
+  ) !important;
 }
 
 .tox-toolbar,
@@ -18,12 +25,12 @@
 .tox-textarea,
 .tox .tox-listboxfield .tox-listbox--select,
 .tox .tox-edit-area__iframe {
-    background-color: #0f1113 !important;
+  background-color: #0f1113 !important;
 }
 
 .tox-statusbar {
-    height: fit-content !important;
-    padding-bottom: 0.7em !important;
+  height: fit-content !important;
+  padding-bottom: 0.7em !important;
 }
 
 /* .tox-editor-header {
@@ -40,11 +47,11 @@
 .tox .tox-split-button:focus-visible,
 .tox .tox-split-button:focus-within,
 .tox .tox-split-button {
-    box-shadow: none !important;
-    background-color: transparent !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
 }
 .tox .tox-tbtn--enabled {
-    background-color: #2563eb !important;
+  background-color: #2563eb !important;
 }
 
 .tox .tox-tbtn,
@@ -52,15 +59,17 @@
 .tox .tox-tbtn--select span,
 .tox-collection__item-label,
 .tox-collection__item-caret {
-    fill: #eee !important;
-    cursor: pointer !important;
+  fill: #eee !important;
+  cursor: pointer !important;
 }
 .tox .tox-tbtn--disabled svg,
 .tox-collection__item-checkmark svg {
-    fill: #535353 !important;
+  fill: #535353 !important;
 }
 
-.tox .tox-collection--list .tox-collection__item--enabled:not(.tox-collection__item--state-disabled),
+.tox
+  .tox-collection--list
+  .tox-collection__item--enabled:not(.tox-collection__item--state-disabled),
 .tox-toolbar__group,
 .tox-tbtn,
 .tox .tox-textfield,
@@ -68,36 +77,36 @@
 .tox .tox-toolbar,
 .tox .tox-toolbar__overflow,
 .tox .tox-toolbar__primary {
-    background-color: #141617 !important;
+  background-color: #141617 !important;
 }
 
 .tox-editor-header.error,
 .tox-statusbar.error,
 .tox-toolbar__primary.error {
-    background-color: #2f0412 !important;
+  background-color: #2f0412 !important;
 }
 
 .tox .tox-toolbar__overflow {
-    background-image: none !important;
+  background-image: none !important;
 }
 
 .tox-toolbar__group,
 .tox-tbtn {
-    margin-left: 4px !important;
-    border-radius: 8px;
+  margin-left: 4px !important;
+  border-radius: 8px;
 }
 
 .tox-collection__item-label * {
-    background-color: transparent !important;
+  background-color: transparent !important;
 }
 
 /* DISABLE OUTLINE */
 .tox.tox-edit-focus .tox-edit-area::before {
-    opacity: 0 !important;
+  opacity: 0 !important;
 }
 
 .tox .tox-dialog-wrap__backdrop {
-    background-color: rgba(8, 9, 10, 0.8) !important;
+  background-color: rgba(8, 9, 10, 0.8) !important;
 }
 
 .tox .tox-button--secondary,
@@ -105,8 +114,8 @@
 .tox .tox-dropzone,
 .tox .tox-textfield,
 .tox .tox-pop__dialog {
-    background-color: #27272a !important;
-    /* border-color: #141617 !important; */
+  background-color: #27272a !important;
+  /* border-color: #141617 !important; */
 }
 
 .tox .tox-dropzone p,
@@ -129,27 +138,27 @@
 .tox .tox-statusbar a,
 .tox .tox-statusbar__path-item,
 .tox .tox-statusbar__wordcount {
-    color: #eee !important;
+  color: #eee !important;
 }
 
 .tox .tox-textfield {
-    color: #ccc !important;
+  color: #ccc !important;
 }
 
 .tox .tox-dialog__body-nav-item--active {
-    color: #2563eb !important;
+  color: #2563eb !important;
 }
 
 .tox .tox-pop.tox-pop--left::after,
 .tox .tox-pop.tox-pop--left::before,
 .tox .tox-pop::after,
 .tox .tox-pop::before {
-    content: none !important;
+  content: none !important;
 }
 .tox-tooltip {
-    display: none !important;
+  display: none !important;
 }
 
 .tox .tox-statusbar__branding svg {
-    fill: #ccc !important;
+  fill: #ccc !important;
 }

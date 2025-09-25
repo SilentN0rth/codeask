@@ -1,51 +1,129 @@
-import { Avatar, Tooltip, Badge } from "@heroui/react";
-import { format } from "date-fns";
-import { pl } from "date-fns/locale";
-import { formatUserName } from "@/lib/utils/formatUserName";
-import ProfileCardBadges from "./ProfileCardBadges";
-import { UserInterface } from "@/types/users.types";
-import { SvgIcon } from "@/lib/utils/icons";
+import { Tooltip, Button } from '@heroui/react';
 
-export default function ProfileCardMainInfo({ user }: { user: UserInterface | null }) {
-    return (
-        <div className="z-30 flex w-full items-start justify-between gap-4 ">
-            <div className="flex w-full justify-between gap-5">
-                <div className={`flex flex-wrap gap-5`}>
-                    {user?.is_online ? (
-                        <Badge color="success" content="" placement="bottom-right" shape="circle" size="lg">
-                            <Avatar size="lg" src={user.avatar_url} isBordered />
-                        </Badge>
-                    ) : (
-                        <Avatar size="lg" src={user?.avatar_url} isBordered />
-                    )}
+import { UserInterface } from '@/types/users.types';
+import { SvgIcon } from '@/lib/utils/icons';
+import { useAuthContext } from 'context/useAuthContext';
+import { useEffect, useState } from 'react';
+import {
+  isFollowing,
+  followUser,
+  unfollowUser,
+} from '@/services/client/follow';
+import UserDisplay from '@/components/ui/UserDisplay';
 
-                    <div className="flex flex-col gap-0.5">
-                        <div className="flex items-center gap-2">
-                            {user?.confirmed_at && (
-                                <Tooltip
-                                    content={
-                                        <div className="flex items-center">
-                                            <SvgIcon icon="mdi:check-decagram" className="mr-1" />
-                                            {`Konto zweryfikowane: ${format(
-                                                new Date(user.confirmed_at),
-                                                "d MMMM yyyy, HH:mm",
-                                                { locale: pl }
-                                            )}`}
-                                        </div>
-                                    }>
-                                    <SvgIcon icon="mdi:check-decagram" />
-                                </Tooltip>
-                            )}
-                            <h4 className="text-xl font-semibold">{formatUserName(user?.name as string)}</h4>
-                            <ProfileCardBadges className="hidden" user={user} />
-                        </div>
-                        <p className="text-sm text-default-400">
-                            @{formatUserName(user?.username as string)}{" "}
-                            {user?.specialization && <span className="text-xs">| {user.specialization}</span>}
-                        </p>
-                    </div>
-                </div>
-            </div>
+export default function ProfileCardMainInfo({
+  user,
+  onFollowChanged,
+  skipFollowCheck = false,
+}: {
+  user: UserInterface | null;
+  onFollowChanged?: () => void;
+  skipFollowCheck?: boolean;
+}) {
+  const { user: loggedUser, refreshUser } = useAuthContext();
+
+  const [isFollowingState, setIsFollowingState] = useState<boolean | null>(
+    null
+  );
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (skipFollowCheck) {
+      setIsFollowingState(false);
+      return;
+    }
+
+    if (loggedUser?.id && user?.id && loggedUser.id !== user.id) {
+      void (async () => {
+        try {
+          const following = await isFollowing(loggedUser.id, user.id);
+          setIsFollowingState(following);
+        } catch {
+          setIsFollowingState(false);
+        }
+      })();
+    } else if (loggedUser?.id === user?.id) {
+      setIsFollowingState(null);
+    } else {
+      setIsFollowingState(false);
+    }
+  }, [loggedUser?.id, user?.id, skipFollowCheck]);
+
+  const onToggleFollow = async () => {
+    if (!loggedUser?.id || !user?.id) return;
+
+    setLoading(true);
+
+    let updatedUser: UserInterface | null = null;
+
+    if (isFollowingState) {
+      updatedUser = await unfollowUser(loggedUser.id, user.id);
+      if (updatedUser) setIsFollowingState(false);
+    } else {
+      updatedUser = await followUser(loggedUser.id, user.id);
+      if (updatedUser) setIsFollowingState(true);
+    }
+
+    if (updatedUser && onFollowChanged) {
+      onFollowChanged();
+    }
+
+    void refreshUser();
+    setLoading(false);
+  };
+
+  const shouldShowFollowButton =
+    loggedUser?.id &&
+    user?.id &&
+    loggedUser.id !== user.id &&
+    !user?.is_moderator;
+
+  return (
+    <div className="z-30 flex w-full items-start justify-between gap-5">
+      <UserDisplay
+        user={user}
+        variant="profile"
+        size="lg"
+        linkToProfile={false}
+      />
+
+      {shouldShowFollowButton && (
+        <div className="flex items-center">
+          <Tooltip
+            content={
+              isFollowingState
+                ? 'Przestań obserwować tego użytkownika'
+                : 'Zacznij obserwować tego użytkownika'
+            }
+          >
+            <Button
+              onPress={() => void onToggleFollow()}
+              variant="light"
+              radius="md"
+              isIconOnly
+              isLoading={loading || isFollowingState === null}
+              aria-label={
+                isFollowingState ? 'Przestań obserwować' : 'Zacznij obserwować'
+              }
+              disabled={loading || isFollowingState === null}
+              className={`bg-cBgDark-800 transition-colors sm:bg-cBgDark-700 md:!min-w-fit md:!px-3 ${
+                isFollowingState
+                  ? 'bg-yellow-500/10 text-yellow-400 hover:!bg-yellow-500/20'
+                  : 'text-cTextDark-100 hover:bg-white/5'
+              } ${isFollowingState === null ? 'opacity-50' : ''}`}
+              startContent={
+                loading ||
+                isFollowingState === null || (
+                  <SvgIcon
+                    icon={isFollowingState ? 'mdi:star' : 'mdi:star-outline'}
+                    className="text-xl"
+                  />
+                )
+              }
+            />
+          </Tooltip>
         </div>
-    );
+      )}
+    </div>
+  );
 }
