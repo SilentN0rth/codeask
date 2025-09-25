@@ -1,5 +1,5 @@
 import { heroui } from '@heroui/theme';
-import type { Config } from 'tailwindcss';
+import type { Config } from '@tailwindcss/postcss';
 
 const config: Config = {
   content: [
