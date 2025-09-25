@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.1.13",
     "@floating-ui/react": "^0.27.12",
     "@hcaptcha/react-hcaptcha": "^1.12.0",
     "@heroui/react": "^2.8.4",

@@ -6,7 +6,7 @@ import { useAuthContext } from 'context/useAuthContext';
 import Loading from '@/components/ui/Loading';
 import NoResults from '@/components/ui/effects/NoResults';
 import UsersGrid from './UsersGrid';
-import { getFollowersUsers } from '@/services/client';
+import { getFollowersUsers } from '@/services/client/follow';
 
 interface FollowingTabProps {
   search?: string;
