@@ -80,9 +80,7 @@ const PageProfileClient = ({
         profile_slug: newSlug,
       };
 
-      const { error } = (await updateUserById(user.id, updateData)) as {
-        error: unknown;
-      };
+      const { error } = await updateUserById(user.id, updateData);
 
       if (!error) {
         const updatedUser = { ...user, ...updateData };

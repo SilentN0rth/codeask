@@ -60,7 +60,7 @@ const QuestionActionsMobile: React.FC<QuestionActionsMobileProps> = ({
   const { isCompact } = useSidebarContext();
   const dropdownItems = [];
 
-  if (user && questionAuthor && user.id === questionAuthor.id) {
+  if (user?.id === questionAuthor?.id && !!user?.id) {
     if (status === 'opened') {
       dropdownItems.push(
         <DropdownItem
@@ -88,11 +88,7 @@ const QuestionActionsMobile: React.FC<QuestionActionsMobileProps> = ({
     }
   }
 
-  if (
-    user &&
-    ((questionAuthor && user.id === questionAuthor.id) ||
-      (user.is_moderator ?? false))
-  ) {
+  if (user?.id === questionAuthor?.id || user?.is_moderator) {
     dropdownItems.push(
       <DropdownItem
         key="delete"

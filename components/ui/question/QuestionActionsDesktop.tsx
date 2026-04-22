@@ -61,7 +61,7 @@ const QuestionActionsDesktop: React.FC<QuestionActionsDesktopProps> = ({
           : 'hidden items-center gap-2 lg:flex'
       }
     >
-      {user && questionAuthor && user.id === questionAuthor.id && (
+      {user?.id === questionAuthor?.id && !!user?.id && (
         <>
           {status === 'opened' ? (
             <Tooltip content="Edytuj pytanie">
@@ -95,10 +95,7 @@ const QuestionActionsDesktop: React.FC<QuestionActionsDesktopProps> = ({
         </>
       )}
 
-      {user &&
-        ((questionAuthor && user.id === questionAuthor.id) ??
-          user.is_moderator ??
-          false) && (
+      {(user?.id === questionAuthor?.id || user?.is_moderator) && (
           <Tooltip content="Usuń pytanie">
             <Button
               isIconOnly

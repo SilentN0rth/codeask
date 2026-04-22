@@ -210,7 +210,7 @@ export default function AuthForm({ defaultMode }: AuthFormProps) {
                             'bg-cBgDark-700 group-hover:bg-cBgDark-700/50 group-data-[focus=true]:bg-cBgDark-700/50 border border-divider',
                         }}
                         isInvalid={!!errors.email}
-                        errorMessage={errors.email?.message as string}
+                        errorMessage={errors.email?.message}
                       />
                     )}
                   />
@@ -220,7 +220,7 @@ export default function AuthForm({ defaultMode }: AuthFormProps) {
                     control={control}
                     name="password"
                     label="Twoje hasło"
-                    error={errors.password?.message as string}
+                    error={errors.password?.message}
                     showPassword={showPassword}
                     setShowPassword={setShowPassword}
                   />
@@ -291,7 +291,7 @@ export default function AuthForm({ defaultMode }: AuthFormProps) {
                             'bg-cBgDark-700 group-hover:bg-cBgDark-700/50 group-data-[focus=true]:bg-cBgDark-700/50 border border-divider',
                         }}
                         isInvalid={!!registerErrors.email}
-                        errorMessage={registerErrors.email?.message as string}
+                        errorMessage={registerErrors.email?.message}
                       />
                     )}
                   />
@@ -301,7 +301,7 @@ export default function AuthForm({ defaultMode }: AuthFormProps) {
                     name="password"
                     className="col-span-full"
                     label="Twoje hasło"
-                    error={registerErrors.password?.message as string}
+                    error={registerErrors.password?.message}
                     showPassword={showRegisterPassword}
                     setShowPassword={setShowRegisterPassword}
                   />
@@ -309,7 +309,7 @@ export default function AuthForm({ defaultMode }: AuthFormProps) {
                     control={registerControl}
                     name="confirmPassword"
                     label="Potwierdź hasło"
-                    error={registerErrors.confirmPassword?.message as string}
+                    error={registerErrors.confirmPassword?.message}
                     showPassword={showRegisterPassword}
                     setShowPassword={setShowRegisterPassword}
                   />

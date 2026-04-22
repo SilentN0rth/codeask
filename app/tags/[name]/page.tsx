@@ -4,7 +4,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import TagQuestionsPage from '@/components/layout/TagQuestionsPage';
-import { Tag } from '@/types/tags.types';
+
 import {
   getTagByName,
   getQuestionsByTagNameWithFilters,
@@ -23,10 +23,7 @@ export default async function Page({
   const { name } = resolvedParams;
   const { search, sort, filter, value } = resolvedSearchParams;
 
-  const { tag, error: tagError } = (await getTagByName(name)) as {
-    tag: Tag | null;
-    error: unknown;
-  };
+  const { tag, error: tagError } = await getTagByName(name);
 
   if (tagError || !tag) {
     notFound();

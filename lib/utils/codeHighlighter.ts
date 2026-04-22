@@ -126,7 +126,7 @@ export async function highlightCodeInHTML(html: string): Promise<string> {
         {
         }
         const highlighted = hljs.highlight(unescapedCode, {
-          language: hljsLanguage as any,
+          language: hljsLanguage,
         });
 
         const convertedContent = convertHljsToPrismTokens(highlighted.value);
@@ -175,7 +175,7 @@ export async function highlightCode(
     const unescapedCode = unescapeHtml(code);
 
     const highlighted = hljs.highlight(unescapedCode, {
-      language: hljsLanguage as any,
+      language: hljsLanguage,
     });
     const convertedContent = convertHljsToPrismTokens(highlighted.value);
 

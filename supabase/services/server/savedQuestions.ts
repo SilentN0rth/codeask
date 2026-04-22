@@ -22,8 +22,7 @@ export async function getSavedQuestions(
   questions: QuestionCardProps[];
   error: any;
 }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   if (!userId) {
     return { questions: [], error: 'Brak ID użytkownika' };

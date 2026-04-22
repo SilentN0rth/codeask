@@ -38,8 +38,7 @@ export default function DeleteQuestionModal({
   isLoading = false,
 }: DeleteQuestionModalProps) {
   const isAdmin = currentUser?.is_moderator;
-  const isAuthor =
-    questionAuthor && currentUser && questionAuthor.id === currentUser.id;
+  const isAuthor = currentUser?.id === questionAuthor?.id && !!currentUser?.id;
   const isAdminDeletingOthers = isAdmin && !isAuthor;
   return (
     <Modal

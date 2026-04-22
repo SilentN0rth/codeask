@@ -20,12 +20,12 @@ const SortSelect = ({
         const [key] = Array.from(keys);
         if (typeof key === 'string') {
           if (key === selectedSort) {
-            onSortChange('' as never);
+            onSortChange('');
           } else {
             onSortChange(key);
           }
         } else if (Array.from(keys).length === 0) {
-          onSortChange('' as never);
+          onSortChange('');
         }
       }}
       classNames={{

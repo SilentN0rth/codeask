@@ -182,8 +182,7 @@ export async function getQuestions({
   filter?: string;
   value?: string;
 } = {}): Promise<{ questions: QuestionCardProps[]; error: any }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   let query = supabase.from('questions').select(
     `
@@ -275,8 +274,7 @@ export async function getNewestQuestions(): Promise<{
   questions: QuestionCardProps[];
   error: any;
 }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   const { data, error } = await supabase
     .from('questions')
@@ -310,8 +308,7 @@ export async function getUserLatestQuestions(
   questions: QuestionCardProps[];
   error: any;
 }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   const { data, error } = await supabase
     .from('questions')
@@ -346,8 +343,7 @@ export async function getUserLatestQuestions(
 export async function unarchiveQuestion(
   questionId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     const { error } = await supabase
@@ -370,8 +366,7 @@ export async function unarchiveQuestion(
 export async function closeQuestion(
   questionId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     const { error } = await supabase
@@ -394,8 +389,7 @@ export async function closeQuestion(
 export async function reopenQuestion(
   questionId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     const { error } = await supabase
@@ -418,8 +412,7 @@ export async function reopenQuestion(
 export async function archiveQuestion(
   questionId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     const { error } = await supabase
@@ -477,8 +470,7 @@ export async function getQuestionsByTag(
   questions: QuestionCardProps[];
   error: any;
 }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     // Pobierz ID pytań dla danego tagu
@@ -545,8 +537,7 @@ export async function getQuestionsByTagWithFilters(
     value?: string;
   } = {}
 ): Promise<{ questions: QuestionCardProps[]; error: any }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     // Pobierz ID pytań dla danego tagu
@@ -644,8 +635,7 @@ export async function getQuestionsByTagNameWithFilters(
     value?: string;
   } = {}
 ): Promise<{ questions: QuestionCardProps[]; error: any }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     // First get the tag by name
@@ -744,8 +734,7 @@ export async function deleteQuestionAction(
   questionId: string,
   userId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     // Sprawdź czy pytanie istnieje i pobierz dane autora
@@ -868,8 +857,7 @@ export async function deleteQuestionAction(
 export async function getUnansweredQuestions(
   limit: number = 6
 ): Promise<QuestionCardProps[]> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     const { data, error } = await supabase
@@ -912,8 +900,7 @@ export async function getUnansweredQuestions(
 export async function getExpertQuestions(
   limit: number = 6
 ): Promise<QuestionCardProps[]> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     const { data, error } = await supabase
@@ -953,8 +940,7 @@ export async function getHomepageStats(): Promise<{
   totalAnswers: number;
   totalTags: number;
 }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     // Pobierz statystyki równolegle
@@ -1002,8 +988,7 @@ export async function voteQuestion({
   questionId,
   voteType,
 }: VoteQuestionParams): Promise<VoteResult> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     const {
@@ -1222,8 +1207,7 @@ export async function updateQuestion({
   tags: string[];
   authorId: string;
 }): Promise<{ success: boolean; questionSlug?: string; error?: string }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     // Sprawdź czy pytanie istnieje i czy użytkownik ma uprawnienia
@@ -1431,8 +1415,7 @@ export async function updateQuestion({
 export async function getUserVoteForQuestion(
   questionId: string
 ): Promise<VoteType> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   try {
     const {

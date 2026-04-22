@@ -54,7 +54,7 @@ export default function BadgeIcon({
     badgeConfig = basicBadgeConfig[type as BasicBadgeType];
     tooltipText = `${count} ${badgeConfig.tooltip.toLowerCase()}`;
   } else {
-    const badgeDef = BADGE_DEFINITIONS[type as SpecialBadgeType];
+    const badgeDef = BADGE_DEFINITIONS[type];
     if (!badgeDef) {
       return null;
     }

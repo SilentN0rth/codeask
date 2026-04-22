@@ -91,8 +91,7 @@ export async function createUserProfile(user: User) {
 }
 
 export async function getCurrentUserId(): Promise<string | null> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   const {
     data: { session },
@@ -107,8 +106,7 @@ export async function getCurrentUserId(): Promise<string | null> {
 }
 
 export async function getCurrentUser(): Promise<UserInterface | null> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
   const {
     data: { session },
     error: sessionError,
@@ -263,8 +261,7 @@ export async function getUsers({
   sort?: SortUserOption;
   limit?: number;
 } = {}): Promise<UserInterface[]> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   let query = supabase.from('users').select('*');
 
@@ -316,8 +313,7 @@ export async function getUsersWithFollowStatus({
   users: UserInterface[];
   followStatuses: Record<string, boolean>;
 }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   // Pobierz aktualnego użytkownika
   const {
@@ -357,8 +353,7 @@ export async function getUsersWithFollowStatus({
 }
 
 export async function getNewUsers(limit: number = 5): Promise<UserInterface[]> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   // Pobierz użytkowników zarejestrowanych w ostatnich 30 dniach
   // którzy mają przynajmniej 1 pytanie LUB 1 odpowiedź
@@ -379,8 +374,7 @@ export async function getNewUsers(limit: number = 5): Promise<UserInterface[]> {
 }
 
 export async function getTopUsers(limit: number = 3): Promise<UserInterface[]> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   const { data, error } = await supabase
     .from('users')
@@ -400,8 +394,7 @@ export async function getRecentlyHelpedUsers(limit: number = 6): Promise<{
     answeredAt: string;
   }>;
 }> {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   // Get recent answers with user and question data
   const { data: recentAnswers, error: answersError } = await supabase

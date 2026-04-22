@@ -5,8 +5,7 @@ import { cookies } from 'next/headers';
  * Pobiera pytanie z liczbą wyświetleń z tabeli question_views
  */
 export async function getQuestionWithViewsCount(questionId: string) {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   // Pobierz pytanie
   const { data: question, error: questionError } = await supabase
@@ -60,8 +59,7 @@ export async function getQuestionsWithViewsCount({
   filter?: string;
   value?: string;
 } = {}) {
-  const cookieStore = await cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies });
 
   let query = supabase.from('questions').select(`
     *,
