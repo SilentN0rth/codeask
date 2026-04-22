@@ -22,7 +22,8 @@ export async function getSavedQuestions(
   questions: QuestionCardProps[];
   error: any;
 }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   if (!userId) {
     return { questions: [], error: 'Brak ID użytkownika' };
@@ -79,9 +80,9 @@ export async function getSavedQuestions(
     case 'name':
       query = query.order('title', { ascending: true });
       break;
-    case 'status':
+    /* case 'status':
       query = query.order('status', { ascending: true });
-      break;
+      break; */
     case 'newest':
     default:
       query = query.order('created_at', { ascending: false });

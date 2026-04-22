@@ -14,7 +14,8 @@ export async function getFollowersWithFollowStatus({
   users: UserInterface[];
   followStatuses: Record<string, boolean>;
 }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   // Pobierz aktualnego użytkownika używając gotowej funkcji
   const currentUserId = await getCurrentUserId();
@@ -126,7 +127,8 @@ export async function getFollowingWithFollowStatus({
   users: UserInterface[];
   followStatuses: Record<string, boolean>;
 }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   // Pobierz aktualnego użytkownika używając gotowej funkcji
   const currentUserId = await getCurrentUserId();

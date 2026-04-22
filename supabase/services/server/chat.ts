@@ -14,7 +14,8 @@ export async function getUserConversations(
   userId: string
 ): Promise<ConversationInterface[]> {
   try {
-    const supabaseServer = createServerComponentClient({ cookies });
+    const cookieStore = await cookies();
+    const supabaseServer = createServerComponentClient({ cookies: () => cookieStore });
 
     const { data, error } = await supabaseServer
       .from('conversations')
@@ -58,7 +59,8 @@ export async function getConversationById(
   conversationId: string
 ): Promise<ConversationInterface | null> {
   try {
-    const supabaseServer = createServerComponentClient({ cookies });
+    const cookieStore = await cookies();
+    const supabaseServer = createServerComponentClient({ cookies: () => cookieStore });
 
     const { data, error } = await supabaseServer
       .from('conversations')
@@ -102,7 +104,8 @@ export async function createConversation(
   request: CreateConversationRequest
 ): Promise<ConversationInterface | null> {
   try {
-    const supabaseServer = createServerComponentClient({ cookies });
+    const cookieStore = await cookies();
+    const supabaseServer = createServerComponentClient({ cookies: () => cookieStore });
 
     // First check if conversation already exists
     const { data: existingConversation } = await supabaseServer
@@ -185,7 +188,8 @@ export async function findConversationBetweenUsers(
   user2Id: string
 ): Promise<ConversationInterface | null> {
   try {
-    const supabaseServer = createServerComponentClient({ cookies });
+    const cookieStore = await cookies();
+    const supabaseServer = createServerComponentClient({ cookies: () => cookieStore });
 
     const { data, error } = await supabaseServer
       .from('conversations')
@@ -234,7 +238,8 @@ export async function getConversationMessages(
   offset: number = 0
 ): Promise<MessageInterface[]> {
   try {
-    const supabaseServer = createServerComponentClient({ cookies });
+    const cookieStore = await cookies();
+    const supabaseServer = createServerComponentClient({ cookies: () => cookieStore });
 
     const { data, error } = await supabaseServer
       .from('messages')
@@ -271,7 +276,8 @@ export async function sendMessage(
   request: SendMessageRequest
 ): Promise<MessageInterface | null> {
   try {
-    const supabaseServer = createServerComponentClient({ cookies });
+    const cookieStore = await cookies();
+    const supabaseServer = createServerComponentClient({ cookies: () => cookieStore });
 
     const { data, error } = await supabaseServer
       .from('messages')
@@ -313,7 +319,8 @@ export async function getLastMessageForConversation(
   conversationId: string
 ): Promise<MessageInterface | null> {
   try {
-    const supabaseServer = createServerComponentClient({ cookies });
+    const cookieStore = await cookies();
+    const supabaseServer = createServerComponentClient({ cookies: () => cookieStore });
 
     const { data, error } = await supabaseServer
       .from('messages')
@@ -354,7 +361,8 @@ export async function getConversationsWithLastMessages(
   userId: string
 ): Promise<ConversationInterface[]> {
   try {
-    const supabaseServer = createServerComponentClient({ cookies });
+    const cookieStore = await cookies();
+    const supabaseServer = createServerComponentClient({ cookies: () => cookieStore });
 
     // First get all conversations for the user
     const conversations = await getUserConversations(userId);
@@ -384,7 +392,8 @@ export async function getConversationsWithLastMessages(
 
 export async function deleteMessage(messageId: string): Promise<boolean> {
   try {
-    const supabaseServer = createServerComponentClient({ cookies });
+    const cookieStore = await cookies();
+    const supabaseServer = createServerComponentClient({ cookies: () => cookieStore });
 
     const { error } = await supabaseServer
       .from('messages')
@@ -407,7 +416,8 @@ export async function deleteConversation(
   conversationId: string
 ): Promise<boolean> {
   try {
-    const supabaseServer = createServerComponentClient({ cookies });
+    const cookieStore = await cookies();
+    const supabaseServer = createServerComponentClient({ cookies: () => cookieStore });
 
     // Messages will be deleted automatically due to CASCADE constraint
     const { error } = await supabaseServer

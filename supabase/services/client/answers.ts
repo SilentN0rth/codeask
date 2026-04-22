@@ -265,7 +265,11 @@ export async function getUserVoteForAnswer(
       .single();
 
     if (error && error.code !== 'PGRST116') {
-      console.error('Error fetching user vote:', error.message);
+      if (error.code === '42P01') {
+        console.error('Error: Table "answer_votes" is missing from the database. Please run the required SQL migration.');
+      } else {
+        console.error('Error fetching user vote:', error.message);
+      }
       return null;
     }
 

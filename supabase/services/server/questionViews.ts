@@ -5,7 +5,8 @@ import { cookies } from 'next/headers';
  * Pobiera pytanie z liczbą wyświetleń z tabeli question_views
  */
 export async function getQuestionWithViewsCount(questionId: string) {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   // Pobierz pytanie
   const { data: question, error: questionError } = await supabase
@@ -59,7 +60,8 @@ export async function getQuestionsWithViewsCount({
   filter?: string;
   value?: string;
 } = {}) {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   let query = supabase.from('questions').select(`
     *,
@@ -90,9 +92,9 @@ export async function getQuestionsWithViewsCount({
     case 'name':
       query = query.order('title', { ascending: true });
       break;
-    case 'status':
+    /* case 'status':
       query = query.order('status', { ascending: true });
-      break;
+      break; */
     case 'newest':
     default:
       query = query.order('created_at', { ascending: false });
@@ -101,9 +103,9 @@ export async function getQuestionsWithViewsCount({
 
   if (filter && value) {
     switch (filter) {
-      case 'status':
+      /* case 'status':
         query = query.eq('status', value);
-        break;
+        break; */
       case 'author':
         query = query.eq('author_id', value);
         break;

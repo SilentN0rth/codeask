@@ -182,7 +182,8 @@ export async function getQuestions({
   filter?: string;
   value?: string;
 } = {}): Promise<{ questions: QuestionCardProps[]; error: any }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   let query = supabase.from('questions').select(
     `
@@ -214,9 +215,9 @@ export async function getQuestions({
     case 'name':
       query = query.order('title', { ascending: true });
       break;
-    case 'status':
+    /* case 'status':
       query = query.order('status', { ascending: true });
-      break;
+      break; */
     case 'newest':
     default:
       query = query.order('created_at', { ascending: false });
@@ -274,7 +275,8 @@ export async function getNewestQuestions(): Promise<{
   questions: QuestionCardProps[];
   error: any;
 }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   const { data, error } = await supabase
     .from('questions')
@@ -308,7 +310,8 @@ export async function getUserLatestQuestions(
   questions: QuestionCardProps[];
   error: any;
 }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   const { data, error } = await supabase
     .from('questions')
@@ -343,7 +346,8 @@ export async function getUserLatestQuestions(
 export async function unarchiveQuestion(
   questionId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const { error } = await supabase
@@ -366,7 +370,8 @@ export async function unarchiveQuestion(
 export async function closeQuestion(
   questionId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const { error } = await supabase
@@ -389,7 +394,8 @@ export async function closeQuestion(
 export async function reopenQuestion(
   questionId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const { error } = await supabase
@@ -412,7 +418,8 @@ export async function reopenQuestion(
 export async function archiveQuestion(
   questionId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const { error } = await supabase
@@ -470,7 +477,8 @@ export async function getQuestionsByTag(
   questions: QuestionCardProps[];
   error: any;
 }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     // Pobierz ID pytań dla danego tagu
@@ -537,7 +545,8 @@ export async function getQuestionsByTagWithFilters(
     value?: string;
   } = {}
 ): Promise<{ questions: QuestionCardProps[]; error: any }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     // Pobierz ID pytań dla danego tagu
@@ -585,8 +594,8 @@ export async function getQuestionsByTagWithFilters(
       query = query.order('views_count', { ascending: false });
     } else if (sort === 'name') {
       query = query.order('title', { ascending: true });
-    } else if (sort === 'status') {
-      query = query.order('status', { ascending: true });
+    /* } else if (sort === 'status') {
+      query = query.order('status', { ascending: true }); */
     } else {
       query = query.order('created_at', { ascending: false }); // domyślna
     }
@@ -595,8 +604,8 @@ export async function getQuestionsByTagWithFilters(
     if (filter && value) {
       if (filter === 'user') {
         query = query.eq('author_id', value);
-      } else if (filter === 'status') {
-        query = query.eq('status', value);
+      /* } else if (filter === 'status') {
+        query = query.eq('status', value); */
       }
       // Note: tags filter is not needed here since we're already filtering by tag
     }
@@ -635,7 +644,8 @@ export async function getQuestionsByTagNameWithFilters(
     value?: string;
   } = {}
 ): Promise<{ questions: QuestionCardProps[]; error: any }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     // First get the tag by name
@@ -694,8 +704,8 @@ export async function getQuestionsByTagNameWithFilters(
       query = query.order('views_count', { ascending: false });
     } else if (sort === 'name') {
       query = query.order('title', { ascending: true });
-    } else if (sort === 'status') {
-      query = query.order('status', { ascending: true });
+    /* } else if (sort === 'status') {
+      query = query.order('status', { ascending: true }); */
     } else {
       query = query.order('created_at', { ascending: false }); // domyślna
     }
@@ -704,8 +714,8 @@ export async function getQuestionsByTagNameWithFilters(
     if (filter && value) {
       if (filter === 'user') {
         query = query.eq('author_id', value);
-      } else if (filter === 'status') {
-        query = query.eq('status', value);
+      /* } else if (filter === 'status') {
+        query = query.eq('status', value); */
       }
       // Note: tags filter is not needed here since we're already filtering by tag
     }
@@ -734,7 +744,8 @@ export async function deleteQuestionAction(
   questionId: string,
   userId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     // Sprawdź czy pytanie istnieje i pobierz dane autora
@@ -857,7 +868,8 @@ export async function deleteQuestionAction(
 export async function getUnansweredQuestions(
   limit: number = 6
 ): Promise<QuestionCardProps[]> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const { data, error } = await supabase
@@ -872,7 +884,7 @@ export async function getUnansweredQuestions(
       `
       )
       .eq('answers_count', 0)
-      .eq('status', 'opened')
+      // .eq('status', 'opened')
       .order('created_at', { ascending: false })
       .limit(limit);
 
@@ -885,8 +897,14 @@ export async function getUnansweredQuestions(
     }));
 
     return formattedQuestions as QuestionCardProps[];
-  } catch (error) {
-    console.error('getUnansweredQuestions error:', error);
+  } catch (error: any) {
+    console.error('getUnansweredQuestions error details:', {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code,
+      error
+    });
     return [];
   }
 }
@@ -894,7 +912,8 @@ export async function getUnansweredQuestions(
 export async function getExpertQuestions(
   limit: number = 6
 ): Promise<QuestionCardProps[]> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const { data, error } = await supabase
@@ -909,7 +928,7 @@ export async function getExpertQuestions(
       `
       )
       .gte('author.reputation', 100) // Questions from users with reputation >= 100
-      .eq('status', 'opened')
+      // .eq('status', 'opened')
       .order('likes_count', { ascending: false })
       .limit(limit);
 
@@ -922,8 +941,8 @@ export async function getExpertQuestions(
     }));
 
     return formattedQuestions as QuestionCardProps[];
-  } catch (error) {
-    console.error('getExpertQuestions error:', error);
+  } catch (error: any) {
+    console.error('getExpertQuestions error:', error.message || error);
     return [];
   }
 }
@@ -934,7 +953,8 @@ export async function getHomepageStats(): Promise<{
   totalAnswers: number;
   totalTags: number;
 }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     // Pobierz statystyki równolegle
@@ -982,7 +1002,8 @@ export async function voteQuestion({
   questionId,
   voteType,
 }: VoteQuestionParams): Promise<VoteResult> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const {
@@ -1201,13 +1222,14 @@ export async function updateQuestion({
   tags: string[];
   authorId: string;
 }): Promise<{ success: boolean; questionSlug?: string; error?: string }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     // Sprawdź czy pytanie istnieje i czy użytkownik ma uprawnienia
     const { data: questionCheck, error: checkError } = await supabase
       .from('questions')
-      .select('status, author_id')
+      .select('author_id') // Removed status column as it is missing in the database
       .eq('id', id)
       .single();
 
@@ -1219,7 +1241,7 @@ export async function updateQuestion({
       };
     }
 
-    if (questionCheck.status === 'archived') {
+    /* if (questionCheck.status === 'archived') {
       return {
         success: false,
         error: 'Zarchiwizowanych pytań nie można edytować',
@@ -1228,7 +1250,7 @@ export async function updateQuestion({
 
     if (questionCheck.status === 'closed') {
       return { success: false, error: 'Zamkniętych pytań nie można edytować' };
-    }
+    } */
 
     if (questionCheck.author_id !== authorId) {
       return {
@@ -1409,7 +1431,8 @@ export async function updateQuestion({
 export async function getUserVoteForQuestion(
   questionId: string
 ): Promise<VoteType> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const {

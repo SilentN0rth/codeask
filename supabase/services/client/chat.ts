@@ -50,7 +50,7 @@ export const getUserConversations = async (
       .order('updated_at', { ascending: false });
 
     if (error) {
-      console.error('Błąd przy pobieraniu konwersacji:', error);
+      console.error('Błąd przy pobieraniu konwersacji:', error.message || error);
       return [];
     }
 
@@ -90,7 +90,7 @@ export const getConversationById = async (
       .single();
 
     if (error) {
-      console.error('Błąd przy pobieraniu konwersacji:', error);
+      console.error('Błąd przy pobieraniu konwersacjiById:', error.message || error);
       return null;
     }
 
@@ -138,7 +138,7 @@ export const getUserConversationsWithLastMessages = async (
       .order('updated_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching conversations with messages:', error);
+      console.error('Error fetching conversations with messages:', error.message || error);
       return [];
     }
 
@@ -222,7 +222,8 @@ export const createConversation = async (
       .single();
 
     if (error) {
-      console.error('Błąd przy tworzeniu konwersacji:', error);
+      console.error('Błąd przy tworzeniu konwersacji:', error.message || error);
+      console.error('Kod błędu:', error.code);
       return null;
     }
 
@@ -259,7 +260,7 @@ export const getConversationMessages = async (
       .range(offset, offset + limit - 1);
 
     if (error) {
-      console.error('Błąd przy pobieraniu wiadomości:', error);
+      console.error('Błąd przy pobieraniu wiadomości:', error.message || error);
       return [];
     }
 
@@ -293,7 +294,7 @@ export const sendMessage = async (
       .single();
 
     if (error) {
-      console.error('Błąd przy wysyłaniu wiadomości:', error);
+      console.error('Błąd przy wysyłaniu wiadomości:', error.message || error);
       return null;
     }
 
@@ -340,7 +341,7 @@ export const getLastMessageForConversation = async (
       .limit(1);
 
     if (error) {
-      console.error('Błąd przy pobieraniu ostatniej wiadomości:', error);
+      console.error('Błąd przy pobieraniu ostatniej wiadomości:', error.message || error);
       return null;
     }
 

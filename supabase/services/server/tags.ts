@@ -13,7 +13,8 @@ export async function getTags({
   sort?: string;
   status?: string;
 } = {}): Promise<{ tags: Tag[]; error: any }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   let query = supabase.from('tags').select('*');
 
@@ -22,7 +23,7 @@ export async function getTags({
   }
 
   // Filter by status if provided
-  if (status) {
+  /* if (status) {
     // Get question IDs with the specified status
     const { data: questionsWithStatus, error: questionsError } = await supabase
       .from('questions')
@@ -53,7 +54,7 @@ export async function getTags({
       // If no questions with this status, return empty result
       return { tags: [], error: null };
     }
-  }
+  } */
 
   switch (sort) {
     case 'newest':
@@ -81,7 +82,8 @@ export async function getTags({
 export async function getTagById(
   id: string
 ): Promise<{ tag: Tag | null; error: any }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const { data, error } = await supabase
@@ -100,7 +102,8 @@ export async function getTagById(
 }
 
 export async function getPopularTags(limit: number = 8): Promise<Tag[]> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const { data, error } = await supabase
@@ -119,7 +122,8 @@ export async function getPopularTags(limit: number = 8): Promise<Tag[]> {
 }
 
 export async function getNewTags(limit: number = 8): Promise<Tag[]> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const { data, error } = await supabase
@@ -140,7 +144,8 @@ export async function getNewTags(limit: number = 8): Promise<Tag[]> {
 export async function getTagByName(
   name: string
 ): Promise<{ tag: Tag | null; error: any }> {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = await cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   try {
     const { data, error } = await supabase
